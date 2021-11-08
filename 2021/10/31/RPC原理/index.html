@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"daoxuan.gitee.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":true,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<meta name="description" content="RPC原理">
+<meta property="og:type" content="article">
+<meta property="og:title" content="RPC原理">
+<meta property="og:url" content="https://daoxuan.gitee.io/blog/2021/10/31/RPC%E5%8E%9F%E7%90%86/index.html">
+<meta property="og:site_name" content="知识博客">
+<meta property="og:description" content="RPC原理">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://daoxuan.gitee.io/images/RPC%E5%8E%9F%E7%90%86/1609922908546-bba90f44-3b09-47a8-a6fb-d0743666e8ad.png">
+<meta property="og:image" content="https://daoxuan.gitee.io/images/RPC%E5%8E%9F%E7%90%86/1609817785285-4539cdfc-9bac-4785-96f1-e63f7ee6dc4e.jpeg">
+<meta property="og:image" content="https://daoxuan.gitee.io/images/RPC%E5%8E%9F%E7%90%86/1609817785256-be421732-7050-488a-a32e-02c8babd9bdb.png">
+<meta property="article:published_time" content="2021-10-31T10:53:16.000Z">
+<meta property="article:modified_time" content="2021-10-31T10:54:16.005Z">
+<meta property="article:author" content="Alex">
+<meta property="article:tag" content="RPC">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://daoxuan.gitee.io/images/RPC%E5%8E%9F%E7%90%86/1609922908546-bba90f44-3b09-47a8-a6fb-d0743666e8ad.png">
+
+
+<link rel="canonical" href="https://daoxuan.gitee.io/blog/2021/10/31/RPC%E5%8E%9F%E7%90%86/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://daoxuan.gitee.io/blog/2021/10/31/RPC%E5%8E%9F%E7%90%86/","path":"2021/10/31/RPC原理/","title":"RPC原理"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>RPC原理 | 知识博客</title>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="知识博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">知识博客</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">知识博客</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#1-RPC%E5%8E%9F%E7%90%86%E8%A7%A3%E6%9E%90"><span class="nav-number">1.</span> <span class="nav-text">1.RPC原理解析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-1-%E4%BB%80%E4%B9%88%E6%98%AFRPC"><span class="nav-number">1.1.</span> <span class="nav-text">1.1 什么是RPC</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-2-RPC%E6%9E%B6%E6%9E%84"><span class="nav-number">1.2.</span> <span class="nav-text">1.2 RPC架构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-3-RPC%E8%B0%83%E7%94%A8%E8%BF%87%E7%A8%8B"><span class="nav-number">1.3.</span> <span class="nav-text">1.3 RPC调用过程</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#2-%E8%87%AA%E5%AE%9A%E4%B9%89RPC%E6%A1%86%E6%9E%B6%E8%8C%83%E4%BE%8B"><span class="nav-number">2.</span> <span class="nav-text">2. 自定义RPC框架范例</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Alex</p>
+  <div class="site-description" itemprop="description">记录生活工作中有趣的知识</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">75</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">54</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">46</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+        <div class="back-to-top animated" role="button" aria-label="返回顶部">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://daoxuan.gitee.io/blog/2021/10/31/RPC%E5%8E%9F%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Alex">
+      <meta itemprop="description" content="记录生活工作中有趣的知识">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="知识博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          RPC原理
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2021-10-31 18:53:16 / 修改时间：18:54:16" itemprop="dateCreated datePublished" datetime="2021-10-31T18:53:16+08:00">2021-10-31</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/RPC/" itemprop="url" rel="index"><span itemprop="name">RPC</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>1.7k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>2 分钟</span>
+    </span>
+</div>
+
+            <div class="post-description">RPC原理</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><h1 id="1-RPC原理解析"><a href="#1-RPC原理解析" class="headerlink" title="1.RPC原理解析"></a>1.RPC原理解析</h1><h2 id="1-1-什么是RPC"><a href="#1-1-什么是RPC" class="headerlink" title="1.1 什么是RPC"></a>1.1 什么是RPC</h2><p>RPC(Remote Procedure Call Protocol)——远程过程调用协议，它是一种通过网络从远程计算机程序上请求服务，而不需要了解底层网络技术的协议。RPC协议假定某些传输协议的存在，如TCP/IP或UDP，为通信程序之间携带信息数据。RPC将原来的本地调用转变为调用远端的服务器上的方法，给系统的处理能力和吞吐量带来了近似于无限制提升的可能。在OSI网络通信模型中，RPC跨域了传输层和应用层。RPC使得开发包括网络分布式多程序在内的应用程序更加容易。</p>
+<p><img src="/images/RPC%E5%8E%9F%E7%90%86/1609922908546-bba90f44-3b09-47a8-a6fb-d0743666e8ad.png" alt="img"></p>
+<h2 id="1-2-RPC架构"><a href="#1-2-RPC架构" class="headerlink" title="1.2 RPC架构"></a>1.2 RPC架构</h2><p>一个完整的RPC架构里面包含了四个核心的组件，分别是Client，Client Stub，Server以及Server Stub，这个Stub可以理解为存根。</p>
+<ul>
+<li><p>客户端(Client)，服务的调用方。</p>
+</li>
+<li><p>客户端存根(Client Stub)，存放服务端的地址消息，再将客户端的请求参数打包成网络消息，然后通过网络远程发送给服务方。</p>
+</li>
+<li><p>服务端(Server)，真正的服务提供者。</p>
+</li>
+<li><p>服务端存根(Server Stub)，接收客户端发送过来的消息，将消息解包，并调用本地的方法。</p>
+</li>
+</ul>
+<h2 id="1-3-RPC调用过程"><a href="#1-3-RPC调用过程" class="headerlink" title="1.3 RPC调用过程"></a>1.3 RPC调用过程</h2><p><img src="/images/RPC%E5%8E%9F%E7%90%86/1609817785285-4539cdfc-9bac-4785-96f1-e63f7ee6dc4e.jpeg" alt="img"></p>
+<p>(1) 客户端（client）以本地调用方式（即以接口的方式）调用服务；</p>
+<p>(2) 客户端存根（client stub）接收到调用后，负责将方法、参数等组装成能够进行网络传输的消息体（将消息体对象序列化为二进制）；</p>
+<p>(3) 客户端通过sockets将消息发送到服务端；</p>
+<p>(4) 服务端存根( server stub）收到消息后进行解码（将消息对象反序列化）；</p>
+<p>(5) 服务端存根( server stub）根据解码结果调用本地的服务；</p>
+<p>(6) 本地服务执行并将结果返回给服务端存根( server stub）；</p>
+<p>(7) 服务端存根( server stub）将返回结果打包成消息（将结果消息对象序列化）；</p>
+<p>(8) 服务端（server）通过sockets将消息发送到客户端；</p>
+<p>(9) 客户端存根（client stub）接收到结果消息，并进行解码（将结果消息发序列化）；</p>
+<p>(10) 客户端（client）得到最终结果。</p>
+<p>RPC的目标是要把2、3、4、7、8、9这些步骤都封装起来。</p>
+<p>注意：无论是何种类型的数据，最终都需要转换成二进制流在网络上进行传输，数据的发送方需要将对象转换为二进制流，而数据的接收方则需要把二进制流再恢复为对象。</p>
+<h1 id="2-自定义RPC框架范例"><a href="#2-自定义RPC框架范例" class="headerlink" title="2. 自定义RPC框架范例"></a>2. 自定义RPC框架范例</h1><p>设计框架视图如下：</p>
+<p><img src="/images/RPC%E5%8E%9F%E7%90%86/1609817785256-be421732-7050-488a-a32e-02c8babd9bdb.png" alt="img"></p>
+<p>与1.3架构图相比较，rpc-sample-client相当于client-functions，通过接口方法发起请求；而rpc-client相当于client-stub，负责把方法和参数序列化并发送给查找到的服务器。rpc-server相当于server stub，负责把客户端发送过来的消息反序列化，并通过反射调用本地服务，再把本地服务返回的结果序列化发送给客户端；rpc-sample-server则相当于server-functions，提供本地服务并返回得出的结果给rpc-server。rpc-client等待接收rpc-server返回的结果，并将结果反序列化，再把反序列化最终得到的结果返回给rpc-sample-client。</p>
+<p>rpc-common提供基于netty的序列化与反序列化方法，并封装rpc请求和rpc响应，序列化和反序列的对象就是封装好的RpcRequest和RpcResponse。rpc-registry则是基于zookeeper设计的分布式服务器动态上下线通知的应用程序，通过rpc-registry可以查找服务器或者注册服务器，用于均衡负载。</p>
+<p>rpc-client与rpc-server之间的通信是基于netty的，netty底层也是sockets设计，但是效率比sockets高。</p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>【github地址】<a target="_blank" rel="noopener" href="https://github.com/qiushangwenyue/CustomRpcFramework.git">
+</a></p>
+<p><a target="_blank" rel="noopener" href="https://github.com/SwordfallYeung/CustomRpcFramework">https://github.com/SwordfallYeung/CustomRpcFramework</a></p>
+<p>参考</p>
+<ol>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/swordfall/p/8683905.html">https://www.cnblogs.com/swordfall/p/8683905.html</a></li>
+<li><a target="_blank" rel="noopener" href="https://youzhixueyuan.com/implementation-principle-of-rpc-framework.html">https://youzhixueyuan.com/implementation-principle-of-rpc-framework.html</a></li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/atom.xml">
+          <span class="icon">
+            <i class="fa fa-rss"></i>
+          </span>
+
+          <span class="label">RSS</span>
+        </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/RPC/" rel="tag"># RPC</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/10/31/RPC%E4%BB%8B%E7%BB%8D/" rel="prev" title="RPC介绍">
+                  <i class="fa fa-chevron-left"></i> RPC介绍
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/10/31/Kubernetes%E5%88%9D%E8%AF%86/" rel="next" title="K8s初识">
+                  K8s初识 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Alex</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">192k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">2:55</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+  <script class="next-config" data-name="pdf" type="application/json">{"object_url":{"url":"https://cdn.jsdelivr.net/npm/pdfobject@2.2.6/pdfobject.min.js","integrity":"sha256-77geM50MfxCD17eqyJR+Dag1svjJOLN+BJ2F/DMqMEY="},"url":"/lib/pdf/web/viewer.html"}</script>
+  <script src="/js/third-party/tags/pdf.js"></script>
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+</body>
+</html>

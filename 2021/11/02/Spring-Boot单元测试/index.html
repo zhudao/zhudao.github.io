@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"daoxuan.gitee.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":true,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<meta name="description" content="Spring Boot单元测试">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spring Boot单元测试">
+<meta property="og:url" content="https://daoxuan.gitee.io/blog/2021/11/02/Spring-Boot%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/index.html">
+<meta property="og:site_name" content="知识博客">
+<meta property="og:description" content="Spring Boot单元测试">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://daoxuan.gitee.io/images/Spring-Boot%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/1610596760669-fa4deaab-93da-44b4-b72b-1def7d4c79b2.png">
+<meta property="og:image" content="https://daoxuan.gitee.io/images/Spring-Boot%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/1610596847175-0052760c-4c6a-4d20-8ea9-bb49c6e76380.png">
+<meta property="article:published_time" content="2021-11-02T02:38:33.000Z">
+<meta property="article:modified_time" content="2021-11-02T02:38:51.974Z">
+<meta property="article:author" content="Alex">
+<meta property="article:tag" content="Spring Boot">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://daoxuan.gitee.io/images/Spring-Boot%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/1610596760669-fa4deaab-93da-44b4-b72b-1def7d4c79b2.png">
+
+
+<link rel="canonical" href="https://daoxuan.gitee.io/blog/2021/11/02/Spring-Boot%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://daoxuan.gitee.io/blog/2021/11/02/Spring-Boot%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/","path":"2021/11/02/Spring-Boot单元测试/","title":"Spring Boot单元测试"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Spring Boot单元测试 | 知识博客</title>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="知识博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">知识博客</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">知识博客</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Springboot%E7%9A%84%E6%B5%8B%E8%AF%95%E7%B1%BB%E5%BA%93"><span class="nav-number">1.</span> <span class="nav-text">1.Springboot的测试类库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%88%9B%E5%BB%BA%E6%B5%8B%E8%AF%95%E7%B1%BB%E5%92%8C%E6%B5%8B%E8%AF%95%E6%96%B9%E6%B3%95"><span class="nav-number">2.</span> <span class="nav-text">2.创建测试类和测试方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-JUnit4"><span class="nav-number">3.</span> <span class="nav-text">3.JUnit4</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#3-1%E8%B6%85%E6%97%B6%E6%B5%8B%E8%AF%95"><span class="nav-number">3.1.</span> <span class="nav-text">3.1超时测试</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-2%E5%BC%82%E5%B8%B8%E6%B5%8B%E8%AF%95"><span class="nav-number">3.2.</span> <span class="nav-text">3.2异常测试</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-3%E5%A5%97%E4%BB%B6%E6%B5%8B%E8%AF%95"><span class="nav-number">3.3.</span> <span class="nav-text">3.3套件测试</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-4%E5%8F%82%E6%95%B0%E5%8C%96%E6%B5%8B%E8%AF%95"><span class="nav-number">3.4.</span> <span class="nav-text">3.4参数化测试</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-Assert"><span class="nav-number">4.</span> <span class="nav-text">4.Assert</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-Mockito"><span class="nav-number">5.</span> <span class="nav-text">5.Mockito</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#mockito-%E4%BD%BF%E7%94%A8%E8%AF%A6%E8%A7%A3"><span class="nav-number">5.1.</span> <span class="nav-text">mockito 使用详解</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-MockMvc"><span class="nav-number">6.</span> <span class="nav-text">6.MockMvc</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E6%99%AE%E9%80%9A%E6%8E%A7%E5%88%B6%E5%99%A8"><span class="nav-number">6.1.</span> <span class="nav-text">测试普通控制器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BE%97%E5%88%B0MvcResult%E8%87%AA%E5%AE%9A%E4%B9%89%E9%AA%8C%E8%AF%81"><span class="nav-number">6.2.</span> <span class="nav-text">得到MvcResult自定义验证</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%AA%8C%E8%AF%81%E8%AF%B7%E6%B1%82%E5%8F%82%E6%95%B0%E7%BB%91%E5%AE%9A%E5%88%B0%E6%A8%A1%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%8F%8Aflash%E5%B1%9E%E6%80%A7"><span class="nav-number">6.3.</span> <span class="nav-text">验证请求参数绑定到模型数据及flash属性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0"><span class="nav-number">6.4.</span> <span class="nav-text">文件上传</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#JSON%E8%AF%B7%E6%B1%82-%E5%93%8D%E5%BA%94%E9%AA%8C%E8%AF%81"><span class="nav-number">6.5.</span> <span class="nav-text">JSON请求&#x2F;响应验证</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BC%82%E6%AD%A5%E6%B5%8B%E8%AF%95"><span class="nav-number">6.6.</span> <span class="nav-text">异步测试</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8MultiValueMap%E6%9E%84%E5%BB%BA%E5%8F%82%E6%95%B0"><span class="nav-number">6.7.</span> <span class="nav-text">使用MultiValueMap构建参数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A8%A1%E6%8B%9Fsession%E5%92%8Ccookie"><span class="nav-number">6.8.</span> <span class="nav-text">模拟session和cookie</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%A8%E5%B1%80%E9%85%8D%E7%BD%AE"><span class="nav-number">6.9.</span> <span class="nav-text">全局配置</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">7.</span> <span class="nav-text">参考</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Alex</p>
+  <div class="site-description" itemprop="description">记录生活工作中有趣的知识</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">75</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">54</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">46</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+        <div class="back-to-top animated" role="button" aria-label="返回顶部">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://daoxuan.gitee.io/blog/2021/11/02/Spring-Boot%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Alex">
+      <meta itemprop="description" content="记录生活工作中有趣的知识">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="知识博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Spring Boot单元测试
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2021-11-02 10:38:33 / 修改时间：10:38:51" itemprop="dateCreated datePublished" datetime="2021-11-02T10:38:33+08:00">2021-11-02</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Spring/" itemprop="url" rel="index"><span itemprop="name">Spring</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Spring/Spring-Boot/" itemprop="url" rel="index"><span itemprop="name">Spring Boot</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>17k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>15 分钟</span>
+    </span>
+</div>
+
+            <div class="post-description">Spring Boot单元测试</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><h3 id="1-Springboot的测试类库"><a href="#1-Springboot的测试类库" class="headerlink" title="1.Springboot的测试类库"></a>1.Springboot的测试类库</h3><p>SpringBoot 提供了许多实用工具和注解来帮助测试应用程序，主要包括以下两个模块。</p>
+<ul>
+<li>spring-boot-test： 支持测试的核心内容。</li>
+<li>spring-boot-test-autoconfigure：支持测试的自动化配置。</li>
+</ul>
+<p>开发进行只要引入<strong>spring-boot-starter-tes</strong>t的依赖 就能引入这些SpringBoot测试模块，还能引入一些像Junit，AssertJ，Hamcrest及其他一些有用的类库，具体如下所示。</p>
+<ul>
+<li><p>Junit: Java应用程序单元测试标准类库。</p>
+</li>
+<li><p>Spring Test &amp; Spring Boot Test: Spring Boot 应用程序功能集成化测试支持。</p>
+</li>
+<li><p>AssertJ: 一个轻量级断言类库。</p>
+</li>
+<li><p>Hamcrest: 一个对象匹配器类库。</p>
+</li>
+<li><p>Mockito: 一个java Mock测试框架。</p>
+</li>
+<li><p>JSONassert: 一个用于JSON的断言库。</p>
+</li>
+<li><p>JsonPath: 一个Json操作类库。</p>
+</li>
+</ul>
+<p><strong>Maven 依赖</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;org.springframework.boot&lt;/groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;spring-boot-starter-test&lt;/artifactId&gt;</span><br><span class="line">        &lt;scope&gt;test&lt;/scope&gt;</span><br><span class="line">    &lt;/dependency&gt;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="2-创建测试类和测试方法"><a href="#2-创建测试类和测试方法" class="headerlink" title="2.创建测试类和测试方法"></a>2.创建测试类和测试方法</h3><p>要让一个普通类变成一个单元测试类：</p>
+<ul>
+<li>1.在类名上加入**@SpringBootTest 和@RunWith(SpringRunner.class)**两个注解即可。</li>
+<li>2.在测试方法上加上@Test注解。</li>
+</ul>
+<p>使用IDEA可以使用快捷键<code>ctrl + shift + t</code> 或者选中当前类名 使用快捷键<code>alt + enter</code> ,向下选择<code>Create Test</code> 即可进入测试类的选项中，再次回车，就快速的生成测试类。</p>
+<p>生成的测试类在src/test目录下，测试类和源代码宝明是一致的。</p>
+<hr>
+<h3 id="3-JUnit4"><a href="#3-JUnit4" class="headerlink" title="3.JUnit4"></a>3.JUnit4</h3><p><strong>JUnit4中的注解</strong></p>
+<ul>
+<li><p><code>@BeforeClass</code>:针对所有测试，只执行一次，且必须为<code>static void</code></p>
+</li>
+<li><p><code>@Before</code>:初始化方法，执行当前测试类的每个测试方法后执行</p>
+</li>
+<li><p><code>@Test</code>:测试方法，在这里可以测试期望异常和超时时间</p>
+</li>
+<li><p><code>@After</code>:释放资源，执行当前测试类的每个测试方法后执行</p>
+</li>
+<li><p><code>@AfterClass</code>:针对所有测试，只执行一次，且必须为<code>static void</code></p>
+</li>
+<li><p><code>Ignore</code> :忽略的测试方法</p>
+</li>
+<li><p><code>@Runwith</code>:可以更改测试运行器，缺省值<code>org.junit.runner.Runner</code></p>
+</li>
+</ul>
+<p><strong>一个单元测试类执行顺序为：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@BeforeClass` -&gt; `@Before` -&gt; `@Test` -&gt; `@After`  -&gt; `@AfterClass</span><br></pre></td></tr></table></figure>
+
+<p><strong>每一个测试方法的调用顺序为：</strong></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@Before` -&gt; `@Test` -&gt; `@After</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-1超时测试"><a href="#3-1超时测试" class="headerlink" title="3.1超时测试"></a>3.1超时测试</h4><p>如果一个测试用例比起指定的毫秒数要花费更多时间，那么JUnit将自动将他标记为失败，<code>timeout</code>参数和<code>@test</code>注解一起使用。现在让我们看看活动中的<code>@Test(timeout)</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@Test(timeout = 1000)</span><br><span class="line">public void testTimeout() throws InterruptedException &#123;</span><br><span class="line">    TimeUnit.SECONDS.sleep(2);</span><br><span class="line">    System.out.println(&quot;Complete&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面测试会失败，在一秒后会抛出异常<code>org.junit.runners.model.TestTimeOutException:test timedout after 1000 millseconds</code></p>
+<h4 id="3-2异常测试"><a href="#3-2异常测试" class="headerlink" title="3.2异常测试"></a>3.2异常测试</h4><p>你可以测试代码是否它抛出想要得到的异常。expected参数和@Test 注释一起使用。现在让我们看看活动中的<code>@Test(expected)</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@Test(expected = NullPointerException.class)</span><br><span class="line">    public void testNullException() &#123;</span><br><span class="line">        throw new NullPointerException();</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-3套件测试"><a href="#3-3套件测试" class="headerlink" title="3.3套件测试"></a>3.3套件测试</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">public class TaskOneTest &#123;</span><br><span class="line">    @Test</span><br><span class="line">    public void test()&#123;</span><br><span class="line">        System.out.println(&quot;task one do&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">public class TaskTwoTest &#123;</span><br><span class="line">    @Test</span><br><span class="line">    public void test()&#123;</span><br><span class="line">        System.out.println(&quot;task two do&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">public class TaskThreeTest &#123;</span><br><span class="line">    @Test</span><br><span class="line">    public void test()&#123;</span><br><span class="line">        System.out.println(&quot;task three do&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">/*1. 更改测试运行方式为 Suite*/</span><br><span class="line">@RunWith(Suite.class)</span><br><span class="line">/*2. 将测试类传入进来*/</span><br><span class="line">@Suite.SuiteClasses(&#123;TaskOneTest.class,TaskTwoTest.class,TaskThreeTest.class&#125;)</span><br><span class="line">public class SuitTest &#123;</span><br><span class="line">    /*测试套件的入口类知识组织测试类一起进行测试，无任何测试方法*/</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="3-4参数化测试"><a href="#3-4参数化测试" class="headerlink" title="3.4参数化测试"></a>3.4参数化测试</h4><p>JUnit4 引入了一个新的功能参数化测试。参数化测试允许开发人员使用不同的值反复运行同一个测试。</p>
+<p>创建参数化测试，遵循以下5个步骤。</p>
+<ul>
+<li><p>用<code>RunWith(Parameterized.class)</code>来注释test类。</p>
+</li>
+<li><p>创建一个由<code>@Parameters</code>注释的<strong>公共的静态方法</strong>，它返回<strong>一个对象的集合（数组）</strong>来作为数据集合。</p>
+</li>
+<li><p>创建一个公共的构造函数，它接受数据集合相同的参数。</p>
+</li>
+<li><p>为每一列测试数据创建一个实例变量。</p>
+</li>
+<li><p>用实例变量作为测试数据的来源来创建你的测试用例。</p>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">/*更改默认的测试运行器为RunWith(Parameterized.class)*/</span><br><span class="line">@RunWith(Parameterized.class)</span><br><span class="line">public class ParameterTest &#123;</span><br><span class="line">    /*声明变量存放预期值和测试数据*/</span><br><span class="line">    private String firstName;</span><br><span class="line">    private String lastName;</span><br><span class="line">    /*声明一个返回值 为Collection的公共静态方法，并使用@Parameters进行修饰*/</span><br><span class="line">    @Parameterized.Parameters</span><br><span class="line">    public static List&lt;Object[]&gt; param() &#123;</span><br><span class="line">        /*这里给出两个测试用例*/</span><br><span class="line">        return Arrays.asList(new Object[][]&#123;&#123;&quot;Mike&quot;,&quot;Black&quot;&#125;,&#123;&quot;Circle&quot;,&quot;Smith&quot;&#125;&#125;);</span><br><span class="line">    &#125;</span><br><span class="line">    public ParameterTest (String firstName,String lastName) &#123;</span><br><span class="line">        this.firstName = firstName;</span><br><span class="line">        this.lastName = lastName;</span><br><span class="line">    &#125;</span><br><span class="line">    /*进行测试，发现它会将所有的测试用例测试一遍*/</span><br><span class="line">    @Test</span><br><span class="line">    public void test()&#123;</span><br><span class="line">        String name = firstName + &quot; &quot; + lastName;</span><br><span class="line">        System.out.println(name);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="4-Assert"><a href="#4-Assert" class="headerlink" title="4.Assert"></a>4.Assert</h3><p>assert常用方法</p>
+<ul>
+<li><p><code>assertEquals(&quot;message&quot;,A,B)</code>:判断对象A和B是否相等，这个判断比较时调用了equals()方法。</p>
+</li>
+<li><p><code>assertSame(&quot;message&quot;,A,B)</code>:判断对象A和B是否相同，使用的是==操作符。</p>
+</li>
+<li><p><code>assertTure(&quot;message&quot;,A)</code>:判断A条件是否为真。</p>
+</li>
+<li><p><code>assertFalse(&quot;message&quot;,A)</code>:判断A条件是否不为真。</p>
+</li>
+<li><p><code>assertNotNull(&quot;message&quot;,A)</code>:判断A对象是否不为null</p>
+</li>
+<li><p><code>assertArrayEquals(&quot;message&quot;,A,B)</code>: 判断A数组与B数组是否相等。</p>
+</li>
+</ul>
+<hr>
+<h3 id="5-Mockito"><a href="#5-Mockito" class="headerlink" title="5.Mockito"></a>5.Mockito</h3><p><strong>什么是mock</strong></p>
+<p>在面向对象的程序设计中，模拟对象(mock object)是以可控的方式模拟真实对象行为的假对象。在编程过程中，通常通过模拟一些输入数据，来验证程序是否达到预期结果。</p>
+<p><strong>为什么使用Mock对象</strong></p>
+<p>使用模拟对象，可以模拟复杂的、真实的对象行为。如果在单元测试中无法使用真实对象，可采用模拟对象进行替代。</p>
+<p>在以下情况可以采用模拟对象来替代真实对象：</p>
+<ul>
+<li><p>真实对象的行为是不确定的（例如，当前的时间或温度）。</p>
+</li>
+<li><p>真实对象很难搭建起来。</p>
+</li>
+<li><p>真实对象的行为很难触发（例如，网络错误）。</p>
+</li>
+<li><p>真实对象速度很难。</p>
+</li>
+<li><p>真实对象是用户界面，或包括用户界面在内。</p>
+</li>
+<li><p>真实的对象使用了回调机制。</p>
+</li>
+<li><p>真实对象可能还不存在。</p>
+</li>
+<li><p>真实对象可能包含不能用作测试的信息和方法。</p>
+</li>
+</ul>
+<p>使用Mockito一般分为三个步骤：</p>
+<ul>
+<li><p>1.模拟测试类所需的外部依赖</p>
+</li>
+<li><p>2.执行测试代码</p>
+</li>
+<li><p>3.判断执行结果是否达到预期</p>
+</li>
+</ul>
+<p><strong>Mockito</strong></p>
+<p>JUnit和SpringTest基本上可以满足绝大多数单元测试，但是由于现在系统越来越复杂，相互之间依赖越来越多。特别是微服务化以后的系统，往往一个模块的代码需要依赖几个其他模块的东西。因此，在做单元测试的时候，往往很难构造出需要的依赖。一个单元测试，我们只关心一个小的功能，但是为了这个小的功能能跑起来，可能需要依赖一堆其他的东西，这就导致了单元测试无法进行。所以我们就需要在测试过程中引入<code>mock</code>测试。</p>
+<p>所谓的<code>Mock</code>测试就是在测试过程中，对于一些不容易构造的、或者和这次单元测试无关但是上下文又有依赖的对象，用一个虚拟的对象(Mock对象)来模拟，以便单元测试能够进行。</p>
+<p>比如有一段代码的依赖为：</p>
+<p><img src="/images/Spring-Boot%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/1610596760669-fa4deaab-93da-44b4-b72b-1def7d4c79b2.png" alt="img"></p>
+<p>当我们要进行单元测试的时候，就需要给<code>A</code>注入<code>B</code>和<code>C</code>但是<code>C</code>又依赖了<code>D</code>，<code>D</code>又依赖了<code>E</code>。这就导致了<code>A</code>的单元测试很难进行。</p>
+<p>但是当我们使用Mock来进行模拟对象后，我们就可以把这种依赖解耦，只关心A本身的测试，它所依赖的B和C，全部使用Mock出来的对象，并且给<code>MockB</code>和<code>MockC</code>指定一个明确的行为。就像这样：</p>
+<p><img src="/images/Spring-Boot%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/1610596847175-0052760c-4c6a-4d20-8ea9-bb49c6e76380.png" alt="img"></p>
+<p>Mock对象示意图</p>
+<p>因此，当我们使用Mock后，对于那些难以构建的对象，就变成了个模拟对象，只需要提前的做<code>Stubbing</code>(桩)即可。所谓的做桩数据，也就是告诉Mock对象，当与之交互时执行何种行为过程。比如当调用B对象的b()方法时，我们期望返回一个true,这就是一个设置桩数据的预期。</p>
+<h4 id="mockito-使用详解"><a href="#mockito-使用详解" class="headerlink" title="mockito 使用详解"></a>mockito 使用详解</h4><p>现有如下代码：</p>
+<p>实体类</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">@Entity</span><br><span class="line">@Data</span><br><span class="line">@NoArgsConstructor</span><br><span class="line">public class User implements Serializable&#123;</span><br><span class="line">    @Id</span><br><span class="line">    @GeneratedValue(strategy = GenerationType.IDENTITY)</span><br><span class="line">    private Long id;</span><br><span class="line">    @Column(unique = true,nullable = false,length = 50)</span><br><span class="line">    private String username;</span><br><span class="line">    private String password;</span><br><span class="line">    @CreationTimestamp</span><br><span class="line">    private Date createDate;</span><br><span class="line">    public User(Long id,String username) &#123;</span><br><span class="line">        this.id = id;</span><br><span class="line">        this.username = username;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Repository</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">public interface IUserRepository extends JpaRepository&lt;User,Long&gt;&#123;</span><br><span class="line">    boolean updateUser(User user);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Service</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">@Service</span><br><span class="line">@RequiredArgsConstructor(onConstructor = @__(@Autowired))</span><br><span class="line">public class UserServiceImpl implements IUserService &#123;</span><br><span class="line">    private final IUserRepository userRepository;</span><br><span class="line">    @Override</span><br><span class="line">    public User findOne(Long id) &#123;</span><br><span class="line">        return userRepository.getOne(id);</span><br><span class="line">    &#125;</span><br><span class="line">    @Override</span><br><span class="line">    public boolean updateUsername(Long id, String username) &#123;</span><br><span class="line">        User user = findOne(id);</span><br><span class="line">        if(user == null) &#123;</span><br><span class="line">            return false;</span><br><span class="line">        &#125;</span><br><span class="line">        user.setUsername(username);</span><br><span class="line">        return userRepository.updateUser(user);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Test</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line">public class IUserServiceTest &#123;</span><br><span class="line">    private IUserService userService;</span><br><span class="line">//    @Mock</span><br><span class="line">    private IUserRepository userRepository;</span><br><span class="line">    @Before</span><br><span class="line">    public void setUp() throws Exception &#123;</span><br><span class="line">        /*对所有注解了@Mock的对象进行模拟*/</span><br><span class="line">//        MockitoAnnotations.initMocks(this);</span><br><span class="line">        /*如果不使用注解，可以对单个对象进行mock*/</span><br><span class="line">        userRepository = Mockito.mock(IUserRepository.class);</span><br><span class="line">        /*构造测试对象*/</span><br><span class="line">        userService = new UserServiceImpl(userRepository);</span><br><span class="line">        /*打桩，构建当userRepository getOne函数执行参数为1的时候，设置返回的结果User*/</span><br><span class="line">        Mockito.when(userRepository.getOne(1L)).thenReturn(new User(1L,&quot;jack&quot;));</span><br><span class="line">         /*打桩，构建当userRepository getOne函数执行参数为1的时候，设置返回的结果null*/</span><br><span class="line">        Mockito.when(userRepository.getOne(2L)).thenReturn(null);</span><br><span class="line">         /*打桩，构建当userRepository getOne函数执行参数为1的时候，设置抛出异常*/</span><br><span class="line">        Mockito.when(userRepository.getOne(3L)).thenThrow(new IllegalArgumentException(&quot;the id is not support&quot;));</span><br><span class="line">         /*打桩，构建当userRepository updateUser执行任意User类型的参数，返回的结果都是true*/</span><br><span class="line">        Mockito.when(userRepository.updateUser(Mockito.any(User.class))).thenReturn(true);</span><br><span class="line">        /*打桩，给void方法 */</span><br><span class="line">        Mockito.doAnswer(invocation -&gt; &#123;</span><br><span class="line">            System.out.println(&quot;进入Mock&quot;);</span><br><span class="line">        return null;</span><br><span class="line">        &#125;).when(userRepository).addUser(Mockito.any());</span><br><span class="line">        /*模拟方法设置返回期望值*/</span><br><span class="line">        List spy = Mockito.spy(new LinkedList&lt;&gt;());</span><br><span class="line">        /*这里会抛出IndexOutOfBoundsException*/</span><br><span class="line">//        Mockito.when(spy.get(0)).thenReturn(&quot;foo&quot;);</span><br><span class="line">        /*所以要使用下面代码*/</span><br><span class="line">        Mockito.doReturn(&quot;foo&quot;).when(spy).get(0);</span><br><span class="line">    &#125;</span><br><span class="line">    @Test</span><br><span class="line">    public void testUpdateUsernameSuccess() throws Exception &#123;</span><br><span class="line">        Long userId = 1L;</span><br><span class="line">        String newUsername = &quot;new Jack&quot;;</span><br><span class="line">        /*测试service方法*/</span><br><span class="line">        boolean updated = userService.updateUsername(userId,newUsername);</span><br><span class="line">        /*检查结果*/</span><br><span class="line">        Assert.assertThat(updated, Matchers.is(true));</span><br><span class="line">        /*Mock对象一旦创建，就会自动记录自己的交互行为。通过verify(mock).someMethod()方法，来验证方法是否被调用。*/</span><br><span class="line">        /*验证调用上面的service方法后是否 userRepositroy.getOne(1L)调用过。*/</span><br><span class="line">        Mockito.verify(userRepository).getOne(userId);</span><br><span class="line">        /*updateUsername 函数中我们调用了已经打桩了的其他的函数，现在我们来验证进入其他函数中的参数*/</span><br><span class="line">        /*构造参数捕获器，用于捕获方法参数进行验证*/</span><br><span class="line">        ArgumentCaptor&lt;User&gt; userCaptor = ArgumentCaptor.forClass(User.class);</span><br><span class="line">        /*验证updateUser方法是否呗调用过，并且捕获入参*/</span><br><span class="line">        Mockito.verify(userRepository).updateUser(userCaptor.capture());</span><br><span class="line">        /*获取参数updateUser*/</span><br><span class="line">        User updateUser = userCaptor.getValue();</span><br><span class="line">        /*验证入参是否是预期的*/</span><br><span class="line">        Assert.assertThat(updateUser.getUsername(),Matchers.is(newUsername));</span><br><span class="line">        /*保证这个测试用例中所有被Mock的对象的相关方法都已经被Verify过了*/</span><br><span class="line">        Mockito.verifyNoMoreInteractions(userRepository);</span><br><span class="line">        /*如果有一个交互没有被verify，则会报错</span><br><span class="line">        org.mockito.exceptions.verification.NoInteractionsWanted:</span><br><span class="line">        No interactions wanted here:</span><br><span class="line">        -&gt; at com.wuwii.service.IUserServiceTest.testUpdateUsernameSuccess(IUserServiceTest.java:74)</span><br><span class="line">        But found this interaction on mock &#x27;iUserRepository&#x27;:</span><br><span class="line">        -&gt; at com.wuwii.service.impl.UserServiceImpl.findOne(UserServiceImpl.java:21)</span><br><span class="line">        ****/</span><br><span class="line">    &#125;</span><br><span class="line">//    @Test</span><br><span class="line">    public void testUpdateUsernameFailed() throws Exception &#123;</span><br><span class="line">        Long userId = 2L;</span><br><span class="line">        String newUsername = &quot;new Jack&quot;;</span><br><span class="line">        /*没有经过mock的updateUser方法，它的返回值是false*/</span><br><span class="line">        boolean updated = userService.updateUsername(userId,newUsername);</span><br><span class="line">        Assert.assertThat(updated,Matchers.is(true));</span><br><span class="line">        /*验证userRepository的getOne(2L)这个方法是否被调用过（这个是被测试过的，此步骤通过）*/</span><br><span class="line">        Mockito.verify(userRepository).getOne(2L);</span><br><span class="line">        /*验证userRepository的updateUser(null)这个方法是否被调用过（这个方法是没有被调用过的）*/</span><br><span class="line">        Mockito.verify(userRepository).updateUser(null);</span><br><span class="line">        Mockito.verifyNoMoreInteractions(userRepository);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>创建Mock对象</strong></p>
+<p>我们需要对userService进行测试，就需要模拟userRepository对象</p>
+<p>我们在<code>setUp()</code>方法中,模拟对象并打桩。</p>
+<p>模拟对象有两种方式：</p>
+<ul>
+<li>1.对注解<code>@Mock</code>的对象进行模拟<code>MockitoAnnotations.initMocks(this)</code></li>
+<li>2.对单个对象手动Mock: <code>userRepositroy = Mockito.mock(IUserRepositroy.class)</code></li>
+</ul>
+<p><strong>数据打桩</strong></p>
+<p>数据打桩，方法非常多，主要分下面几种：</p>
+<ul>
+<li><p>1.最基本的用法就是调用<code>when</code>以及<code>thenReturn</code>方法了。它的作用就是指定当我们调用被代理的对象的某一个方法以及参数的时候，返回什么值。</p>
+</li>
+<li><p>2.提供参数匹配器，灵活匹配参数。<code>any()</code>、<code>any(Class&lt;T&gt; type)</code> 、<code>anyBoolean()</code>、 <code>anyByte()</code> <code>anyChar()</code>、 <code>anyInt()</code>、 <code>anyLong()</code>等等，它支持复杂的过滤，可以使用正则 <code>Mockito.matches(&quot;.*User$&quot;)</code>，开头结尾验证 <code>endsWith(String suffix)</code>、 <code>startsWith(String prefix)</code>，判空验证   <code>isNotNull()</code>、 <code>isNull()</code>  。也还可以使用<code>argThat(ArgumentMatchermatcher)</code>,如：<code>ArgumentMatcher</code>只有一个方法<code>boolean matches(T argument);</code>传入入参，返回一个boolean表示是否匹配。<code>Mockito.argThat(argument -&gt; argument.getUsername.length() &gt; 6)</code></p>
+</li>
+<li><p>3.Mockito还提供了了两个表示行为的方法：<code>thenAnswer(Answer&lt;?&gt; answer);</code>、<code>thenCallRealMethod();</code>分别表示自定义处理调用后的行为，以及调用真实的方法。这两个方法在有些测试用例中还是很有用的。</p>
+</li>
+<li><p>4.对于同一个方法，Mockito可以是顺序与次数关连的。也就是说可以实现同一个方法 ，第一次调用返回一个值，第二次调用返回一个值，甚至第三次调用抛出异常等等。只需要连续的调用<code>thenXXXX</code>即可。</p>
+</li>
+<li><p>如果为一个返回Void的方法设置桩数据。上面的方法都是表示的是有返回值的方法，而由于一个方法没有返回值，因此我们不能调用<code>when</code>方法，比如：<code>doAnswer(Answer answer)</code>、<code>doNothing()</code>、<code>doReturn(Object toBeReturned)</code>、<code>doThrow(Class&lt;? extends Throwable&gt; toBeThrown)</code>、<code>doCallRealMethod()</code>。它们使用方法其实和上面<code>thenXXXX</code>是一样的.</p>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">/*打桩，给void方法 */</span><br><span class="line">        Mockito.doAnswer(invocation -&gt; &#123;</span><br><span class="line">            System.out.println(&quot;进入Mock&quot;);</span><br><span class="line">        return null;</span><br><span class="line">        &#125;).when(userRepository).addUser(Mockito.any());</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">/*模拟方法设置返回期望值*/</span><br><span class="line">        List spy = Mockito.spy(new LinkedList&lt;&gt;());</span><br><span class="line">        /*这里会抛出IndexOutOfBoundsException*/</span><br><span class="line">//      Mockito.when(spy.get(0)).thenReturn(&quot;foo&quot;);</span><br><span class="line">        /*所以要使用下面代码*/</span><br><span class="line">        Mockito.doReturn(&quot;foo&quot;).when(spy).get(0);</span><br></pre></td></tr></table></figure>
+
+<p><strong>验证测试方法的结果</strong></p>
+<p>使用断言来检查结果。</p>
+<p><strong>验证Mock对象的调用</strong></p>
+<p>其实，在这里我们如果只是验证方法结果的正确的话，就非常简单，但是在复杂的方法调用堆栈中，往往可能出现结果正确，但是过程不正确的情况。比如<code>updateUsername</code>方法返回false有两种可能，一直可能是用户没有找到，还有一种可能就是<code>userRepository.updateUser(userPO)</code>返回false。因此如果我们只使用<code>Assert.assertFalse(updated);</code>来验证结果，可能就会忽略某些错误。</p>
+<p>因此我们在测试中还需要验证指定的方法<code>userRepository.getOne(userId);</code>是否运行过，而且我们还是用了参数捕获器，抓取中间的方法参数。用来验证。</p>
+<p>提供了<code>verify(T mock,VerificationMode mode)</code>方法。VerificationMode有很多作用。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/*验证指定方法 get(3) 没有被调用*/</span><br><span class="line">verify(mock,never()).get(3);</span><br></pre></td></tr></table></figure>
+
+<p><code>verifyZeroInteractions</code>和<code>verifyNoMoreInteractions</code>验证所有mock的方法是否都调用过了。</p>
+<hr>
+<h3 id="6-MockMvc"><a href="#6-MockMvc" class="headerlink" title="6.MockMvc"></a>6.MockMvc</h3><p>MockMvc是由spring-test包提供，实现了对Http请求的模拟，能够直接使用网络的形势，转换到Controller的调用，是的测试速度快，不依赖网络环境。同时提供了一套验证的工具，结果的验证十分方便。</p>
+<p>接口MockMvcBuilder，一共一个唯一的build方法，用来构造MockMvc。主要有两个实现：<code>StandaloneMockMvcBuilder</code>和<code>DefaultMockMvcBuilder</code>,分别对应两种测试方式，即独立安装和继承web环境测试(并不会集成真正的web环境，而是通过相应的Mock API进行模拟测试，无需启动服务)。MockMvcBuilders提供了对应的创建方法<code>standaloneSetup</code> 方法和<code>webAppContextSetup</code>方法,在使用时直接调用即可。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">private MockMvc mockMvc;</span><br><span class="line">@Autowire</span><br><span class="line">private WebApplicationContext webApplicationContext;</span><br><span class="line">@Before</span><br><span class="line">public void setup() &#123;</span><br><span class="line">    /*实例化方式一*/</span><br><span class="line">    mockMvc = MockMvcBuilders.standaloneSetup(new UserController()).build();</span><br><span class="line">    /*实例化方式二*/</span><br><span class="line">    mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext).build();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>单元测试方法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">@Test</span><br><span class="line">    public void testHello() throws Exception &#123;</span><br><span class="line">/*</span><br><span class="line">        1.mockMvc.perform 执行一个请求</span><br><span class="line">        2.MockMvcRequestBuilders.get(&quot;XXX&quot;)构造一个请求</span><br><span class="line">        3.ResultActions.param()</span><br><span class="line">        4.ResultActions.accept()</span><br><span class="line">        5.ResultActions.andExpect</span><br><span class="line">        6.ResultActions.andDo 添加一个结果处理器，表示要对结果做点什么事情。</span><br><span class="line">        7.ResultActions.andReturn 表示执行完成后，返回响应的结果。</span><br><span class="line">*/</span><br><span class="line">        mockMvc.perform(MockMvcRequestBuilders.get(&quot;/mock-mvc/test-get&quot;)</span><br><span class="line">                /*设置返回类型为utf-8,否则默认为ISO-8859-1*/</span><br><span class="line">                .accept(MediaType.APPLICATION_JSON_UTF8_VALUE)</span><br><span class="line">                .param(&quot;name&quot;,&quot;tom&quot;))</span><br><span class="line">                .andExpect(MockMvcResultMatchers.status().isOk())</span><br><span class="line">                .andExpect(MockMvcResultMatchers.content().string(&quot;hello&quot;))</span><br><span class="line">                .andDo(MockMvcResultHandlers.print());</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>整个过程如下</strong></p>
+<p>1.准备测试环境</p>
+<p>2.通过MockMvc执行请求</p>
+<p>3.添加验证断言</p>
+<p>4.添加结果处理器</p>
+<p>5.得到MvcResult进行分自定义断言/进行下一步异步请求</p>
+<p>6.卸载测试环境</p>
+<p>注意事项：如果使用DefaultMockMvcBuilder进行MockMvc实例化时需在SpringBoot启动类上添加组件扫描的package的指定，否则会出现404</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@ComponentScan(basePackages = &quot;com.creators&quot;)</span><br></pre></td></tr></table></figure>
+
+<p><strong>相关API</strong></p>
+<p>RequestBuilder提供了一个方法buildRequest(ServletContext servletContext)用于构建MockHttpServletRequest；其中有两个子类MockHttpServletRequestBuilder和MockMultipartHttpServletRequestBuilder(文件上传使用) 。</p>
+<p>MockMvcRequestBuilders提供get、post等多种方法用来实例化RequestBuilder。</p>
+<p>ResultActions,MockMvc.perform(RequestBuilder requestBuilder)的返回值，提供三种能力：<code>andExpect</code> 添加断言判断结果是否达到预期；<code>andDo</code>,添加结果处理器，比如示例中的打印。<code>andReturn</code>返回验证成功后的MvcResult,用于自定义验证/下一步的异步处理。</p>
+<p><strong>一些常用的测试</strong></p>
+<h4 id="测试普通控制器"><a href="#测试普通控制器" class="headerlink" title="测试普通控制器"></a>测试普通控制器</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">mockMvc.perform(MockMvcRequestBuilders.get(&quot;/user/&#123;id&#125;&quot;,1))</span><br><span class="line">        /*验证存储模型数据*/</span><br><span class="line">       .andExpect(MockMvcResultMatchers.model().attributeExists(&quot;user&quot;))</span><br><span class="line">        /*验证viewName*/</span><br><span class="line">       .andExpect(MockMvcResultMatchers.view().name(&quot;user/view&quot;))</span><br><span class="line">        /*验证视图渲染时forward到的jsp*/</span><br><span class="line">       .andExpect(MockMvcResultMatchers.forwardedUrl(&quot;/WEB-INF/jsp/user/view/jsp&quot;))</span><br><span class="line">        /*验证状态码*/</span><br><span class="line">       .andExpect(MockMvcResultMatchers.status().isOk())</span><br><span class="line">        /*输出MvcResult到控制台*/</span><br><span class="line">       .andDo(MockMvcResultHandlers.print());</span><br></pre></td></tr></table></figure>
+
+<h4 id="得到MvcResult自定义验证"><a href="#得到MvcResult自定义验证" class="headerlink" title="得到MvcResult自定义验证"></a>得到MvcResult自定义验证</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">MvcResult result = mockMvc.perform(MockMvcRequestBuilders.get( &quot;/user/&#123;id&#125;&quot;,1)) </span><br><span class="line">        .andReturn();</span><br><span class="line">  Assert.assertNotNull(result.getModelAndView().getModel().get(&quot;user&quot;));</span><br></pre></td></tr></table></figure>
+
+<h4 id="验证请求参数绑定到模型数据及flash属性"><a href="#验证请求参数绑定到模型数据及flash属性" class="headerlink" title="验证请求参数绑定到模型数据及flash属性"></a>验证请求参数绑定到模型数据及flash属性</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">mockMvc.perform(MockMvcRequestBuilders.post(&quot;/user&quot;).param(&quot;name&quot;,&quot;wang&quot;))</span><br><span class="line">                /*验证执行控制器类*/</span><br><span class="line">                .andExpect(MockMvcResultMatchers.handler().handlerType(UserController.class))</span><br><span class="line">                /*验证执行控制器方法名*/</span><br><span class="line">                .andExpect(MockMvcResultMatchers.handler().methodName(&quot;create&quot;))</span><br><span class="line">                /*验证页面没有错误*/</span><br><span class="line">                .andExpect(MockMvcResultMatchers.model().hasNoErrors())</span><br><span class="line">                /*验证存在flash属性*/</span><br><span class="line">                .andExpect(MockMvcResultMatchers.flash().attributeExists(&quot;success&quot;))</span><br><span class="line">                /*验证视图名称*/</span><br><span class="line">                .andExpect(MockMvcResultMatchers.view().name(&quot;redirect:/user&quot;));</span><br></pre></td></tr></table></figure>
+
+<h4 id="文件上传"><a href="#文件上传" class="headerlink" title="文件上传"></a>文件上传</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">byte[] bytes = new byte[]&#123;1,2&#125;;</span><br><span class="line">        mockMvc.perform(MockMvcRequestBuilders.multipart(&quot;/user/&#123;id&#125;/icon&quot;,1L).file(&quot;icon&quot;,bytes))</span><br><span class="line">                .andExpect(MockMvcResultMatchers.model().attribute(&quot;icon&quot;,bytes))</span><br><span class="line">                .andExpect(MockMvcResultMatchers.view().name(&quot;success&quot;));</span><br></pre></td></tr></table></figure>
+
+<h4 id="JSON请求-响应验证"><a href="#JSON请求-响应验证" class="headerlink" title="JSON请求/响应验证"></a>JSON请求/响应验证</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">String requestBody = &quot;&#123;\&quot;id\&quot;:1,\&quot;name\&quot;:\&quot;wang\&quot;&#125;&quot;;</span><br><span class="line">        mockMvc.perform(MockMvcRequestBuilders.post(&quot;/user&quot;)</span><br><span class="line">                .contentType(MediaType.APPLICATION_JSON_UTF8_VALUE)</span><br><span class="line">                .content(requestBody)</span><br><span class="line">                .accept(MediaType.APPLICATION_JSON))</span><br><span class="line">            .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))</span><br><span class="line">            /*检查返回JSON数据中某个值的内容： 请参考http://goessner.net/articles/JsonPath/*/</span><br><span class="line">            .andExpect(MockMvcResultMatchers.jsonPath(&quot;$.id&quot;).value(1));</span><br><span class="line">        String errorBody = &quot;&#123;id:1,name:wang&#125;&quot;;</span><br><span class="line">        MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.post(&quot;/user&quot;)</span><br><span class="line">                .contentType(MediaType.APPLICATION_JSON).content(errorBody)</span><br><span class="line">                .accept(MediaType.APPLICATION_JSON))</span><br><span class="line">                .andExpect(MockMvcResultMatchers.status().isBadRequest())</span><br><span class="line">                .andReturn();</span><br><span class="line">        Assert.assertTrue(HttpMessageNotReadableException.class.isAssignableFrom(mvcResult.getResolvedException().getClass()));</span><br></pre></td></tr></table></figure>
+
+<h4 id="异步测试"><a href="#异步测试" class="headerlink" title="异步测试"></a>异步测试</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">MvcResult mvcResult1 = mockMvc.perform(MockMvcRequestBuilders.get(&quot;/user/async?id=1&amp;name=wang&quot;))</span><br><span class="line">                .andExpect(MockMvcResultMatchers.request().asyncStarted())</span><br><span class="line">                .andExpect(MockMvcResultMatchers.request().asyncResult(CoreMatchers.instanceOf(User.class)))</span><br><span class="line">                .andReturn();</span><br><span class="line">        mockMvc.perform(MockMvcRequestBuilders.asyncDispatch(mvcResult1))</span><br><span class="line">                .andExpect(MockMvcResultMatchers.status().isOk())</span><br><span class="line">                .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))</span><br><span class="line">                .andExpect(MockMvcResultMatchers.jsonPath(&quot;$.id&quot;).value(1));</span><br></pre></td></tr></table></figure>
+
+<h4 id="使用MultiValueMap构建参数"><a href="#使用MultiValueMap构建参数" class="headerlink" title="使用MultiValueMap构建参数"></a>使用MultiValueMap构建参数</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">MultiValueMap&lt;String,String&gt; params = new LinkedMultiValueMap&lt;&gt;();</span><br><span class="line">        params.add(&quot;name&quot;,&quot;wang&quot;);</span><br><span class="line">        params.add(&quot;hobby&quot;,&quot;sleep&quot;);</span><br><span class="line">        params.add(&quot;hobby&quot;,&quot;eat&quot;);</span><br><span class="line">        mockMvc.perform(MockMvcRequestBuilders.post(&quot;/user&quot;).params(params));</span><br></pre></td></tr></table></figure>
+
+<h4 id="模拟session和cookie"><a href="#模拟session和cookie" class="headerlink" title="模拟session和cookie"></a>模拟session和cookie</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mockMvc.perform(MockMvcRequestBuilders.get(&quot;/index&quot;).sessionAttr(&quot;name&quot;, &quot;value&quot;));</span><br><span class="line">        mockMvc.perform(MockMvcRequestBuilders.get(&quot;/index&quot;).cookie(new Cookie(&quot;name&quot;, &quot;value&quot;)));</span><br></pre></td></tr></table></figure>
+
+<h4 id="全局配置"><a href="#全局配置" class="headerlink" title="全局配置"></a>全局配置</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mockMvc = MockMvcBuilders.webAppContextSetup(webApplicationContext)</span><br><span class="line">                .defaultRequest(MockMvcRequestBuilders.get(&quot;/user/1&quot;).requestAttr(&quot;default&quot;,true))</span><br><span class="line">                .alwaysDo(MockMvcResultHandlers.print())</span><br><span class="line">                .alwaysExpect(MockMvcResultMatchers.request().attribute(&quot;default&quot;,true))</span><br><span class="line">                .build();</span><br></pre></td></tr></table></figure>
+
+<p>如果是测试Service层代码 可以在单元测试方法上加上@Transactional注解，在测试完毕后，数据能自动回滚。</p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ol>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/81fc2c98774f">https://www.jianshu.com/p/81fc2c98774f</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.jianshu.com/p/37de454c5f34">https://www.jianshu.com/p/37de454c5f34</a></li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/atom.xml">
+          <span class="icon">
+            <i class="fa fa-rss"></i>
+          </span>
+
+          <span class="label">RSS</span>
+        </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/Spring-Boot/" rel="tag"># Spring Boot</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/11/02/Spring-MVC-%E8%AF%B7%E6%B1%82%E6%B5%81%E7%A8%8B%E8%AF%A6%E8%A7%A3/" rel="prev" title="Spring MVC 请求流程详解">
+                  <i class="fa fa-chevron-left"></i> Spring MVC 请求流程详解
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/11/02/Spring-Boot-%E6%95%B4%E5%90%88H2/" rel="next" title="Spring Boot 整合H2">
+                  Spring Boot 整合H2 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Alex</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">192k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">2:55</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+  <script class="next-config" data-name="pdf" type="application/json">{"object_url":{"url":"https://cdn.jsdelivr.net/npm/pdfobject@2.2.6/pdfobject.min.js","integrity":"sha256-77geM50MfxCD17eqyJR+Dag1svjJOLN+BJ2F/DMqMEY="},"url":"/lib/pdf/web/viewer.html"}</script>
+  <script src="/js/third-party/tags/pdf.js"></script>
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+</body>
+</html>

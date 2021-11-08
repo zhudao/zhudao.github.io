@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"daoxuan.gitee.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":true,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<meta name="description" content="Java11特性解读">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java11特性解读">
+<meta property="og:url" content="https://daoxuan.gitee.io/blog/2021/10/30/Java11%E7%89%B9%E6%80%A7%E8%A7%A3%E8%AF%BB/index.html">
+<meta property="og:site_name" content="知识博客">
+<meta property="og:description" content="Java11特性解读">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://daoxuan.gitee.io/images/Java11%E7%89%B9%E6%80%A7%E8%A7%A3%E8%AF%BB/1613958777815-39a85ede-2ade-450c-9bf6-784d6c70771e.png">
+<meta property="article:published_time" content="2021-10-30T13:35:30.000Z">
+<meta property="article:modified_time" content="2021-10-30T23:57:19.425Z">
+<meta property="article:author" content="Alex">
+<meta property="article:tag" content="JAVA">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://daoxuan.gitee.io/images/Java11%E7%89%B9%E6%80%A7%E8%A7%A3%E8%AF%BB/1613958777815-39a85ede-2ade-450c-9bf6-784d6c70771e.png">
+
+
+<link rel="canonical" href="https://daoxuan.gitee.io/blog/2021/10/30/Java11%E7%89%B9%E6%80%A7%E8%A7%A3%E8%AF%BB/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://daoxuan.gitee.io/blog/2021/10/30/Java11%E7%89%B9%E6%80%A7%E8%A7%A3%E8%AF%BB/","path":"2021/10/30/Java11特性解读/","title":"Java11特性解读"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Java11特性解读 | 知识博客</title>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="知识博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">知识博客</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">知识博客</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E5%B1%80%E9%83%A8%E7%B1%BB%E5%9E%8B%E6%8E%A8%E6%96%AD"><span class="nav-number">1.</span> <span class="nav-text">1. 局部类型推断</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">1.1.</span> <span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E9%9B%86%E5%90%88%E4%B8%AD%E7%9A%84%E6%96%B0API"><span class="nav-number">2.</span> <span class="nav-text">2.集合中的新API</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%80%BB%E7%BB%93-1"><span class="nav-number">2.1.</span> <span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E6%B5%81%E4%B8%AD%E7%9A%84%E6%96%B0API"><span class="nav-number">3.</span> <span class="nav-text">3.流中的新API</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%80%BB%E7%BB%93-2"><span class="nav-number">3.1.</span> <span class="nav-text">总结</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%B8%AD%E7%9A%84%E6%96%B0API"><span class="nav-number">4.</span> <span class="nav-text">4. 字符串中的新API</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-HttpAPI"><span class="nav-number">5.</span> <span class="nav-text">5.HttpAPI</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-%E6%96%B0%E7%89%88%E6%9C%AC%E5%BA%9F%E5%BC%83%E4%BA%86%E5%93%AA%E4%BA%9B%E5%86%85%E5%AE%B9"><span class="nav-number">6.</span> <span class="nav-text">6.新版本废弃了哪些内容</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-Epsilon%E5%9E%83%E5%9C%BE%E6%94%B6%E9%9B%86%E5%99%A8"><span class="nav-number">7.</span> <span class="nav-text">7.Epsilon垃圾收集器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#8-ZGC%E5%9E%83%E5%9C%BE%E5%9B%9E%E6%94%B6%E5%99%A8"><span class="nav-number">8.</span> <span class="nav-text">8. ZGC垃圾回收器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#9-Flight-Recorder"><span class="nav-number">9.</span> <span class="nav-text">9.Flight Recorder</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#10-%E5%85%B6%E5%AE%83"><span class="nav-number">9.0.1.</span> <span class="nav-text">10. 其它</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#11-%E4%BB%A3%E7%A0%81"><span class="nav-number">10.</span> <span class="nav-text">11. 代码</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Alex</p>
+  <div class="site-description" itemprop="description">记录生活工作中有趣的知识</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">75</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">54</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">46</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+        <div class="back-to-top animated" role="button" aria-label="返回顶部">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://daoxuan.gitee.io/blog/2021/10/30/Java11%E7%89%B9%E6%80%A7%E8%A7%A3%E8%AF%BB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Alex">
+      <meta itemprop="description" content="记录生活工作中有趣的知识">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="知识博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Java11特性解读
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-10-30 21:35:30" itemprop="dateCreated datePublished" datetime="2021-10-30T21:35:30+08:00">2021-10-30</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-10-31 07:57:19" itemprop="dateModified" datetime="2021-10-31T07:57:19+08:00">2021-10-31</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/JAVA/" itemprop="url" rel="index"><span itemprop="name">JAVA</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>9.6k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>9 分钟</span>
+    </span>
+</div>
+
+            <div class="post-description">Java11特性解读</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><h3 id="1-局部类型推断"><a href="#1-局部类型推断" class="headerlink" title="1. 局部类型推断"></a>1. 局部类型推断</h3><p>什么是局部类型推断？</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var str = <span class="string">&quot;helloworld&quot;</span>;</span><br><span class="line">System.out.println(str);</span><br></pre></td></tr></table></figure>
+
+<p>局部变量类型推断就是左边的类型直接使用var定义，而<strong>不用写具体的类型</strong>，编译器能根据右边的表达式自动推断类型，如上面的str变量使用var定义，编译器就能通过右边的”helloworld”自动推断出这是一个String类型的变量。</p>
+<p>但是，值得注意的是，这个<strong>var并不是一个关键字</strong>，很多同学看到变量都能使用var来定义，那var还不是关键字吗？事实上，它真的不是一个关键字。</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> var = <span class="number">10</span>;</span><br><span class="line">System.out.println(var);</span><br></pre></td></tr></table></figure>
+
+<p>例如上面的这段代码是能够正确运行的，这证明var不是关键字。</p>
+<p>我们还可以通过反编译来看，例如我们反编译这样一段代码：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var a = <span class="number">100</span>;</span><br><span class="line">System.out.println(a);</span><br></pre></td></tr></table></figure>
+
+<p>反编译得到的结果为：</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">byte</span> a = <span class="number">100</span>;</span><br><span class="line"> System.out.println(a);</span><br></pre></td></tr></table></figure>
+
+<p>从这里可以看出，var仅仅是一个语法上的改进，在编译时期便已经将var转换为了对应的变量类型。</p>
+<p>然而在使用<strong>var定义变量时，必须立刻赋值</strong>，例如下面的情况是错误的：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var a;</span><br></pre></td></tr></table></figure>
+
+<p>因为在不赋值的情况下，JVM无法推断当前变量的类型。</p>
+<p>在类中的成员变量(也叫属性)不可以使用var来定义，例如下面的情况是错误的：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">class Student&#123;</span><br><span class="line">	var name = &quot;小明&quot;;</span><br><span class="line">	var age = 20;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>var的好处在lambda表达式中体现得淋漓尽致</strong>。我们知道，开启一个线程可以使用lambda表达式来完成：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Thread t = new Thread(() -&gt; System.out.println(Thread.currentThread().getName()));</span><br><span class="line">t.start();</span><br></pre></td></tr></table></figure>
+
+<p>这是一个无参的lambda表达式形式，我们再看一个带参lambda表达式：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">String[] arr = &#123; &quot;program&quot;, &quot;creek&quot;, &quot;is&quot;, &quot;a&quot;, &quot;java&quot;, &quot;site&quot; &#125;;</span><br><span class="line">Stream&lt;String&gt; stream = Stream.of(arr);</span><br><span class="line">stream.forEach(x -&gt; System.out.print(x + &quot;\t&quot;));</span><br></pre></td></tr></table></figure>
+
+<p>这是一个forEach的用法，其中需要用到变量x，因为这里它自动推断出了x的类型为String，所以String被省略了，那么加上var之后代码变成这样：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">String[] arr = &#123; &quot;program&quot;, &quot;creek&quot;, &quot;is&quot;, &quot;a&quot;, &quot;java&quot;, &quot;site&quot; &#125;;</span><br><span class="line">Stream&lt;String&gt; stream = Stream.of(arr);</span><br><span class="line">stream.forEach((var x) -&gt; System.out.print(x + &quot;\t&quot;));</span><br></pre></td></tr></table></figure>
+
+<p>如果仅仅只是这样写，倒是无法看出写var有什么优势，反而觉得有点多此一举，但是如果要给lambda表达式变量标注注解的话，那么这个时候var的作用就体现出来了。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">String[] arr = &#123; &quot;program&quot;, &quot;creek&quot;, &quot;is&quot;, &quot;a&quot;, &quot;java&quot;, &quot;site&quot; &#125;;</span><br><span class="line">Stream&lt;String&gt; stream = Stream.of(arr);</span><br><span class="line">stream.forEach((@Nonnull var x) -&gt; System.out.print(x + &quot;\t&quot;));</span><br></pre></td></tr></table></figure>
+
+<p>那么var的优势何在呢？因为你要标注注解的话，就必定要写出x的类型，<strong>如下面这段程序是错误的</strong>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">String[] arr = &#123; &quot;program&quot;, &quot;creek&quot;, &quot;is&quot;, &quot;a&quot;, &quot;java&quot;, &quot;site&quot; &#125;;</span><br><span class="line">Stream&lt;String&gt; stream = Stream.of(arr);</span><br><span class="line">stream.forEach((@Nonnull x) -&gt; System.out.print(x + &quot;\t&quot;));</span><br></pre></td></tr></table></figure>
+
+<p>但是，我们从何得知x的类型呢？其实我们不用知晓，因为var就能自动推断，所以，var的好处在这里就体现出来了。</p>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><ol>
+<li><p>类型推断使用var</p>
+</li>
+<li><p>var不是关键字</p>
+</li>
+<li><p>对象属性不能使用 var 类型推断</p>
+</li>
+<li><p>匿名表达式中使用更方便</p>
+</li>
+</ol>
+<h3 id="2-集合中的新API"><a href="#2-集合中的新API" class="headerlink" title="2.集合中的新API"></a>2.集合中的新API</h3><p>在Java9之前，我们要想创建新集合，我们得这样做：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; list = new ArrayList&lt;String&gt;();</span><br><span class="line">list.add(&quot;hello&quot;);</span><br><span class="line">list.add(&quot;world&quot;);</span><br><span class="line">list.add(&quot;java&quot;);</span><br></pre></td></tr></table></figure>
+
+<p>创建过程略显麻烦，那么现在，我们可以通过这样的方式来创建集合：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; list = List.of(&quot;hello&quot;,&quot;world&quot;,&quot;java&quot;);</span><br></pre></td></tr></table></figure>
+
+<p>但是，请注意了，用这样的方式来创建的集合，是无法添加元素的，我们可以尝试着添加一下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">List&lt;String&gt; list = List.of(&quot;hello&quot;,&quot;world&quot;,&quot;java&quot;);</span><br><span class="line">list.add(&quot;test&quot;);</span><br></pre></td></tr></table></figure>
+
+<p>运行结果如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Exception in thread &quot;main&quot; java.lang.UnsupportedOperationException</span><br><span class="line">	at java.base/java.util.ImmutableCollections.uoe(ImmutableCollections.java:71)</span><br><span class="line">	at java.base/java.util.ImmutableCollections$AbstractImmutableCollection.add(ImmutableCollections.java:75)</span><br><span class="line">	at com.itcast.TestDemo.main(TestDemo.java:8)</span><br></pre></td></tr></table></figure>
+
+<p>那么这到底是为什么呢？我们通过源码来分析一下。</p>
+<p>首先我么看看List类的of()方法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">static &lt;E&gt; List&lt;E&gt; of(E e1, E e2, E e3) &#123;</span><br><span class="line">    return new ImmutableCollections.ListN&lt;&gt;(e1, e2, e3);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>该方法调用了ImmutableCollections类的ListN()生成一个集合并返回，我们看看ListN的源码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">static final class ListN&lt;E&gt; extends AbstractImmutableList&lt;E&gt;</span><br><span class="line">            implements Serializable &#123;</span><br><span class="line">        static final List&lt;?&gt; EMPTY_LIST = new ListN&lt;&gt;();</span><br><span class="line">        @Stable</span><br><span class="line">        private final E[] elements;</span><br><span class="line">        @SafeVarargs</span><br><span class="line">        ListN(E... input) &#123;</span><br><span class="line">            // copy and check manually to avoid TOCTOU</span><br><span class="line">            @SuppressWarnings(&quot;unchecked&quot;)</span><br><span class="line">            E[] tmp = (E[])new Object[input.length]; // implicit nullcheck of input</span><br><span class="line">            for (int i = 0; i &lt; input.length; i++) &#123;</span><br><span class="line">                tmp[i] = Objects.requireNonNull(input[i]);</span><br><span class="line">            &#125;</span><br><span class="line">            elements = tmp;</span><br><span class="line">        &#125;</span><br><span class="line">        @Override</span><br><span class="line">        public boolean isEmpty() &#123;</span><br><span class="line">            return size() == 0;</span><br><span class="line">        &#125;</span><br><span class="line">        @Override</span><br><span class="line">        public int size() &#123;</span><br><span class="line">            return elements.length;</span><br><span class="line">        &#125;</span><br><span class="line">        @Override</span><br><span class="line">        public E get(int index) &#123;</span><br><span class="line">            return elements[index];</span><br><span class="line">        &#125;</span><br><span class="line">        private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException &#123;</span><br><span class="line">            throw new InvalidObjectException(&quot;not serial proxy&quot;);</span><br><span class="line">        &#125;</span><br><span class="line">        private Object writeReplace() &#123;</span><br><span class="line">            return new CollSer(CollSer.IMM_LIST, elements);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>它是ImmutableCollections类的一个静态内部类，我们暂且不管它是如何生成集合的，我们找找里面有没有add()方法，会发现里面并不存在add()方法，那么我们既然能够调用到，那么add()方法肯定在其父类中。最终，在它的父类AbstractImmutableCollection中找到了add()方法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">// all mutating methods throw UnsupportedOperationException</span><br><span class="line">        @Override public boolean add(E e) &#123; throw uoe(); &#125;</span><br><span class="line">        @Override public boolean addAll(Collection&lt;? extends E&gt; c) &#123; throw uoe(); &#125;</span><br><span class="line">        @Override public void    clear() &#123; throw uoe(); &#125;</span><br><span class="line">        @Override public boolean remove(Object o) &#123; throw uoe(); &#125;</span><br><span class="line">        @Override public boolean removeAll(Collection&lt;?&gt; c) &#123; throw uoe(); &#125;</span><br><span class="line">        @Override public boolean removeIf(Predicate&lt;? super E&gt; filter) &#123; throw uoe(); &#125;</span><br><span class="line">        @Override public boolean retainAll(Collection&lt;?&gt; c) &#123; throw uoe(); &#125;</span><br></pre></td></tr></table></figure>
+
+<p>add()方法调用了uoe()方法，而uoe()方法直接抛出了一个异常：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">static UnsupportedOperationException uoe() &#123; return new UnsupportedOperationException(); &#125;</span><br></pre></td></tr></table></figure>
+
+<p>会发现，调用uoe()方法的不只add()方法一个，有关于集合添加、修改、删除的种种操作都会抛出异常。所以，由of()方法创建的集合是不可以进行这些相关操作的。</p>
+<h4 id="总结-1"><a href="#总结-1" class="headerlink" title="总结"></a>总结</h4><ol>
+<li>List.of()方法创建的集合是不可以进行增删改；</li>
+</ol>
+<h3 id="3-流中的新API"><a href="#3-流中的新API" class="headerlink" title="3.流中的新API"></a>3.流中的新API</h3><p>上面集合中说到的of()方法同样可以用在流中。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Stream&lt;Integer&gt; stream = Stream.of(1,2,3,4,5);</span><br><span class="line">Stream stream = Stream.of();</span><br><span class="line">Stream stream2 = Stream.of(null);</span><br></pre></td></tr></table></figure>
+
+<p>而在上面的两条语句中，第二条语句会产生空指针异常，当然，我们不能允许我们的程序出现这样的异常，但是你又很有可能会传入一个null，这样的情况该如何避免呢？从Java9开始，出现了一个新方法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Stream stream3 = Stream.ofNullable(null);</span><br></pre></td></tr></table></figure>
+
+<p>该方法允许你传入一个null值，以此避免空指针异常产生。</p>
+<p>继续介绍Stream中的新API。</p>
+<ol>
+<li>takeWhile()<br>该方法会从流中一直获取判定器为真的元素，一旦遇到元素为假，就终止处理</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Stream&lt;Integer&gt; stream = Stream.of(1, 3, 2, 5, 6, 7);</span><br><span class="line">Stream stream2 = stream.takeWhile(t -&gt; t % 2 != 0);</span><br><span class="line">stream2.forEach(System.out::println);</span><br></pre></td></tr></table></figure>
+
+<p>这段程序的运行结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">1</span><br><span class="line">3</span><br></pre></td></tr></table></figure>
+
+<p>你若是理解了这个方法的意思，这样的输出结果就不难理解。因为当获取到元素2时，判定器为假，此时会终止处理，所以后面的元素就不会再去处理。</p>
+<p>   2.dropWhile()</p>
+<p>那么这方法和takeWhile()方法相反，它会从流中一直丢弃判定器为真的元素，一旦遇到元素为假，就终止处理</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Stream&lt;Integer&gt; stream = Stream.of(1, 3, 2, 5, 6, 7);</span><br><span class="line">Stream stream2 = stream.dropWhile(t -&gt; t % 2 != 0);</span><br><span class="line">stream2.forEach(System.out::println);</span><br></pre></td></tr></table></figure>
+
+<p>所以上面程序段的执行结果为：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">2</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td></tr></table></figure>
+
+<h4 id="总结-2"><a href="#总结-2" class="headerlink" title="总结"></a>总结</h4><ol>
+<li><p>Stream.of(1,2,3)</p>
+</li>
+<li><p>Stream.ofNullable() 可以接受 空值不报错</p>
+</li>
+<li><p>stream.takeWhile()  会从流中一直<strong>获取</strong>判定器为真的元素</p>
+</li>
+<li><p>stream.dropWhile() 会从流中一直<strong>丢弃</strong>判定器为真的元素</p>
+</li>
+</ol>
+<h3 id="4-字符串中的新API"><a href="#4-字符串中的新API" class="headerlink" title="4. 字符串中的新API"></a>4. 字符串中的新API</h3><ol>
+<li><p>isBlank()  判断字符串中的字符是否都为空白</p>
+</li>
+<li><p>strip() 去除字符串首尾的空白</p>
+</li>
+<li><p>stripTrailing()  去除字符串尾部的空白</p>
+</li>
+<li><p>stripLeading() 去除字符串首部的空白</p>
+</li>
+<li><p>repeat()  复制字符串，可以传入一个int类型值来控制复制次数</p>
+</li>
+</ol>
+<p>我们知道在字符串处理方法中，trim()方法也能够去除字符串首尾的空白，那为什么Oracle还要设计一个重复的方法呢？这必然有它的道理。其实，trim()方法要比strip()方法简单得多：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">     * Returns a string whose value is this string, with all leading</span><br><span class="line">     * and trailing space removed, where space is defined</span><br><span class="line">     * as any character whose codepoint is less than or equal to</span><br><span class="line">     * &#123;@code &#x27;U+0020&#x27;&#125; (the space character).</span><br><span class="line">     */</span><br><span class="line">    public String trim() &#123;</span><br><span class="line">        String ret = isLatin1() ? StringLatin1.trim(value)</span><br><span class="line">                                : StringUTF16.trim(value);</span><br><span class="line">        return ret == null ? this : ret;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>通过查阅源码中对该方法的注释发现，trim()方法只能去除Unicode码值小于等于32的空白字符，而32正好指的是空格，那么对于全角的空格，trim()方法就无能为力了。所以在功能上，<strong>strip()方法更加强</strong>大。</p>
+<h3 id="5-HttpAPI"><a href="#5-HttpAPI" class="headerlink" title="5.HttpAPI"></a>5.HttpAPI</h3><p>这是Java9开始引入的一个处理HTTP请求的API，该API支持同步和异步，而在Java11中已经为正式可用状态。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">HttpClient client = HttpClient.newHttpClient();</span><br><span class="line">HttpRequest request = HttpRequest.newBuilder(URI.create(&quot;http://www.baidu.com&quot;)).build();</span><br><span class="line">BodyHandler&lt;String&gt; responseBodyHandler = BodyHandlers.ofString();</span><br><span class="line">HttpResponse&lt;String&gt; response = client.send(request, responseBodyHandler);</span><br><span class="line">String body = response.body();</span><br><span class="line">System.out.println(body);</span><br></pre></td></tr></table></figure>
+
+<p>这是一段基本的访问百度的请求代码，当然，它还提供了异步请求方式：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">HttpClient client = HttpClient.newHttpClient();</span><br><span class="line">HttpRequest request = HttpRequest.newBuilder(URI.create(&quot;http://www.baidu.com&quot;)).build();</span><br><span class="line">BodyHandler&lt;String&gt; responseBodyHandler = BodyHandlers.ofString();</span><br><span class="line">CompletableFuture&lt;HttpResponse&lt;String&gt;&gt; sendAsync = client.sendAsync(request, responseBodyHandler);</span><br><span class="line">HttpResponse&lt;String&gt; response = sendAsync.get();</span><br><span class="line">String body = response.body();</span><br><span class="line">System.out.println(body);</span><br></pre></td></tr></table></figure>
+
+<h3 id="6-新版本废弃了哪些内容"><a href="#6-新版本废弃了哪些内容" class="headerlink" title="6.新版本废弃了哪些内容"></a>6.新版本废弃了哪些内容</h3><ol>
+<li><p>删除了com.sun.awt.AWTUtilities类</p>
+</li>
+<li><p>从Oracle JDK中删除了Lucida字体<br>Oracle JDK不再提供任何字体，完全依赖于操作系统上安装的字体。</p>
+</li>
+<li><p>删除了appletviewer启动器</p>
+</li>
+</ol>
+<h3 id="7-Epsilon垃圾收集器"><a href="#7-Epsilon垃圾收集器" class="headerlink" title="7.Epsilon垃圾收集器"></a>7.Epsilon垃圾收集器</h3><p>JDK上对这个特性的描述是：开发一个处理内存分配但不实现任何实际内存回收机制的GC，一旦可用堆内存用完，JVM就会退出。</p>
+<p>我们可以来尝试着使用一下它，首先我们编写一段程序：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">public class EpsilonTest &#123;</span><br><span class="line">	public static void main(String[] args) throws Exception &#123;</span><br><span class="line">		var list = new ArrayList&lt;&gt;();</span><br><span class="line">		boolean flag = true;</span><br><span class="line">		int count = 0;</span><br><span class="line">		while (flag) &#123;</span><br><span class="line">			list.add(new Garbage());</span><br><span class="line">			if (count++ == 500) &#123;</span><br><span class="line">				list.clear();</span><br><span class="line">			&#125;</span><br><span class="line">		&#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line">class Garbage &#123;</span><br><span class="line">	private double d1 = 1;</span><br><span class="line">	private double d2 = 2;</span><br><span class="line">	/**</span><br><span class="line">	 * GC在清除本对象时会调用该方法</span><br><span class="line">	 */</span><br><span class="line">	@Override</span><br><span class="line">	protected void finalize() throws Throwable &#123;</span><br><span class="line">		System.out.println(this + &quot; collecting&quot;);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这是一个无限循环的程序，循环体不断创建Garbage对象并放入集合，当循环次数达到500时将集合清空，此时的500个对象均为垃圾，会被GC清理，清理时调用finalize()方法打印信息。运行这段程序，结果如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">com.itcast.Garbage@1e9c634c collecting</span><br><span class="line">java.lang.OutOfMemoryError: Java heap space</span><br><span class="line">	at com.itcast.EpsilonTest.main(EpsilonTest.java:11)</span><br><span class="line">com.itcast.Garbage@1174213e collecting</span><br><span class="line">com.itcast.Garbage@2029a4b8 collecting</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<p>当程序执行到某一刻时，内存溢出，程序终止。</p>
+<p>现在我们来使用一下Epsilon，右键选择类文件，在Run As右侧选择Run Configurations：</p>
+<p><img src="/images/Java11%E7%89%B9%E6%80%A7%E8%A7%A3%E8%AF%BB/1613958777815-39a85ede-2ade-450c-9bf6-784d6c70771e.png" alt="img"></p>
+<p>现在我们将默认的GC换为了Epsilon，再来看看运行结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Terminating due to java.lang.OutOfMemoryError: Java heap space</span><br></pre></td></tr></table></figure>
+
+<p>会发现，控制台只输出了这么一句，说明被清除的集合中的对象并没有被回收，而且内存溢出的速度也非常快，这说明该GC是并不会回收垃圾，那么它有什么作用呢？</p>
+<p>它提供完全被动的GC实现，具有有限的分配限制和尽可能低的延迟开销，但代价是内存占用和内存吞吐量，它的主要用途有以下几个方面：</p>
+<ul>
+<li><p><strong>性能测试(它可以帮助过滤掉GC引起的性能假象)</strong></p>
+</li>
+<li><p><strong>内存压力测试</strong></p>
+</li>
+<li><p><strong>非常短的JOB任务</strong></p>
+</li>
+<li><p><strong>VM接口测试</strong></p>
+</li>
+</ul>
+<h3 id="8-ZGC垃圾回收器"><a href="#8-ZGC垃圾回收器" class="headerlink" title="8. ZGC垃圾回收器"></a>8. ZGC垃圾回收器</h3><p>有人说这是JDK11最为瞩目的特性，没有之一，是最重磅的升级，那么ZGC的优势在哪里呢？</p>
+<ul>
+<li><p>GC暂停时间不会超过10毫秒</p>
+</li>
+<li><p>既能处理几百兆的小堆，也能处理几个T的大堆</p>
+</li>
+<li><p>和G1相比，应用吞吐能力不会下降超过15%</p>
+</li>
+<li><p>为未来的GC功能和利用colord指针以及Load barriers优化奠定了基础</p>
+</li>
+</ul>
+<p>ZGC是一个并发、基于region、压缩型的垃圾收集器，只有root扫描阶段会STW(strop the world，停止所有线程)，因此ZGC的停顿时间不会随着堆的增长和存活对象的增长而变长。</p>
+<p>用法：-XX:UnlockExperimentalVMOptions -XX:+UseZGC</p>
+<p>虽然功能如此强大，但很遗憾的是，在Windows系统的JDK中并没有提供ZGC，所以也就没有办法尝鲜了。</p>
+<h3 id="9-Flight-Recorder"><a href="#9-Flight-Recorder" class="headerlink" title="9.Flight Recorder"></a>9.Flight Recorder</h3><p>这是一个记录仪，用于诊断程序运行过程，那么在之前这是一个商业版的特性，是要收费的，从Java11开始，Fight Recorder免费提供使用并开源。它可以导出事件到文件中，之后可以用Java Mission Control来分析，也可以在应用启动时配置java -XX:StartFlightRecording或者在应用启动之后使用jcmd来录制，比如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ jcmd &lt;pid&gt; JFR.start</span><br><span class="line">$ jcmd &lt;pid&gt; JFR.dump filename=</span><br><span class="line">$ jcmd &lt;pid&gt; JFR.stop</span><br></pre></td></tr></table></figure>
+
+<h5 id="10-其它"><a href="#10-其它" class="headerlink" title="10. 其它"></a>10. 其它</h5><p>在Java11中，支持一个命令编译运行文件，在之前的版本中，我们要想运行一个Java程序，首先得用javac指令编译，然后用java指令运行。而在新版本中，我们直接使用java指令即可完成编译运行操作。</p>
+<p>在Unicode10版本中，增加了8518个字符，总计达到了136690个字符，这已经超出了char类型的数值范围，所以在Java11中，新增了CharacterData，使用四个字节来处理字符。</p>
+<p>那么有关Java11的新特性就介绍到这里。</p>
+<h3 id="11-代码"><a href="#11-代码" class="headerlink" title="11. 代码"></a>11. <a target="_blank" rel="noopener" href="https://gitee.com/DaoXuan/learn_java_11.git">代码</a></h3>
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/atom.xml">
+          <span class="icon">
+            <i class="fa fa-rss"></i>
+          </span>
+
+          <span class="label">RSS</span>
+        </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/JAVA/" rel="tag"># JAVA</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/10/30/Widows%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" rel="prev" title="Widows常用命令">
+                  <i class="fa fa-chevron-left"></i> Widows常用命令
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/10/30/JSR-303/" rel="next" title="JSR-303">
+                  JSR-303 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Alex</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">192k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">2:55</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+  <script class="next-config" data-name="pdf" type="application/json">{"object_url":{"url":"https://cdn.jsdelivr.net/npm/pdfobject@2.2.6/pdfobject.min.js","integrity":"sha256-77geM50MfxCD17eqyJR+Dag1svjJOLN+BJ2F/DMqMEY="},"url":"/lib/pdf/web/viewer.html"}</script>
+  <script src="/js/third-party/tags/pdf.js"></script>
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+</body>
+</html>

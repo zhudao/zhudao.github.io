@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"daoxuan.gitee.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":true,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<meta name="description" content="Java反编译">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Scala简介和安装">
+<meta property="og:url" content="https://daoxuan.gitee.io/blog/2021/10/29/Scala%E7%AE%80%E4%BB%8B%E5%92%8C%E5%AE%89%E8%A3%85/index.html">
+<meta property="og:site_name" content="知识博客">
+<meta property="og:description" content="Java反编译">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://daoxuan.gitee.io/images/Scala%E7%AE%80%E4%BB%8B%E5%92%8C%E5%AE%89%E8%A3%85/1609396504523-d825c4e2-8f43-4155-91e2-2b230b274949.png">
+<meta property="og:image" content="https://daoxuan.gitee.io/images/Scala%E7%AE%80%E4%BB%8B%E5%92%8C%E5%AE%89%E8%A3%85/1609396516718-0bdc6b2d-10dd-4cec-b5d2-f7ad22ac1468.png">
+<meta property="og:image" content="https://daoxuan.gitee.io/images/Scala%E7%AE%80%E4%BB%8B%E5%92%8C%E5%AE%89%E8%A3%85/1609396576979-2f77b6cb-0c1d-4e8d-af42-70f9597cb804.png">
+<meta property="og:image" content="https://daoxuan.gitee.io/images/Scala%E7%AE%80%E4%BB%8B%E5%92%8C%E5%AE%89%E8%A3%85/1609397336051-c701420d-4fb1-4582-887b-bf8dbb1aa82b.png">
+<meta property="og:image" content="https://daoxuan.gitee.io/images/Scala%E7%AE%80%E4%BB%8B%E5%92%8C%E5%AE%89%E8%A3%85/1609397518478-f7bee014-5dec-4dae-9600-8ec337d994e2.png">
+<meta property="og:image" content="https://daoxuan.gitee.io/images/Scala%E7%AE%80%E4%BB%8B%E5%92%8C%E5%AE%89%E8%A3%85/1609397548024-93160ff3-3ebe-45dd-97c1-04b5f127305c.png">
+<meta property="og:image" content="https://daoxuan.gitee.io/images/Scala%E7%AE%80%E4%BB%8B%E5%92%8C%E5%AE%89%E8%A3%85/1609397617785-fe83c801-eeda-4c39-ad66-c4e9d32d94be.png">
+<meta property="og:image" content="https://daoxuan.gitee.io/images/Scala%E7%AE%80%E4%BB%8B%E5%92%8C%E5%AE%89%E8%A3%85/1609397646740-f3c3af5a-503a-49d9-9ae9-0f3d9845a516.png">
+<meta property="og:image" content="https://daoxuan.gitee.io/images/Scala%E7%AE%80%E4%BB%8B%E5%92%8C%E5%AE%89%E8%A3%85/1609397655936-51295eb6-456a-4def-b3d8-14d0c2d6deca.png">
+<meta property="og:image" content="https://daoxuan.gitee.io/images/Scala%E7%AE%80%E4%BB%8B%E5%92%8C%E5%AE%89%E8%A3%85/1609399254822-4aa89736-9029-43d7-8b0c-7b7667f89bb7.png">
+<meta property="og:image" content="https://daoxuan.gitee.io/images/Scala%E7%AE%80%E4%BB%8B%E5%92%8C%E5%AE%89%E8%A3%85/1609399355819-7f5ebac3-5933-4d15-b771-a180f2dd0092.png">
+<meta property="og:image" content="https://daoxuan.gitee.io/images/Scala%E7%AE%80%E4%BB%8B%E5%92%8C%E5%AE%89%E8%A3%85/1609399444762-56a13827-40cb-4aed-b4e4-d00648d4d653.png">
+<meta property="og:image" content="https://daoxuan.gitee.io/images/Scala%E7%AE%80%E4%BB%8B%E5%92%8C%E5%AE%89%E8%A3%85/1609399666507-f07cd1d2-7e21-41b9-a93a-fb8574fdac9e.png">
+<meta property="og:image" content="https://daoxuan.gitee.io/images/Scala%E7%AE%80%E4%BB%8B%E5%92%8C%E5%AE%89%E8%A3%85/1609399714358-d7a6f088-6624-4311-8d4e-ac648d3d0986.png">
+<meta property="article:published_time" content="2021-10-29T09:17:26.000Z">
+<meta property="article:modified_time" content="2021-10-30T23:50:52.422Z">
+<meta property="article:author" content="Alex">
+<meta property="article:tag" content="Scala">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://daoxuan.gitee.io/images/Scala%E7%AE%80%E4%BB%8B%E5%92%8C%E5%AE%89%E8%A3%85/1609396504523-d825c4e2-8f43-4155-91e2-2b230b274949.png">
+
+
+<link rel="canonical" href="https://daoxuan.gitee.io/blog/2021/10/29/Scala%E7%AE%80%E4%BB%8B%E5%92%8C%E5%AE%89%E8%A3%85/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://daoxuan.gitee.io/blog/2021/10/29/Scala%E7%AE%80%E4%BB%8B%E5%92%8C%E5%AE%89%E8%A3%85/","path":"2021/10/29/Scala简介和安装/","title":"Scala简介和安装"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Scala简介和安装 | 知识博客</title>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="知识博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">知识博客</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">知识博客</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Scala%E7%AE%80%E4%BB%8B%E5%92%8C%E5%AE%89%E8%A3%85"><span class="nav-number">1.</span> <span class="nav-text">Scala简介和安装</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E2%80%94%E2%80%94%E2%80%94-%E7%9B%AE%E5%BD%95%E2%80%94%E2%80%94%E2%80%94%E2%80%94%E2%80%94%E2%80%94%E2%80%94%E2%80%94%E2%80%94%E2%80%94%E2%80%94%E2%80%94%E2%80%94%E2%80%94%E2%80%94%E2%80%94%E2%80%94%E2%80%94%E2%80%94"><span class="nav-number">2.</span> <span class="nav-text">———-目录———————————————————</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E4%BB%8B%E7%BB%8D"><span class="nav-number">3.</span> <span class="nav-text">一、介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1%E3%80%81%E5%AE%98%E6%96%B9%E8%AF%B4%E6%98%8E"><span class="nav-number">3.1.</span> <span class="nav-text">1、官方说明</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2%E3%80%81%E4%BD%9C%E8%80%85%E4%BB%8B%E7%BB%8D"><span class="nav-number">3.2.</span> <span class="nav-text">2、作者介绍</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3%E3%80%81Scala%E8%AF%AD%E8%A8%80%E7%9A%84%E7%89%B9%E7%82%B9"><span class="nav-number">3.3.</span> <span class="nav-text">3、Scala语言的特点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#4%E3%80%81scala%E7%BC%96%E7%A8%8B%E7%A4%BA%E4%BE%8B"><span class="nav-number">3.4.</span> <span class="nav-text">4、scala编程示例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5%E3%80%81%E4%BD%9C%E8%80%85%E7%AE%B4%E8%A8%80"><span class="nav-number">3.5.</span> <span class="nav-text">5、作者箴言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6%E3%80%81Scala%E8%AF%AD%E8%A8%80%E7%9A%84%E5%BA%94%E7%94%A8"><span class="nav-number">3.6.</span> <span class="nav-text">6、Scala语言的应用</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E8%BF%90%E8%A1%8C%E9%85%8D%E7%BD%AE%E5%8F%8A%E4%BD%BF%E7%94%A8"><span class="nav-number">4.</span> <span class="nav-text">二、运行配置及使用</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#1%E3%80%81Scala-Windows"><span class="nav-number">4.1.</span> <span class="nav-text">1、Scala Windows</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1%EF%BC%8E%E5%AE%89%E8%A3%85%E6%AD%A5%E9%AA%A4"><span class="nav-number">4.1.1.</span> <span class="nav-text">1．安装步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-zip%E5%AE%89%E8%A3%85"><span class="nav-number">4.1.1.1.</span> <span class="nav-text">1. zip安装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E6%B7%BB%E5%8A%A0%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F"><span class="nav-number">4.1.1.2.</span> <span class="nav-text">2.添加环境变量</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2%EF%BC%8E%E4%BD%BF%E7%94%A8"><span class="nav-number">4.1.2.</span> <span class="nav-text">2．使用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-%E9%80%9A%E8%BF%87cmd"><span class="nav-number">4.1.2.1.</span> <span class="nav-text">1.通过cmd</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-%E4%BA%A4%E4%BA%92%E6%A8%A1%E5%BC%8F"><span class="nav-number">4.1.2.2.</span> <span class="nav-text">2.交互模式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-%E7%BC%96%E8%AF%91%E6%A8%A1%E5%BC%8F"><span class="nav-number">4.1.2.3.</span> <span class="nav-text">3.编译模式</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2%E3%80%81%E4%BD%BF%E7%94%A8IDEA%E5%BC%80%E5%8F%91"><span class="nav-number">4.2.</span> <span class="nav-text">2、使用IDEA开发</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1%EF%BC%8E%E5%AE%89%E8%A3%85%E6%8F%92%E4%BB%B6-scala"><span class="nav-number">4.2.1.</span> <span class="nav-text">1．安装插件 scala</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E9%85%8D%E7%BD%AEScala-SDK"><span class="nav-number">4.2.2.</span> <span class="nav-text">2.  配置Scala SDK</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2%EF%BC%8E%E4%BD%BF%E7%94%A8-1"><span class="nav-number">4.2.3.</span> <span class="nav-text">2．使用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-gt-%E5%88%9B%E5%BB%BA%E9%A1%B9%E7%9B%AE"><span class="nav-number">4.2.3.1.</span> <span class="nav-text">1&gt;创建项目</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-gt-%E5%88%9B%E5%BB%BA%E5%AF%B9%E8%B1%A1"><span class="nav-number">4.2.3.2.</span> <span class="nav-text">2&gt;创建对象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-gt-%E8%BF%90%E8%A1%8C"><span class="nav-number">4.2.3.3.</span> <span class="nav-text">4&gt;运行</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%95%99%E7%A8%8B"><span class="nav-number">4.3.</span> <span class="nav-text">教程</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Alex</p>
+  <div class="site-description" itemprop="description">记录生活工作中有趣的知识</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">75</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">54</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">46</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+        <div class="back-to-top animated" role="button" aria-label="返回顶部">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://daoxuan.gitee.io/blog/2021/10/29/Scala%E7%AE%80%E4%BB%8B%E5%92%8C%E5%AE%89%E8%A3%85/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Alex">
+      <meta itemprop="description" content="记录生活工作中有趣的知识">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="知识博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Scala简介和安装
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-10-29 17:17:26" itemprop="dateCreated datePublished" datetime="2021-10-29T17:17:26+08:00">2021-10-29</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-10-31 07:50:52" itemprop="dateModified" datetime="2021-10-31T07:50:52+08:00">2021-10-31</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Scala/" itemprop="url" rel="index"><span itemprop="name">Scala</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>3.4k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>3 分钟</span>
+    </span>
+</div>
+
+            <div class="post-description">Java反编译</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><h1 id="Scala简介和安装"><a href="#Scala简介和安装" class="headerlink" title="Scala简介和安装"></a>Scala简介和安装</h1><p>  本篇文章为大家介绍以下Scala和Scala的安装以及IDE（eclipse）的使用，虽然这个基本环境没有什么技术含量，但是基本环境做不好，往后探讨再高深的东西，都是白扯，这里的所有Scala使用都是在window环境下的。</p>
+<h1 id="———-目录———————————————————"><a href="#———-目录———————————————————" class="headerlink" title="———-目录———————————————————"></a>———-目录———————————————————</h1><p>1.Scala简介和安装</p>
+<p>2.Scala语法介绍</p>
+<p>3.Scala的函数</p>
+<p>4.Scala中的集合类型</p>
+<p>-————————————————————————————————————</p>
+<h1 id="一、介绍"><a href="#一、介绍" class="headerlink" title="一、介绍"></a>一、<strong>介绍</strong></h1><h2 id="1、官方说明"><a href="#1、官方说明" class="headerlink" title="1、官方说明"></a>1、<strong>官方说明</strong></h2><p>  <a target="_blank" rel="noopener" href="http://www.scala-lang.org/"> 官方网址</a></p>
+<p>  官网对scala的介绍：</p>
+<p><img src="/images/Scala%E7%AE%80%E4%BB%8B%E5%92%8C%E5%AE%89%E8%A3%85/1609396504523-d825c4e2-8f43-4155-91e2-2b230b274949.png" alt="img"></p>
+<p>  Scala既是面向对象的语言，也是面向函数的语言。scala可以为你在做大量代码重用和扩展是提供优雅的层次结构，并可以通过高阶函数来实现这样的目标。（高阶函数是函数式编程里的特性之一，允许函数作为参数传递，也允许函数作为返回值来返回）。</p>
+<h2 id="2、作者介绍"><a href="#2、作者介绍" class="headerlink" title="2、作者介绍"></a>2、<strong>作者介绍</strong></h2><p>  Scala创始人Martin Odersky马丁·奥德斯基。</p>
+<p><img src="/images/Scala%E7%AE%80%E4%BB%8B%E5%92%8C%E5%AE%89%E8%A3%85/1609396516718-0bdc6b2d-10dd-4cec-b5d2-f7ad22ac1468.png" alt="img"></p>
+<p>   Martin是EPFL（瑞士领先的技术大学，洛桑联邦理工学院）编程研究组的教授。他在整个职业生涯中一直不断追求着一个目标：让写程序这样一个基础工作变得高效、简单、且令人愉悦。</p>
+<p>  他可能比世界上任何一个人写过更多的Java和Scala代码。他编写了javac，这是目前大部分Java程序员所使用的编译器。他也编写了Scala编译器scalac，可谓是Scala社区飞速发展的基石。他著有《Programming in Scala》一书，是最畅销的Scala书籍。他曾经就职于IBM研究院、耶鲁大学、卡尔斯鲁厄大学以及南澳大利亚大学。在此之前，他在瑞士苏黎世联邦理工学院追随Pascal创始人Niklaus Wirth学习，并于1989年获得博士学位。</p>
+<p>  对于scala这门语言，有人把它当做Java的延伸版，有人把它当做JVM上的C++，有人觉得这是面向对象语言和面向函数语言的简单混合，有人觉得这就是Haskell，而且也还不如Haskell强。（纯的面向函数式编程语言）</p>
+<p>  下图Martin Odersky马丁·奥德斯基（Scala的发明者，EPFL教授）在2016年夏天的Scala Day旧金山大会上发出了这张著名的玩笑照片：</p>
+<p><img src="/images/Scala%E7%AE%80%E4%BB%8B%E5%92%8C%E5%AE%89%E8%A3%85/1609396576979-2f77b6cb-0c1d-4e8d-af42-70f9597cb804.png" alt="img"></p>
+<p>  这个图片上的翻译是：“Scala唯一的作用是将人引向Haskell”。马丁·奥德斯基以此作为一个笑话，说他该把Scala改一下名字，叫做Hascalator，还请人设计了一个Logo。</p>
+<h2 id="3、Scala语言的特点"><a href="#3、Scala语言的特点" class="headerlink" title="3、Scala语言的特点"></a>3、<strong>Scala语言的特点</strong></h2><p>  Scala并不适于编程的初级课程。相反，它是为专业程序员定制的强力语言。</p>
+<p>  1）它是一门现代编程语言，作者是Martin Odersky（javac之父），受到Java、Ruby、Smalltalk、ML、Haskell、Erlang等语言的影响。</p>
+<p>  2）它即是一门面向对象（OOP）语言，每个变量都是一个对象，每个“操作符”都是方法。它同时也是一门函数式编程（<strong>FP）语言</strong>，可以将函数作为参数传递。你可以用OOP、FP，或者两者结合的方式编写代码。</p>
+<p>  3）Scala代码通过scalac编译成.class文件，然后在JVM上运行，可以无缝使用已有的丰富的Java类库。即Scala的代码会编译成字节码，运行在Java虚拟机（JVM）上。</p>
+<p>  4）接触语言的第一天你就能编出有趣的程序，但是这门语言很深奥，随着学习的深入，你会发现更新、更好的编写代码的方式。Scala会改变你对编程的看法。针对同一任务，可以有很多种不同的实现方式，并且可读性以及性能都有不一样的体现。</p>
+<h2 id="4、scala编程示例"><a href="#4、scala编程示例" class="headerlink" title="4、scala编程示例"></a>4、<strong>scala编程示例</strong></h2><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Array(1,2,3,4)</span><br></pre></td></tr></table></figure>
+
+<p>  如何遍历数组中的元素，你应该这么做：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">for(i&lt;-Array(1,2,3,4))println(i)</span><br><span class="line">Array(1,2,3,4).foreach&#123;print(_)&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>  如果尝试将这些元素转换为新的集合，应该使用for/yield表达式或者map方法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">for(i&lt;-Array(1,2,3))yield i*2</span><br><span class="line">//&gt; res4: Array[Int] = Array(2, 4, 6)</span><br><span class="line">Array(1,2,3).map(_*2)</span><br><span class="line">//&gt; res5: Array[Int] = Array(2, 4, 6)</span><br></pre></td></tr></table></figure>
+
+<p>  比如过滤出一个集合中元素小于4的集合，你可以使用filter方法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">val nums=List(1,2,3,4).filter(_&lt;4)</span><br><span class="line">//&gt; nums  : List[Int] = List(1, 2, 3)</span><br></pre></td></tr></table></figure>
+
+<h2 id="5、作者箴言"><a href="#5、作者箴言" class="headerlink" title="5、作者箴言"></a>5、<strong>作者箴言</strong></h2><p>  Scala相较于Java而言，则是相信程序员的优化能力。马丁·奥德斯基说：“很多程序员会告诉我，他们一般会重构他们的Scala代码两三次，甚至三四次。”这听起来似乎非常的没有效率，但Scala就是这样的语言，每一次重构，代码的性能或者是可读性都会有极高的提升。</p>
+<p>  Scala不把程序员当傻子。马丁·奥德斯基对于scalca的定位很清楚：“Scala现在是为聪明人创造的，以后也是为聪明人服务的。”</p>
+<p>  Scala提供一整套工具，让程序员自由选择，无论是mutable数据结构，immutable数据结构，并行（parallel）数据结构。然后在这些选择中，Scala再针对他们进行算法层面的特殊优化。Scala相信程序员的聪明才智，让程序员自行选择合适的结构，以针对变化万千的任务需求，这点是Scala做得极好的地方。</p>
+<p>  <strong>scala不是一门纯的函数式编程语言</strong>，所以有别纯函数式语言的区别之一是：scala提供变量和常量，而纯函数式编程语言是没有变量这概念的。</p>
+<p>  之前就有人提到过，Scala新手和老手写出来的代码完全会呈现两种不同的风格，甚至新人根本不能读懂有经验的Scala程序员所写的代码，有人于是戏称：“太好了，这样的话我们部门的实习生就不能乱碰我写的代码啦！”但其实不仅风格不同，执行效率差距也一定是巨大的。</p>
+<h2 id="6、Scala语言的应用"><a href="#6、Scala语言的应用" class="headerlink" title="6、Scala语言的应用"></a>6、<strong>Scala语言的应用</strong></h2><p>  kafka：分布式<a target="_blank" rel="noopener" href="https://cloud.tencent.com/product/cmq?from=10680">消息队列</a>，内部代码经常用来处理并发的问题，用scala可以大大简化其代码。</p>
+<p>  spark：处理多线程场景方便，另外spark主要用作内存计算，经常要用来实现复杂的算法。利用scala这种函数式编程语言可以大大简化代码。</p>
+<p>  注：本文仅列举一部分。</p>
+<h1 id="二、运行配置及使用"><a href="#二、运行配置及使用" class="headerlink" title="二、运行配置及使用"></a>二、<strong>运行配置及使用</strong></h1><h2 id="1、Scala-Windows"><a href="#1、Scala-Windows" class="headerlink" title="1、Scala Windows"></a>1、<strong>Scala Windows</strong></h2><h3 id="1．安装步骤"><a href="#1．安装步骤" class="headerlink" title="1．安装步骤"></a>1．<strong>安装步骤</strong></h3><p>  安装Scala的前提必须已经安装好了JDK，JDK的安装不做赘述。这里需要1.7版本及以上的。</p>
+<h4 id="1-zip安装"><a href="#1-zip安装" class="headerlink" title="1. zip安装"></a>1. <strong>zip安装</strong></h4><p> 到<a target="_blank" rel="noopener" href="https://www.scala-lang.org/download/">官网下载</a>如下图的安装包即可。</p>
+<p><img src="/images/Scala%E7%AE%80%E4%BB%8B%E5%92%8C%E5%AE%89%E8%A3%85/1609397336051-c701420d-4fb1-4582-887b-bf8dbb1aa82b.png" alt="img"></p>
+<h4 id="2-添加环境变量"><a href="#2-添加环境变量" class="headerlink" title="2.添加环境变量"></a>2.<strong>添加环境变量</strong></h4><p>环境变量 path 添加  “D:\Software\scala-2.13.4\bin”</p>
+<h3 id="2．使用"><a href="#2．使用" class="headerlink" title="2．使用"></a>2．<strong>使用</strong></h3><p> Scala基本是基于Java的，所有的使用的方法基本和Java相同，差别就在与一些命令不同，如下：</p>
+<h4 id="1-通过cmd"><a href="#1-通过cmd" class="headerlink" title="1.通过cmd"></a>1.<strong>通过cmd</strong></h4><p>  通过cmd命令窗口，输入scala，查看Scala的版本信息，和Java的java -version一样的功能。如下图：</p>
+<p><img src="/images/Scala%E7%AE%80%E4%BB%8B%E5%92%8C%E5%AE%89%E8%A3%85/1609397518478-f7bee014-5dec-4dae-9600-8ec337d994e2.png" alt="img"></p>
+<h4 id="2-交互模式"><a href="#2-交互模式" class="headerlink" title="2.交互模式"></a>2.交互模式</h4><p>  可以通过命令行直接输入scala命令，如下为打印字符到控制台：</p>
+<p><img src="/images/Scala%E7%AE%80%E4%BB%8B%E5%92%8C%E5%AE%89%E8%A3%85/1609397548024-93160ff3-3ebe-45dd-97c1-04b5f127305c.png" alt="img"></p>
+<h4 id="3-编译模式"><a href="#3-编译模式" class="headerlink" title="3.编译模式"></a>3.编译模式</h4><p>  也可以先编写***.scala文件，通过执行文件来执行命令，比如：</p>
+<p>  先在e盘下创建一个hello.scala文件，文件中写入如下内容：</p>
+<p>print(“hello scala”);</p>
+<p>  然后通过cmd执行：</p>
+<p><img src="/images/Scala%E7%AE%80%E4%BB%8B%E5%92%8C%E5%AE%89%E8%A3%85/1609397617785-fe83c801-eeda-4c39-ad66-c4e9d32d94be.png" alt="img"></p>
+<p>  也可以先生成.scala文件，再编译生成.class文件，再执行。</p>
+<p>  在e盘下，创建Person.scala文件，内容如下:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">object Person&#123;</span><br><span class="line">  def main(args: Array[String]): Unit = &#123;</span><br><span class="line">    println(&quot;hello scala hello world~&quot;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+
+<p>​     在e盘路径下进入cmd命令窗口，然后执行：scalac Person.scala</p>
+<p>​    执行完后会发现在e盘下多出了对应的class文件。</p>
+<p><img src="/images/Scala%E7%AE%80%E4%BB%8B%E5%92%8C%E5%AE%89%E8%A3%85/1609397646740-f3c3af5a-503a-49d9-9ae9-0f3d9845a516.png" alt="img"></p>
+<p>​     调用执行：scala Person</p>
+<p><img src="/images/Scala%E7%AE%80%E4%BB%8B%E5%92%8C%E5%AE%89%E8%A3%85/1609397655936-51295eb6-456a-4def-b3d8-14d0c2d6deca.png" alt="img"></p>
+<p>​    看到这里你就会发现，Scala和Java的共通之处了。</p>
+<h2 id="2、使用IDEA开发"><a href="#2、使用IDEA开发" class="headerlink" title="2、使用IDEA开发"></a>2、<strong>使用IDEA开发</strong></h2><h3 id="1．安装插件-scala"><a href="#1．安装插件-scala" class="headerlink" title="1．安装插件 scala"></a>1．<strong>安装插件 scala</strong></h3><h3 id="2-配置Scala-SDK"><a href="#2-配置Scala-SDK" class="headerlink" title="2.  配置Scala SDK"></a>2.  配置Scala SDK</h3><p>全局配置 scala 的SDK</p>
+<p><img src="/images/Scala%E7%AE%80%E4%BB%8B%E5%92%8C%E5%AE%89%E8%A3%85/1609399254822-4aa89736-9029-43d7-8b0c-7b7667f89bb7.png" alt="img"></p>
+<h3 id="2．使用-1"><a href="#2．使用-1" class="headerlink" title="2．使用"></a>2．<strong>使用</strong></h3><h4 id="1-gt-创建项目"><a href="#1-gt-创建项目" class="headerlink" title="1&gt;创建项目"></a>1&gt;<strong>创建项目</strong></h4><p>  创建scala project，如下图：</p>
+<p><img src="/images/Scala%E7%AE%80%E4%BB%8B%E5%92%8C%E5%AE%89%E8%A3%85/1609399355819-7f5ebac3-5933-4d15-b771-a180f2dd0092.png" alt="img"></p>
+<p><img src="/images/Scala%E7%AE%80%E4%BB%8B%E5%92%8C%E5%AE%89%E8%A3%85/1609399444762-56a13827-40cb-4aed-b4e4-d00648d4d653.png" alt="img"></p>
+<h4 id="2-gt-创建对象"><a href="#2-gt-创建对象" class="headerlink" title="2&gt;创建对象"></a>2&gt;<strong>创建对象</strong></h4><p>工程创建完毕后，创建scala object，如下图：</p>
+<p><img src="/images/Scala%E7%AE%80%E4%BB%8B%E5%92%8C%E5%AE%89%E8%A3%85/1609399666507-f07cd1d2-7e21-41b9-a93a-fb8574fdac9e.png" alt="img"></p>
+<h4 id="4-gt-运行"><a href="#4-gt-运行" class="headerlink" title="4&gt;运行"></a>4&gt;<strong>运行</strong></h4><p>运行得到结果。</p>
+<p><img src="/images/Scala%E7%AE%80%E4%BB%8B%E5%92%8C%E5%AE%89%E8%A3%85/1609399714358-d7a6f088-6624-4311-8d4e-ac648d3d0986.png" alt="img"></p>
+<h2 id="教程"><a href="#教程" class="headerlink" title="教程"></a>教程</h2><p>1.<a target="_blank" rel="noopener" href="https://study.163.com/course/introduction.htm?courseId=1005031005&_trace_c_p_k2_=7245c4ceb5e84f0fb21fb3740fcd76cf">教程</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/atom.xml">
+          <span class="icon">
+            <i class="fa fa-rss"></i>
+          </span>
+
+          <span class="label">RSS</span>
+        </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/Scala/" rel="tag"># Scala</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/10/29/%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4-Ubuntu/" rel="prev" title="常用命令">
+                  <i class="fa fa-chevron-left"></i> 常用命令
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/10/29/Portainer%E5%AE%89%E8%A3%85/" rel="next" title="Portainer安装">
+                  Portainer安装 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Alex</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">192k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">2:55</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+  <script class="next-config" data-name="pdf" type="application/json">{"object_url":{"url":"https://cdn.jsdelivr.net/npm/pdfobject@2.2.6/pdfobject.min.js","integrity":"sha256-77geM50MfxCD17eqyJR+Dag1svjJOLN+BJ2F/DMqMEY="},"url":"/lib/pdf/web/viewer.html"}</script>
+  <script src="/js/third-party/tags/pdf.js"></script>
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+</body>
+</html>

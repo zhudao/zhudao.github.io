@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"daoxuan.gitee.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":true,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<meta name="description" content="PostGIS--第四节、教程数据说明">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PostGIS--第四节、教程数据说明">
+<meta property="og:url" content="https://daoxuan.gitee.io/blog/2021/10/31/PostGIS--%E7%AC%AC%E5%9B%9B%E8%8A%82%E3%80%81%E6%95%99%E7%A8%8B%E6%95%B0%E6%8D%AE%E8%AF%B4%E6%98%8E/index.html">
+<meta property="og:site_name" content="知识博客">
+<meta property="og:description" content="PostGIS--第四节、教程数据说明">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://daoxuan.gitee.io/images/PostGIS--%E7%AC%AC%E5%9B%9B%E8%8A%82%E3%80%81%E6%95%99%E7%A8%8B%E6%95%B0%E6%8D%AE%E8%AF%B4%E6%98%8E/1609140711932-82166abf-2704-46d8-8add-451ce30381da.jpeg">
+<meta property="og:image" content="https://daoxuan.gitee.io/images/PostGIS--%E7%AC%AC%E5%9B%9B%E8%8A%82%E3%80%81%E6%95%99%E7%A8%8B%E6%95%B0%E6%8D%AE%E8%AF%B4%E6%98%8E/1609140711961-4e7281d2-98d2-41e4-9c48-df7e7736a2f8.jpeg">
+<meta property="og:image" content="https://daoxuan.gitee.io/images/PostGIS--%E7%AC%AC%E5%9B%9B%E8%8A%82%E3%80%81%E6%95%99%E7%A8%8B%E6%95%B0%E6%8D%AE%E8%AF%B4%E6%98%8E/1609140711881-ddbf6b4c-6acd-4187-b095-3545d081ff14.png">
+<meta property="og:image" content="https://daoxuan.gitee.io/images/PostGIS--%E7%AC%AC%E5%9B%9B%E8%8A%82%E3%80%81%E6%95%99%E7%A8%8B%E6%95%B0%E6%8D%AE%E8%AF%B4%E6%98%8E/1609140711927-f06fb28c-6698-451f-9ee6-e2a7c59f2ea6.jpeg">
+<meta property="og:image" content="https://daoxuan.gitee.io/images/PostGIS--%E7%AC%AC%E5%9B%9B%E8%8A%82%E3%80%81%E6%95%99%E7%A8%8B%E6%95%B0%E6%8D%AE%E8%AF%B4%E6%98%8E/1609140711836-e79a6f73-518e-4b60-8e40-33615a33ce91.jpeg">
+<meta property="og:image" content="https://daoxuan.gitee.io/images/PostGIS--%E7%AC%AC%E5%9B%9B%E8%8A%82%E3%80%81%E6%95%99%E7%A8%8B%E6%95%B0%E6%8D%AE%E8%AF%B4%E6%98%8E/1609140711904-7046e5fc-6c36-4926-b60f-1b6d92ccc288.jpeg">
+<meta property="og:image" content="https://daoxuan.gitee.io/images/PostGIS--%E7%AC%AC%E5%9B%9B%E8%8A%82%E3%80%81%E6%95%99%E7%A8%8B%E6%95%B0%E6%8D%AE%E8%AF%B4%E6%98%8E/1609140711975-5f199bf7-b0f8-4205-8de4-9b4f907921f6.jpeg">
+<meta property="og:image" content="https://daoxuan.gitee.io/images/PostGIS--%E7%AC%AC%E5%9B%9B%E8%8A%82%E3%80%81%E6%95%99%E7%A8%8B%E6%95%B0%E6%8D%AE%E8%AF%B4%E6%98%8E/1609140711970-c9d85486-5506-47a7-a0bb-223d63e4bd01.jpeg">
+<meta property="og:image" content="https://daoxuan.gitee.io/images/PostGIS--%E7%AC%AC%E5%9B%9B%E8%8A%82%E3%80%81%E6%95%99%E7%A8%8B%E6%95%B0%E6%8D%AE%E8%AF%B4%E6%98%8E/1609140711963-012a877c-b92f-4ef3-a192-ea4862e58956.jpeg">
+<meta property="article:published_time" content="2021-10-31T14:12:09.000Z">
+<meta property="article:modified_time" content="2021-10-31T14:16:56.839Z">
+<meta property="article:author" content="Alex">
+<meta property="article:tag" content="PostSQL">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://daoxuan.gitee.io/images/PostGIS--%E7%AC%AC%E5%9B%9B%E8%8A%82%E3%80%81%E6%95%99%E7%A8%8B%E6%95%B0%E6%8D%AE%E8%AF%B4%E6%98%8E/1609140711932-82166abf-2704-46d8-8add-451ce30381da.jpeg">
+
+
+<link rel="canonical" href="https://daoxuan.gitee.io/blog/2021/10/31/PostGIS--%E7%AC%AC%E5%9B%9B%E8%8A%82%E3%80%81%E6%95%99%E7%A8%8B%E6%95%B0%E6%8D%AE%E8%AF%B4%E6%98%8E/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://daoxuan.gitee.io/blog/2021/10/31/PostGIS--%E7%AC%AC%E5%9B%9B%E8%8A%82%E3%80%81%E6%95%99%E7%A8%8B%E6%95%B0%E6%8D%AE%E8%AF%B4%E6%98%8E/","path":"2021/10/31/PostGIS--第四节、教程数据说明/","title":"PostGIS--第四节、教程数据说明"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>PostGIS--第四节、教程数据说明 | 知识博客</title>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="知识博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">知识博客</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">知识博客</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81nyc-census-blocks"><span class="nav-number">1.</span> <span class="nav-text">一、nyc_census_blocks</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81nyc-neighborhoods"><span class="nav-number">2.</span> <span class="nav-text">二、nyc_neighborhoods</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81nyc-streets"><span class="nav-number">3.</span> <span class="nav-text">三、nyc_streets</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81nyc-subway-stations"><span class="nav-number">4.</span> <span class="nav-text">四、nyc_subway_stations</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%94%E3%80%81nyc-census-sociodata"><span class="nav-number">5.</span> <span class="nav-text">五、nyc_census_sociodata</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">6.</span> <span class="nav-text">参考</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Alex</p>
+  <div class="site-description" itemprop="description">记录生活工作中有趣的知识</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">75</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">54</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">46</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+        <div class="back-to-top animated" role="button" aria-label="返回顶部">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://daoxuan.gitee.io/blog/2021/10/31/PostGIS--%E7%AC%AC%E5%9B%9B%E8%8A%82%E3%80%81%E6%95%99%E7%A8%8B%E6%95%B0%E6%8D%AE%E8%AF%B4%E6%98%8E/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Alex">
+      <meta itemprop="description" content="记录生活工作中有趣的知识">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="知识博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          PostGIS--第四节、教程数据说明
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2021-10-31 22:12:09 / 修改时间：22:16:56" itemprop="dateCreated datePublished" datetime="2021-10-31T22:12:09+08:00">2021-10-31</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/DB/" itemprop="url" rel="index"><span itemprop="name">DB</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/DB/PostSQL/" itemprop="url" rel="index"><span itemprop="name">PostSQL</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>1.3k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>1 分钟</span>
+    </span>
+</div>
+
+            <div class="post-description">PostGIS--第四节、教程数据说明</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>教程的数据是有关纽约市的四个shapefile文件和一个包含社会人口经济数据的数据表。在前面一节我们已经将shapefile加载为PostGIS表，在后面我们将添加社会人口经济数据。</p>
+<p>下面描述了每个数据集的记录数量和表属性。这些属性值和关系是我们以后分析的基础。</p>
+<p>要在pgAdmin中浏览表的性质或属性，请在高亮显示的表上单击鼠标右键，然后选择属性（property）。</p>
+<h2 id="一、nyc-census-blocks"><a href="#一、nyc-census-blocks" class="headerlink" title="一、nyc_census_blocks"></a>一、nyc_census_blocks</h2><p>人口普查块（census block）是报告人口普查数据的最小地理单位。</p>
+<p>所有更高级别的人口普查的地理单位（块组-block groups、区域-tracts、市区-metro areas、县-counties等）都可以通过对人口普查块的联合（Union）而建立起来。</p>
+<p>我们已经附加了一些人口统计数据到我们的nyc_census_blocks表里。</p>
+<p>记录的数目：36592</p>
+<p><img src="/images/PostGIS--%E7%AC%AC%E5%9B%9B%E8%8A%82%E3%80%81%E6%95%99%E7%A8%8B%E6%95%B0%E6%8D%AE%E8%AF%B4%E6%98%8E/1609140711932-82166abf-2704-46d8-8add-451ce30381da.jpeg" alt="img"></p>
+<p>nyc_census_blocks表的属性列描述</p>
+<p><img src="/images/PostGIS--%E7%AC%AC%E5%9B%9B%E8%8A%82%E3%80%81%E6%95%99%E7%A8%8B%E6%95%B0%E6%8D%AE%E8%AF%B4%E6%98%8E/1609140711961-4e7281d2-98d2-41e4-9c48-df7e7736a2f8.jpeg" alt="img"></p>
+<p>纽约市黑人人口占总人口的百分比</p>
+<p>注意：要制作这样的GIS数据，需要连接两部分信息：实际社会人口数据（text）和几何信息数据（spatial）。获取数据的方法很多，比如可以从美国人口普查局的<a href="https://link.zhihu.com/?target=http://factfinder.census.gov/">American FactFinder</a>下载数据。</p>
+<h2 id="二、nyc-neighborhoods"><a href="#二、nyc-neighborhoods" class="headerlink" title="二、nyc_neighborhoods"></a>二、nyc_neighborhoods</h2><p>纽约有丰富的社区名称和社区范围变更的历史。社区是不遵循政府规定的界限的的社会地理结构。</p>
+<p>例如，布鲁克林区（Brooklyn）的卡罗尔花园（Carroll Gardens）、红钩区（Red Hook）和克布尔山（Cobble Hill）曾被统称为“南布鲁克林（South Brooklyn）”。</p>
+<p>而现在，以前被同时称为红钩的四个街区现在可以被分别称为哥伦比亚高地（Columbia Heights）、西卡罗尔花园（Carroll Gardens）或红钩（Red Hook）。</p>
+<p>记录数目：129</p>
+<p><img src="/images/PostGIS--%E7%AC%AC%E5%9B%9B%E8%8A%82%E3%80%81%E6%95%99%E7%A8%8B%E6%95%B0%E6%8D%AE%E8%AF%B4%E6%98%8E/1609140711881-ddbf6b4c-6acd-4187-b095-3545d081ff14.png" alt="img"></p>
+<p>nyc_neighborhoods表的属性列描述</p>
+<p><img src="/images/PostGIS--%E7%AC%AC%E5%9B%9B%E8%8A%82%E3%80%81%E6%95%99%E7%A8%8B%E6%95%B0%E6%8D%AE%E8%AF%B4%E6%98%8E/1609140711927-f06fb28c-6698-451f-9ee6-e2a7c59f2ea6.jpeg" alt="img"></p>
+<p>纽约市的街区分布</p>
+<h2 id="三、nyc-streets"><a href="#三、nyc-streets" class="headerlink" title="三、nyc_streets"></a>三、nyc_streets</h2><p>街道线构成了这个城市的交通网络。为了区分主干道、高速公路和较小的街道，这些街道被标记为不同的类型（type）。适宜居住的地方可能位于住宅区街道附近，而不是在高速公路旁。</p>
+<p>记录数量：19091</p>
+<p><img src="/images/PostGIS--%E7%AC%AC%E5%9B%9B%E8%8A%82%E3%80%81%E6%95%99%E7%A8%8B%E6%95%B0%E6%8D%AE%E8%AF%B4%E6%98%8E/1609140711836-e79a6f73-518e-4b60-8e40-33615a33ce91.jpeg" alt="img"></p>
+<p>nyc_streets表的属性列描述</p>
+<p><img src="/images/PostGIS--%E7%AC%AC%E5%9B%9B%E8%8A%82%E3%80%81%E6%95%99%E7%A8%8B%E6%95%B0%E6%8D%AE%E8%AF%B4%E6%98%8E/1609140711904-7046e5fc-6c36-4926-b60f-1b6d92ccc288.jpeg" alt="img"></p>
+<p>纽约市街道分布</p>
+<h2 id="四、nyc-subway-stations"><a href="#四、nyc-subway-stations" class="headerlink" title="四、nyc_subway_stations"></a>四、nyc_subway_stations</h2><p>地铁站将人们居住的地上世界与地下看不见的地铁网络连接起来。</p>
+<p>作为公共交通系统的入口，车站位置决定了处于不同位置的市民使用地铁交通的难易程度。</p>
+<p>记录数目：491</p>
+<p><img src="/images/PostGIS--%E7%AC%AC%E5%9B%9B%E8%8A%82%E3%80%81%E6%95%99%E7%A8%8B%E6%95%B0%E6%8D%AE%E8%AF%B4%E6%98%8E/1609140711975-5f199bf7-b0f8-4205-8de4-9b4f907921f6.jpeg" alt="img"></p>
+<p>nyc_subway_stations表的属性列描述</p>
+<p><img src="/images/PostGIS--%E7%AC%AC%E5%9B%9B%E8%8A%82%E3%80%81%E6%95%99%E7%A8%8B%E6%95%B0%E6%8D%AE%E8%AF%B4%E6%98%8E/1609140711970-c9d85486-5506-47a7-a0bb-223d63e4bd01.jpeg" alt="img"></p>
+<p>纽约市地铁站的位置分布</p>
+<h2 id="五、nyc-census-sociodata"><a href="#五、nyc-census-sociodata" class="headerlink" title="五、nyc_census_sociodata"></a>五、nyc_census_sociodata</h2><p>在普查过程中收集了大量的社会人口经济数据，但仅限于普查区域较大的地理层面。</p>
+<p>人口普查块（census blocks）组合在一起形成人口普查区域（census tracts）（和块组-block groups）。</p>
+<p>我们收集了一些与人口普查区域对应的社会人口经济数据，来回答更多关于纽约市的有趣问题。</p>
+<p>注意：nyc_census_sociodata是一个数据表。在进行任何空间分析之前，我们需要将其与人口普查的地理信息联系起来。</p>
+<p><img src="/images/PostGIS--%E7%AC%AC%E5%9B%9B%E8%8A%82%E3%80%81%E6%95%99%E7%A8%8B%E6%95%B0%E6%8D%AE%E8%AF%B4%E6%98%8E/1609140711963-012a877c-b92f-4ef3-a192-ea4862e58956.jpeg" alt="img"></p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ol>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/62337014">https://zhuanlan.zhihu.com/p/62337014</a></li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/atom.xml">
+          <span class="icon">
+            <i class="fa fa-rss"></i>
+          </span>
+
+          <span class="label">RSS</span>
+        </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/PostSQL/" rel="tag"># PostSQL</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/10/31/PostGIS--%E7%AC%AC%E4%B8%89%E8%8A%82%E3%80%81%E5%8A%A0%E8%BD%BD%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE/" rel="prev" title="PostGIS--第三节、加载空间数据">
+                  <i class="fa fa-chevron-left"></i> PostGIS--第三节、加载空间数据
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/10/31/PostGIS--%E7%AC%AC%E4%BA%8C%E8%8A%82%E3%80%81%E5%AE%89%E8%A3%85%E5%92%8C%E5%88%9B%E5%BB%BA%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="next" title="PostGIS--第二节、安装和创建空间数据库">
+                  PostGIS--第二节、安装和创建空间数据库 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Alex</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">192k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">2:55</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+  <script class="next-config" data-name="pdf" type="application/json">{"object_url":{"url":"https://cdn.jsdelivr.net/npm/pdfobject@2.2.6/pdfobject.min.js","integrity":"sha256-77geM50MfxCD17eqyJR+Dag1svjJOLN+BJ2F/DMqMEY="},"url":"/lib/pdf/web/viewer.html"}</script>
+  <script src="/js/third-party/tags/pdf.js"></script>
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"daoxuan.gitee.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":true,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<meta name="description" content="Java反编译">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java反编译">
+<meta property="og:url" content="https://daoxuan.gitee.io/blog/2021/10/29/Java%E5%8F%8D%E7%BC%96%E8%AF%91/index.html">
+<meta property="og:site_name" content="知识博客">
+<meta property="og:description" content="Java反编译">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://daoxuan.gitee.io/images/Java%E5%8F%8D%E7%BC%96%E8%AF%91/1608710254212-e6173876-c089-41c0-a40c-7c9c2f02297d.png">
+<meta property="og:image" content="https://daoxuan.gitee.io/images/Java%E5%8F%8D%E7%BC%96%E8%AF%91/1608710254264-b6724037-8af6-4ece-8b88-ad1168c3ef56.png">
+<meta property="og:image" content="https://daoxuan.gitee.io/images/Java%E5%8F%8D%E7%BC%96%E8%AF%91/1608710254389-b1ab0175-a7fd-4579-a428-6bba5611497e.png">
+<meta property="article:published_time" content="2021-10-29T09:17:26.000Z">
+<meta property="article:modified_time" content="2021-10-30T09:00:11.853Z">
+<meta property="article:author" content="Alex">
+<meta property="article:tag" content="JAVA">
+<meta property="article:tag" content="反编译">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://daoxuan.gitee.io/images/Java%E5%8F%8D%E7%BC%96%E8%AF%91/1608710254212-e6173876-c089-41c0-a40c-7c9c2f02297d.png">
+
+
+<link rel="canonical" href="https://daoxuan.gitee.io/blog/2021/10/29/Java%E5%8F%8D%E7%BC%96%E8%AF%91/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://daoxuan.gitee.io/blog/2021/10/29/Java%E5%8F%8D%E7%BC%96%E8%AF%91/","path":"2021/10/29/Java反编译/","title":"Java反编译"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Java反编译 | 知识博客</title>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="知识博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">知识博客</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">知识博客</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#01%E3%80%81JAD-%E6%98%AF%E4%BB%80%E4%B9%88-%F0%9F%93%8Ejad158g-win-zip"><span class="nav-number">1.</span> <span class="nav-text">01、JAD 是什么 📎jad158g.win.zip</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#02%E3%80%81JAD-%E7%9A%84%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F%E9%85%8D%E7%BD%AE"><span class="nav-number">2.</span> <span class="nav-text">02、JAD 的环境变量配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#03%E3%80%81JAD-%E7%9A%84%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">03、JAD 的使用方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#04%E3%80%81%E5%92%8C-JD-GUI-%E7%9A%84%E4%B8%8D%E5%90%8C%E4%B9%8B%E5%A4%84"><span class="nav-number">4.</span> <span class="nav-text">04、和 JD-GUI 的不同之处</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#05%E3%80%81javap%E6%96%B9%E5%BC%8F"><span class="nav-number">5.</span> <span class="nav-text">05、javap方式</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Alex</p>
+  <div class="site-description" itemprop="description">记录生活工作中有趣的知识</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">75</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">54</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">46</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+        <div class="back-to-top animated" role="button" aria-label="返回顶部">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://daoxuan.gitee.io/blog/2021/10/29/Java%E5%8F%8D%E7%BC%96%E8%AF%91/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Alex">
+      <meta itemprop="description" content="记录生活工作中有趣的知识">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="知识博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Java反编译
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-10-29 17:17:26" itemprop="dateCreated datePublished" datetime="2021-10-29T17:17:26+08:00">2021-10-29</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2021-10-30 17:00:11" itemprop="dateModified" datetime="2021-10-30T17:00:11+08:00">2021-10-30</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Tools/" itemprop="url" rel="index"><span itemprop="name">Tools</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Tools/JAVA/" itemprop="url" rel="index"><span itemprop="name">JAVA</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>2.9k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>3 分钟</span>
+    </span>
+</div>
+
+            <div class="post-description">Java反编译</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><h3 id="01、JAD-是什么-📎jad158g-win-zip"><a href="#01、JAD-是什么-📎jad158g-win-zip" class="headerlink" title="01、JAD 是什么 📎jad158g.win.zip"></a>01、JAD 是什么 <a href="../attachment/jad158g.win.zip">📎jad158g.win.zip</a></h3><ul>
+<li><p>JAD 是一款老牌的、经典的、能够让你了解 Java 编译器真实工作原理的 Java 反编译工具。大家都知道，将源代码转换成二进制执行代码的过程叫“编译”，比如将 Java 源代码编译成 .class 字节码文件；那么把字节码文件转换成代码的过程就叫“反编译”。</p>
+</li>
+<li><p>JAD 镜像下载的官网是 <a target="_blank" rel="noopener" href="https://varaneckas.com/jad/">https://varaneckas.com/jad/</a></p>
+</li>
+<li><p>如果镜像的链接地址失效了，可微信搜索「沉默王二」公众号，关注后回复关键字「jad」即可下载（Windows版+OSX版）。</p>
+</li>
+</ul>
+<h3 id="02、JAD-的环境变量配置"><a href="#02、JAD-的环境变量配置" class="headerlink" title="02、JAD 的环境变量配置"></a>02、JAD 的环境变量配置</h3><p>下载好 JAD 并解压后（镜像），你将看到：</p>
+<ul>
+<li>jad.exe （无法直接运行）</li>
+<li>Readme.txt （使用说明）</li>
+</ul>
+<p>为了更便捷的使用 jad，我们可以将其加入到环境变量中。</p>
+<p>新建 JAD_HOME 环境变量。</p>
+<p><img src="/images/Java%E5%8F%8D%E7%BC%96%E8%AF%91/1608710254212-e6173876-c089-41c0-a40c-7c9c2f02297d.png" alt="img"></p>
+<p>加入到系统 PATH 变量中。</p>
+<p><img src="/images/Java%E5%8F%8D%E7%BC%96%E8%AF%91/1608710254264-b6724037-8af6-4ece-8b88-ad1168c3ef56.png" alt="img"></p>
+<h3 id="03、JAD-的使用方法"><a href="#03、JAD-的使用方法" class="headerlink" title="03、JAD 的使用方法"></a>03、JAD 的使用方法</h3><p>假如有这样一段代码。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">package com.cmower.java_demo.fourteen;</span><br><span class="line">public class Cmower3 &#123;</span><br><span class="line">public static void main(String[] args) &#123;</span><br><span class="line">String cmowers = &quot;&quot;;</span><br><span class="line">for (int i = 0; i &lt; 10; i++) &#123;</span><br><span class="line">cmowers += &quot;沉默王二&quot;;</span><br><span class="line">&#125;</span><br><span class="line">System.out.println(cmowers);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>保存后的文件名为 Cmower3.java。</p>
+<p>打开 CMD，进入该文件所在的路径（如果之前未编译，请先使用 javac 进行编译，生成 class 文件），输入以下命令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jad Cmower3.class</span><br></pre></td></tr></table></figure>
+
+<p>如果提示信息如下，则证明反编译成功。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Parsing Cmower3.class... Generating Cmower3.jad</span><br></pre></td></tr></table></figure>
+
+<p>与此同时，Cmower3.class 所在的文件夹下会多出来一个新的文件 Cmower3.jad，用文本编辑器打开即可查看。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">// Decompiled by Jad v1.5.8g. Copyright 2001 Pavel Kouznetsov.</span><br><span class="line">// Jad home page: http://www.kpdus.com/jad.html</span><br><span class="line">// Decompiler options: packimports(3)</span><br><span class="line">// Source File Name:   Cmower3.java</span><br><span class="line">package com.cmower.java_demo.fourteen;</span><br><span class="line">import java.io.PrintStream;</span><br><span class="line">public class Cmower3</span><br><span class="line">&#123;</span><br><span class="line">public Cmower3()</span><br><span class="line">&#123;</span><br><span class="line">&#125;</span><br><span class="line">public static void main(String args[])</span><br><span class="line">&#123;</span><br><span class="line">String s = &quot;&quot;;</span><br><span class="line">for(int i = 0; i &lt; 10; i++)</span><br><span class="line">s = (new StringBuilder()).append(s).append(&quot;\u5A0C\u5910\u7CAF\u941C\u5B29\u7C29&quot;).toString();</span><br><span class="line">System.out.println(s);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="04、和-JD-GUI-的不同之处"><a href="#04、和-JD-GUI-的不同之处" class="headerlink" title="04、和 JD-GUI 的不同之处"></a>04、和 JD-GUI 的不同之处</h3><p>需要注意的是：JAD 不是 JD-GUI，两者都是反编译工具，但并不相同。</p>
+<p>比如上面这段代码，JD-GUI 反编译后的结果如下所示：</p>
+<p><img src="/images/Java%E5%8F%8D%E7%BC%96%E8%AF%91/1608710254389-b1ab0175-a7fd-4579-a428-6bba5611497e.png" alt="img"></p>
+<p>可以看得出来，JD-GUI 显示的是最原始的 Java 源代码。而 JAD 显示的是更贴近事实的源代码：+ 号操作符在编译的时候其实是会转成 StringBuilder 的。</p>
+<p>这特别的关键，如果你想知道编译器的工作内容，就可以使用 JAD。就像 javap 一样，只不过更加的清晰明了，javap 一般人看不太懂，如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">D:\program\java.git\java_demo\src\main\java\com\cmower\java_demo\fourteen&gt;javap -c Cmower3</span><br><span class="line">警告: 二进制文件Cmower3包含com.cmower.java_demo.fourteen.Cmower3</span><br><span class="line">Compiled from &quot;Cmower3.java&quot;</span><br><span class="line">public class com.cmower.java_demo.fourteen.Cmower3 &#123;</span><br><span class="line">public com.cmower.java_demo.fourteen.Cmower3();</span><br><span class="line">Code:</span><br><span class="line">0: aload_0</span><br><span class="line">1: invokespecial #1                  // Method java/lang/Object.&quot;&lt;init&gt;&quot;:()V</span><br><span class="line">4: return</span><br><span class="line">public static void main(java.lang.String[]);</span><br><span class="line">Code:</span><br><span class="line">0: ldc           #2                  // String</span><br><span class="line">2: astore_1</span><br><span class="line">3: iconst_0</span><br><span class="line">4: istore_2</span><br><span class="line">5: iload_2</span><br><span class="line">6: bipush        10</span><br><span class="line">8: if_icmpge     37</span><br><span class="line">11: new           #3                  // class java/lang/StringBuilder</span><br><span class="line">14: dup</span><br><span class="line">15: invokespecial #4                  // Method java/lang/StringBuilder.&quot;&lt;init&gt;&quot;:()V</span><br><span class="line">18: aload_1</span><br><span class="line">19: invokevirtual #5                  // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;</span><br><span class="line">22: ldc           #6                  // String 娌夐粯鐜嬩簩</span><br><span class="line">24: invokevirtual #5                  // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;</span><br><span class="line">27: invokevirtual #7                  // Method java/lang/StringBuilder.toString:()Ljava/lang/String;</span><br><span class="line">30: astore_1</span><br><span class="line">31: iinc          2, 1</span><br><span class="line">34: goto          5</span><br><span class="line">37: getstatic     #8                  // Field java/lang/System.out:Ljava/io/PrintStream;</span><br><span class="line">40: aload_1</span><br><span class="line">41: invokevirtual #9                  // Method java/io/PrintStream.println:(Ljava/lang/String;)V</span><br><span class="line">44: return</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="05、javap方式"><a href="#05、javap方式" class="headerlink" title="05、javap方式"></a>05、javap方式</h3><p>参考:</p>
+<ol>
+<li><a target="_blank" rel="noopener" href="http://www.itwanger.com/java/2019/10/22/javac-jad.html">http://www.itwanger.com/java/2019/10/22/javac-jad.html</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/baby123/p/10756614.html">https://www.cnblogs.com/baby123/p/10756614.html</a></li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/atom.xml">
+          <span class="icon">
+            <i class="fa fa-rss"></i>
+          </span>
+
+          <span class="label">RSS</span>
+        </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/JAVA/" rel="tag"># JAVA</a>
+              <a href="/tags/%E5%8F%8D%E7%BC%96%E8%AF%91/" rel="tag"># 反编译</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/10/29/Kotlin%E7%AE%80%E4%BB%8B/" rel="prev" title="Kotlin简介">
+                  <i class="fa fa-chevron-left"></i> Kotlin简介
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/10/29/IntelliJ-IDEA-%E4%B8%AD%E8%87%AA%E5%8A%A8%E7%94%9F%E6%88%90-serialVersionUID/" rel="next" title="IntelliJ IDEA 中自动生成 serialVersionUID">
+                  IntelliJ IDEA 中自动生成 serialVersionUID <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Alex</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">192k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">2:55</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+  <script class="next-config" data-name="pdf" type="application/json">{"object_url":{"url":"https://cdn.jsdelivr.net/npm/pdfobject@2.2.6/pdfobject.min.js","integrity":"sha256-77geM50MfxCD17eqyJR+Dag1svjJOLN+BJ2F/DMqMEY="},"url":"/lib/pdf/web/viewer.html"}</script>
+  <script src="/js/third-party/tags/pdf.js"></script>
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+</body>
+</html>

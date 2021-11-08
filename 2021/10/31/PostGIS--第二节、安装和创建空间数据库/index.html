@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"daoxuan.gitee.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":true,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<meta name="description" content="PostGIS--第二节、安装和创建空间数据库">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PostGIS--第二节、安装和创建空间数据库">
+<meta property="og:url" content="https://daoxuan.gitee.io/blog/2021/10/31/PostGIS--%E7%AC%AC%E4%BA%8C%E8%8A%82%E3%80%81%E5%AE%89%E8%A3%85%E5%92%8C%E5%88%9B%E5%BB%BA%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE%E5%BA%93/index.html">
+<meta property="og:site_name" content="知识博客">
+<meta property="og:description" content="PostGIS--第二节、安装和创建空间数据库">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://daoxuan.gitee.io/images/PostGIS--%E7%AC%AC%E4%BA%8C%E8%8A%82%E3%80%81%E5%AE%89%E8%A3%85%E5%92%8C%E5%88%9B%E5%BB%BA%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE%E5%BA%93/1609140598828-c0f4fd34-cf1e-4ed2-a3f3-3555c32ebee1.png">
+<meta property="og:image" content="https://daoxuan.gitee.io/images/PostGIS--%E7%AC%AC%E4%BA%8C%E8%8A%82%E3%80%81%E5%AE%89%E8%A3%85%E5%92%8C%E5%88%9B%E5%BB%BA%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE%E5%BA%93/1609140598883-f70618d6-35e2-42d2-8254-e5524b4d86df.png">
+<meta property="og:image" content="https://daoxuan.gitee.io/images/PostGIS--%E7%AC%AC%E4%BA%8C%E8%8A%82%E3%80%81%E5%AE%89%E8%A3%85%E5%92%8C%E5%88%9B%E5%BB%BA%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE%E5%BA%93/1609140598495-6d57d495-2020-46f1-b956-c28b56c1411c.png">
+<meta property="og:image" content="https://daoxuan.gitee.io/images/PostGIS--%E7%AC%AC%E4%BA%8C%E8%8A%82%E3%80%81%E5%AE%89%E8%A3%85%E5%92%8C%E5%88%9B%E5%BB%BA%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE%E5%BA%93/1609140598235-9416e2fb-12c3-41f1-8470-f365582215a0.png">
+<meta property="og:image" content="https://daoxuan.gitee.io/images/PostGIS--%E7%AC%AC%E4%BA%8C%E8%8A%82%E3%80%81%E5%AE%89%E8%A3%85%E5%92%8C%E5%88%9B%E5%BB%BA%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE%E5%BA%93/1609140598314-de4c0ebd-58de-46af-ab92-bbfbb7a40c34.png">
+<meta property="og:image" content="https://daoxuan.gitee.io/images/PostGIS--%E7%AC%AC%E4%BA%8C%E8%8A%82%E3%80%81%E5%AE%89%E8%A3%85%E5%92%8C%E5%88%9B%E5%BB%BA%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE%E5%BA%93/1609140598559-22f434b6-e2d7-40ef-9401-4f83338cacee.png">
+<meta property="og:image" content="https://daoxuan.gitee.io/images/PostGIS--%E7%AC%AC%E4%BA%8C%E8%8A%82%E3%80%81%E5%AE%89%E8%A3%85%E5%92%8C%E5%88%9B%E5%BB%BA%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE%E5%BA%93/1609140598235-e5fd84c5-90e5-4f3e-9c2a-4055015cf61f.png">
+<meta property="og:image" content="https://daoxuan.gitee.io/images/PostGIS--%E7%AC%AC%E4%BA%8C%E8%8A%82%E3%80%81%E5%AE%89%E8%A3%85%E5%92%8C%E5%88%9B%E5%BB%BA%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE%E5%BA%93/1609140598259-2193d213-29a8-46f7-9031-5e988c43a414.png">
+<meta property="og:image" content="https://daoxuan.gitee.io/images/PostGIS--%E7%AC%AC%E4%BA%8C%E8%8A%82%E3%80%81%E5%AE%89%E8%A3%85%E5%92%8C%E5%88%9B%E5%BB%BA%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE%E5%BA%93/1609140598300-341e85ab-a272-4147-88af-f81e90ab8da8.jpeg">
+<meta property="og:image" content="https://daoxuan.gitee.io/images/PostGIS--%E7%AC%AC%E4%BA%8C%E8%8A%82%E3%80%81%E5%AE%89%E8%A3%85%E5%92%8C%E5%88%9B%E5%BB%BA%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE%E5%BA%93/1609140598427-104daaf9-723c-476c-b44d-73b3fd4abc9e.jpeg">
+<meta property="og:image" content="https://daoxuan.gitee.io/images/PostGIS--%E7%AC%AC%E4%BA%8C%E8%8A%82%E3%80%81%E5%AE%89%E8%A3%85%E5%92%8C%E5%88%9B%E5%BB%BA%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE%E5%BA%93/1609140598800-9e7cda4f-ef8c-43ae-9dc7-a85faffc020e.png">
+<meta property="og:image" content="https://daoxuan.gitee.io/images/PostGIS--%E7%AC%AC%E4%BA%8C%E8%8A%82%E3%80%81%E5%AE%89%E8%A3%85%E5%92%8C%E5%88%9B%E5%BB%BA%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE%E5%BA%93/1609140598693-f1c5f862-3f89-40a4-b115-33163080259f.png">
+<meta property="og:image" content="https://daoxuan.gitee.io/images/PostGIS--%E7%AC%AC%E4%BA%8C%E8%8A%82%E3%80%81%E5%AE%89%E8%A3%85%E5%92%8C%E5%88%9B%E5%BB%BA%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE%E5%BA%93/1609140598475-169fb91e-dbf4-4ad2-b866-25a2636037ee.jpeg">
+<meta property="og:image" content="https://daoxuan.gitee.io/images/PostGIS--%E7%AC%AC%E4%BA%8C%E8%8A%82%E3%80%81%E5%AE%89%E8%A3%85%E5%92%8C%E5%88%9B%E5%BB%BA%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE%E5%BA%93/1609140598701-6bb6833a-d816-493d-96d2-04bd36dd167e.png">
+<meta property="og:image" content="https://daoxuan.gitee.io/images/PostGIS--%E7%AC%AC%E4%BA%8C%E8%8A%82%E3%80%81%E5%AE%89%E8%A3%85%E5%92%8C%E5%88%9B%E5%BB%BA%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE%E5%BA%93/1609140598690-062d4fbd-c3e7-4535-9cec-d28b8a8f98a5.png">
+<meta property="og:image" content="https://daoxuan.gitee.io/images/PostGIS--%E7%AC%AC%E4%BA%8C%E8%8A%82%E3%80%81%E5%AE%89%E8%A3%85%E5%92%8C%E5%88%9B%E5%BB%BA%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE%E5%BA%93/1609140598570-eb5c54c0-097d-4aaf-b7f2-37b3717dc7ff.jpeg">
+<meta property="og:image" content="https://daoxuan.gitee.io/images/PostGIS--%E7%AC%AC%E4%BA%8C%E8%8A%82%E3%80%81%E5%AE%89%E8%A3%85%E5%92%8C%E5%88%9B%E5%BB%BA%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE%E5%BA%93/1609140598514-cf48c209-af76-44fd-86f0-5d4193700fc0.jpeg">
+<meta property="og:image" content="https://daoxuan.gitee.io/images/PostGIS--%E7%AC%AC%E4%BA%8C%E8%8A%82%E3%80%81%E5%AE%89%E8%A3%85%E5%92%8C%E5%88%9B%E5%BB%BA%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE%E5%BA%93/1609140598413-5501e1ff-ae8e-4c47-b79a-1c66406b5a8a.jpeg">
+<meta property="og:image" content="https://daoxuan.gitee.io/images/PostGIS--%E7%AC%AC%E4%BA%8C%E8%8A%82%E3%80%81%E5%AE%89%E8%A3%85%E5%92%8C%E5%88%9B%E5%BB%BA%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE%E5%BA%93/1609140598516-587f185e-2560-45d6-91da-a4bae9e49661.jpeg">
+<meta property="og:image" content="https://daoxuan.gitee.io/images/PostGIS--%E7%AC%AC%E4%BA%8C%E8%8A%82%E3%80%81%E5%AE%89%E8%A3%85%E5%92%8C%E5%88%9B%E5%BB%BA%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE%E5%BA%93/1609140598410-101e426b-3638-48e6-b4d1-adc4be57169a.png">
+<meta property="og:image" content="https://daoxuan.gitee.io/images/PostGIS--%E7%AC%AC%E4%BA%8C%E8%8A%82%E3%80%81%E5%AE%89%E8%A3%85%E5%92%8C%E5%88%9B%E5%BB%BA%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE%E5%BA%93/1609140598624-a71c8652-fda1-40f5-9ba2-826b2fa364c1.jpeg">
+<meta property="og:image" content="https://daoxuan.gitee.io/images/PostGIS--%E7%AC%AC%E4%BA%8C%E8%8A%82%E3%80%81%E5%AE%89%E8%A3%85%E5%92%8C%E5%88%9B%E5%BB%BA%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE%E5%BA%93/1609140598521-ef7aaff0-5682-43f0-9f10-e077485138bf.jpeg">
+<meta property="og:image" content="https://daoxuan.gitee.io/images/PostGIS--%E7%AC%AC%E4%BA%8C%E8%8A%82%E3%80%81%E5%AE%89%E8%A3%85%E5%92%8C%E5%88%9B%E5%BB%BA%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE%E5%BA%93/1609140598510-b6e6bdef-c6ea-4f34-8189-017a127adf01.jpeg">
+<meta property="og:image" content="https://daoxuan.gitee.io/images/PostGIS--%E7%AC%AC%E4%BA%8C%E8%8A%82%E3%80%81%E5%AE%89%E8%A3%85%E5%92%8C%E5%88%9B%E5%BB%BA%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE%E5%BA%93/1609140598702-ae289575-faf0-41db-b5c0-007892e09588.png">
+<meta property="og:image" content="https://daoxuan.gitee.io/images/PostGIS--%E7%AC%AC%E4%BA%8C%E8%8A%82%E3%80%81%E5%AE%89%E8%A3%85%E5%92%8C%E5%88%9B%E5%BB%BA%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE%E5%BA%93/1609140598567-9906e78d-1ba8-4e42-9a29-44ebd18e0f41.jpeg">
+<meta property="og:image" content="https://daoxuan.gitee.io/images/PostGIS--%E7%AC%AC%E4%BA%8C%E8%8A%82%E3%80%81%E5%AE%89%E8%A3%85%E5%92%8C%E5%88%9B%E5%BB%BA%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE%E5%BA%93/1609140598687-d22dce5f-bcb4-4ea7-9248-fb998f85c591.png">
+<meta property="article:published_time" content="2021-10-31T14:12:09.000Z">
+<meta property="article:modified_time" content="2021-10-31T14:14:09.735Z">
+<meta property="article:author" content="Alex">
+<meta property="article:tag" content="PostSQL">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://daoxuan.gitee.io/images/PostGIS--%E7%AC%AC%E4%BA%8C%E8%8A%82%E3%80%81%E5%AE%89%E8%A3%85%E5%92%8C%E5%88%9B%E5%BB%BA%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE%E5%BA%93/1609140598828-c0f4fd34-cf1e-4ed2-a3f3-3555c32ebee1.png">
+
+
+<link rel="canonical" href="https://daoxuan.gitee.io/blog/2021/10/31/PostGIS--%E7%AC%AC%E4%BA%8C%E8%8A%82%E3%80%81%E5%AE%89%E8%A3%85%E5%92%8C%E5%88%9B%E5%BB%BA%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE%E5%BA%93/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://daoxuan.gitee.io/blog/2021/10/31/PostGIS--%E7%AC%AC%E4%BA%8C%E8%8A%82%E3%80%81%E5%AE%89%E8%A3%85%E5%92%8C%E5%88%9B%E5%BB%BA%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE%E5%BA%93/","path":"2021/10/31/PostGIS--第二节、安装和创建空间数据库/","title":"PostGIS--第二节、安装和创建空间数据库"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>PostGIS--第二节、安装和创建空间数据库 | 知识博客</title>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="知识博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">知识博客</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">知识博客</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#windows%E5%AE%89%E8%A3%85"><span class="nav-number">1.</span> <span class="nav-text">windows安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E5%AE%89%E8%A3%85PostgreSQL"><span class="nav-number">1.0.1.</span> <span class="nav-text">一、安装PostgreSQL</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E5%AE%89%E8%A3%85PostGIS"><span class="nav-number">1.0.2.</span> <span class="nav-text">二、安装PostGIS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%89%E3%80%81PgAdmin"><span class="nav-number">1.0.3.</span> <span class="nav-text">三、PgAdmin</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E5%88%9B%E5%BB%BA%E4%B8%80%E4%B8%AA%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-number">1.0.4.</span> <span class="nav-text">四、创建一个数据库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%94%E3%80%81%E6%9C%AC%E6%96%87%E6%B6%89%E5%8F%8A%E5%88%B0%E7%9A%84%E5%87%BD%E6%95%B0"><span class="nav-number">1.0.5.</span> <span class="nav-text">五、本文涉及到的函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83%EF%BC%9A"><span class="nav-number">1.0.6.</span> <span class="nav-text">参考：</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Linux%E5%AE%89%E8%A3%85"><span class="nav-number">2.</span> <span class="nav-text">Linux安装</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E5%AE%89%E8%A3%85PostgreSQL-12-4%EF%BC%8C%E4%B8%8D%E4%BD%BF%E7%94%A8%EF%BC%8C-%E5%8F%82%E8%80%83%E5%85%AC%E7%BD%91%E6%95%99%E7%A8%8B9-6%EF%BC%8C"><span class="nav-number">2.0.1.</span> <span class="nav-text">一、安装PostgreSQL 12.4，不使用， 参考公网教程9.6，</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E5%AE%89%E8%A3%85PostGIS-1"><span class="nav-number">2.0.2.</span> <span class="nav-text">二、安装PostGIS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">2.0.3.</span> <span class="nav-text">参考</span></a></li></ol></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Alex</p>
+  <div class="site-description" itemprop="description">记录生活工作中有趣的知识</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">75</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">54</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">46</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+        <div class="back-to-top animated" role="button" aria-label="返回顶部">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://daoxuan.gitee.io/blog/2021/10/31/PostGIS--%E7%AC%AC%E4%BA%8C%E8%8A%82%E3%80%81%E5%AE%89%E8%A3%85%E5%92%8C%E5%88%9B%E5%BB%BA%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE%E5%BA%93/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Alex">
+      <meta itemprop="description" content="记录生活工作中有趣的知识">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="知识博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          PostGIS--第二节、安装和创建空间数据库
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2021-10-31 22:12:09 / 修改时间：22:14:09" itemprop="dateCreated datePublished" datetime="2021-10-31T22:12:09+08:00">2021-10-31</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/DB/" itemprop="url" rel="index"><span itemprop="name">DB</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/DB/PostSQL/" itemprop="url" rel="index"><span itemprop="name">PostSQL</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>2.7k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>2 分钟</span>
+    </span>
+</div>
+
+            <div class="post-description">PostGIS--第二节、安装和创建空间数据库</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><h1 id="windows安装"><a href="#windows安装" class="headerlink" title="windows安装"></a>windows安装</h1><h3 id="一、安装PostgreSQL"><a href="#一、安装PostgreSQL" class="headerlink" title="一、安装PostgreSQL"></a>一、安装PostgreSQL</h3><p>在安装PostGIS前首先必须安装PostgreSQL，然后在安装好的Stack Builder中选择安装PostGIS组件。</p>
+<p>PostgreSQL安装文件下载地址是<a href="https://link.zhihu.com/?target=https://www.enterprisedb.com/downloads/postgres-postgresql-downloads">https://www.enterprisedb.com/downloads/postgres-postgresql-downloads</a></p>
+<p>这里使用的PostgreSQL版本是9.6**/12.4(已验证)**。</p>
+<p>双击下载的文件，所有设置都使用默认设置即可，只是需要设置超级用户postgres的密码。</p>
+<h3 id="二、安装PostGIS"><a href="#二、安装PostGIS" class="headerlink" title="二、安装PostGIS"></a>二、安装PostGIS</h3><p>安装PostgreSQL安装完成后，提示运行Stack Builder。通过该工具安装PostGIS。</p>
+<p>Stack Builder运行后，选择安装目标软件为PostgreSQL 9.6 on port 5432。然后在安装程序选择对话框中选择PostGIS 2.3。（在这里如果不能安装PostGIS，也可以去<a href="https://link.zhihu.com/?target=http://download.osgeo.org/postgis/windows/pg94/">PostGIS官网</a>下载PostGIS进行安装）。</p>
+<p>9.6</p>
+<p><img src="/images/PostGIS--%E7%AC%AC%E4%BA%8C%E8%8A%82%E3%80%81%E5%AE%89%E8%A3%85%E5%92%8C%E5%88%9B%E5%BB%BA%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE%E5%BA%93/1609140598828-c0f4fd34-cf1e-4ed2-a3f3-3555c32ebee1.png" alt="img"><img src="/images/PostGIS--%E7%AC%AC%E4%BA%8C%E8%8A%82%E3%80%81%E5%AE%89%E8%A3%85%E5%92%8C%E5%88%9B%E5%BB%BA%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE%E5%BA%93/1609140598883-f70618d6-35e2-42d2-8254-e5524b4d86df.png" alt="img"></p>
+<p><strong>12.4</strong></p>
+<p><img src="/images/PostGIS--%E7%AC%AC%E4%BA%8C%E8%8A%82%E3%80%81%E5%AE%89%E8%A3%85%E5%92%8C%E5%88%9B%E5%BB%BA%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE%E5%BA%93/1609140598495-6d57d495-2020-46f1-b956-c28b56c1411c.png" alt="img"><img src="/images/PostGIS--%E7%AC%AC%E4%BA%8C%E8%8A%82%E3%80%81%E5%AE%89%E8%A3%85%E5%92%8C%E5%88%9B%E5%BB%BA%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE%E5%BA%93/1609140598235-9416e2fb-12c3-41f1-8470-f365582215a0.png" alt="img"><img src="/images/PostGIS--%E7%AC%AC%E4%BA%8C%E8%8A%82%E3%80%81%E5%AE%89%E8%A3%85%E5%92%8C%E5%88%9B%E5%BB%BA%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE%E5%BA%93/1609140598314-de4c0ebd-58de-46af-ab92-bbfbb7a40c34.png" alt="img"><img src="/images/PostGIS--%E7%AC%AC%E4%BA%8C%E8%8A%82%E3%80%81%E5%AE%89%E8%A3%85%E5%92%8C%E5%88%9B%E5%BB%BA%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE%E5%BA%93/1609140598559-22f434b6-e2d7-40ef-9401-4f83338cacee.png" alt="img"></p>
+<p><img src="/images/PostGIS--%E7%AC%AC%E4%BA%8C%E8%8A%82%E3%80%81%E5%AE%89%E8%A3%85%E5%92%8C%E5%88%9B%E5%BB%BA%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE%E5%BA%93/1609140598235-e5fd84c5-90e5-4f3e-9c2a-4055015cf61f.png" alt="img"><img src="/images/PostGIS--%E7%AC%AC%E4%BA%8C%E8%8A%82%E3%80%81%E5%AE%89%E8%A3%85%E5%92%8C%E5%88%9B%E5%BB%BA%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE%E5%BA%93/1609140598259-2193d213-29a8-46f7-9031-5e988c43a414.png" alt="img"></p>
+<p>然后Stack Builder会下载PostGIS 2.3的安装程序。下载后就会安装，<strong>在设置安装组件时，最好选择”<strong><strong>Create spatial database</strong></strong>“，以便在创建数据库时可以以此作为模板****。</strong>对于其他步骤的设置都选择默认值即可。</p>
+<h3 id="三、PgAdmin"><a href="#三、PgAdmin" class="headerlink" title="三、PgAdmin"></a>三、PgAdmin</h3><p>PostgreSQL有许多管理工具，主要的一个是psql，一个输入SQL命令查询的命令行工具。</p>
+<p>一个流行的PostgreSQL管理工具是免费的开源图形工具pgAdmin，在pgAdmin中完成的所有查询都可以使用psql完成。</p>
+<p>3.1、找到pgAdmin并启动它</p>
+<p><strong>9.6</strong></p>
+<p><img src="/images/PostGIS--%E7%AC%AC%E4%BA%8C%E8%8A%82%E3%80%81%E5%AE%89%E8%A3%85%E5%92%8C%E5%88%9B%E5%BB%BA%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE%E5%BA%93/1609140598300-341e85ab-a272-4147-88af-f81e90ab8da8.jpeg" alt="img"><img src="/images/PostGIS--%E7%AC%AC%E4%BA%8C%E8%8A%82%E3%80%81%E5%AE%89%E8%A3%85%E5%92%8C%E5%88%9B%E5%BB%BA%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE%E5%BA%93/1609140598427-104daaf9-723c-476c-b44d-73b3fd4abc9e.jpeg" alt="img"></p>
+<p><strong>12.4</strong></p>
+<p><img src="/images/PostGIS--%E7%AC%AC%E4%BA%8C%E8%8A%82%E3%80%81%E5%AE%89%E8%A3%85%E5%92%8C%E5%88%9B%E5%BB%BA%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE%E5%BA%93/1609140598800-9e7cda4f-ef8c-43ae-9dc7-a85faffc020e.png" alt="img"><img src="/images/PostGIS--%E7%AC%AC%E4%BA%8C%E8%8A%82%E3%80%81%E5%AE%89%E8%A3%85%E5%92%8C%E5%88%9B%E5%BB%BA%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE%E5%BA%93/1609140598693-f1c5f862-3f89-40a4-b115-33163080259f.png" alt="img"></p>
+<p>3.2、如果是第一次运行pgAdmin，应该有一个已在pgAdmin中配置的PostGIS服务器条目（localhost:5432）。双击该条目，并在密码框中输入密码，以连接到数据库。</p>
+<p><img src="/images/PostGIS--%E7%AC%AC%E4%BA%8C%E8%8A%82%E3%80%81%E5%AE%89%E8%A3%85%E5%92%8C%E5%88%9B%E5%BB%BA%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE%E5%BA%93/1609140598475-169fb91e-dbf4-4ad2-b866-25a2636037ee.jpeg" alt="img"></p>
+<p>12.4 </p>
+<p>汉化</p>
+<p><img src="/images/PostGIS--%E7%AC%AC%E4%BA%8C%E8%8A%82%E3%80%81%E5%AE%89%E8%A3%85%E5%92%8C%E5%88%9B%E5%BB%BA%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE%E5%BA%93/1609140598701-6bb6833a-d816-493d-96d2-04bd36dd167e.png" alt="img"><img src="/images/PostGIS--%E7%AC%AC%E4%BA%8C%E8%8A%82%E3%80%81%E5%AE%89%E8%A3%85%E5%92%8C%E5%88%9B%E5%BB%BA%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE%E5%BA%93/1609140598690-062d4fbd-c3e7-4535-9cec-d28b8a8f98a5.png" alt="img"></p>
+<h3 id="四、创建一个数据库"><a href="#四、创建一个数据库" class="headerlink" title="四、创建一个数据库"></a>四、创建一个数据库</h3><p>4.1、打开数据库的树结构选项，查看可用的数据库。postgres数据库是默认的postgres用户所属的用户数据库，我们不用理会这个数据库。</p>
+<p><img src="/images/PostGIS--%E7%AC%AC%E4%BA%8C%E8%8A%82%E3%80%81%E5%AE%89%E8%A3%85%E5%92%8C%E5%88%9B%E5%BB%BA%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE%E5%BA%93/1609140598570-eb5c54c0-097d-4aaf-b7f2-37b3717dc7ff.jpeg" alt="img"></p>
+<p>4.2、鼠标右击数据库选项并选择新建数据库：</p>
+<p><img src="/images/PostGIS--%E7%AC%AC%E4%BA%8C%E8%8A%82%E3%80%81%E5%AE%89%E8%A3%85%E5%92%8C%E5%88%9B%E5%BB%BA%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE%E5%BA%93/1609140598514-cf48c209-af76-44fd-86f0-5d4193700fc0.jpeg" alt="img"></p>
+<p>4.3、如下图所示，填写“新建数据库”表单，然后单击“确定”：</p>
+<p><img src="/images/PostGIS--%E7%AC%AC%E4%BA%8C%E8%8A%82%E3%80%81%E5%AE%89%E8%A3%85%E5%92%8C%E5%88%9B%E5%BB%BA%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE%E5%BA%93/1609140598413-5501e1ff-ae8e-4c47-b79a-1c66406b5a8a.jpeg" alt="img"></p>
+<p>4.4、选择nyc这个新建的数据库，并打开它以显示对象树，将会看到public架构（即模式-schema-相当于数据库中的一个命名空间）：</p>
+<p><img src="/images/PostGIS--%E7%AC%AC%E4%BA%8C%E8%8A%82%E3%80%81%E5%AE%89%E8%A3%85%E5%92%8C%E5%88%9B%E5%BB%BA%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE%E5%BA%93/1609140598516-587f185e-2560-45d6-91da-a4bae9e49661.jpeg" alt="img"><img src="/images/PostGIS--%E7%AC%AC%E4%BA%8C%E8%8A%82%E3%80%81%E5%AE%89%E8%A3%85%E5%92%8C%E5%88%9B%E5%BB%BA%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE%E5%BA%93/1609140598410-101e426b-3638-48e6-b4d1-adc4be57169a.png" alt="img"></p>
+<p>4.5、单击下面所示的SQL查询按钮（或转到工具 &gt; 查询工具）。</p>
+<p><img src="/images/PostGIS--%E7%AC%AC%E4%BA%8C%E8%8A%82%E3%80%81%E5%AE%89%E8%A3%85%E5%92%8C%E5%88%9B%E5%BB%BA%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE%E5%BA%93/1609140598624-a71c8652-fda1-40f5-9ba2-826b2fa364c1.jpeg" alt="img"></p>
+<p>4.6、在查询文本区域中输入以下查询语句<strong>以加载<strong><strong>PostGIS空间扩展</strong></strong>：</strong></p>
+<p>CREATE EXTENSION postgis;</p>
+<p><img src="/images/PostGIS--%E7%AC%AC%E4%BA%8C%E8%8A%82%E3%80%81%E5%AE%89%E8%A3%85%E5%92%8C%E5%88%9B%E5%BB%BA%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE%E5%BA%93/1609140598521-ef7aaff0-5682-43f0-9f10-e077485138bf.jpeg" alt="img"></p>
+<p>4.7、单击工具栏中的执行查询按钮（或按F5）以”执行查询”。</p>
+<p><img src="/images/PostGIS--%E7%AC%AC%E4%BA%8C%E8%8A%82%E3%80%81%E5%AE%89%E8%A3%85%E5%92%8C%E5%88%9B%E5%BB%BA%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE%E5%BA%93/1609140598510-b6e6bdef-c6ea-4f34-8189-017a127adf01.jpeg" alt="img"><img src="/images/PostGIS--%E7%AC%AC%E4%BA%8C%E8%8A%82%E3%80%81%E5%AE%89%E8%A3%85%E5%92%8C%E5%88%9B%E5%BB%BA%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE%E5%BA%93/1609140598702-ae289575-faf0-41db-b5c0-007892e09588.png" alt="img"></p>
+<p>2.8、现在，通过运行PostGIS函数来确认是否在数据库中安装了PostGIS扩展插件：</p>
+<p>SELECT postgis_full_version();</p>
+<p><img src="/images/PostGIS--%E7%AC%AC%E4%BA%8C%E8%8A%82%E3%80%81%E5%AE%89%E8%A3%85%E5%92%8C%E5%88%9B%E5%BB%BA%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE%E5%BA%93/1609140598567-9906e78d-1ba8-4e42-9a29-44ebd18e0f41.jpeg" alt="img"><img src="/images/PostGIS--%E7%AC%AC%E4%BA%8C%E8%8A%82%E3%80%81%E5%AE%89%E8%A3%85%E5%92%8C%E5%88%9B%E5%BB%BA%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE%E5%BA%93/1609140598687-d22dce5f-bcb4-4ea7-9248-fb998f85c591.png" alt="img"></p>
+<p>至此，已经成功地创建了PostGIS空间数据库！</p>
+<h3 id="五、本文涉及到的函数"><a href="#五、本文涉及到的函数" class="headerlink" title="五、本文涉及到的函数"></a>五、本文涉及到的函数</h3><p>PostGIS_Full_Version() —— 返回完整的PostGIS版本信息和配置信息。</p>
+<h3 id="参考："><a href="#参考：" class="headerlink" title="参考："></a>参考：</h3><ol>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/62157728">https://zhuanlan.zhihu.com/p/62157728</a></li>
+</ol>
+<h1 id="Linux安装"><a href="#Linux安装" class="headerlink" title="Linux安装"></a>Linux安装</h1><h3 id="一、安装PostgreSQL-12-4，不使用，-参考公网教程9-6，"><a href="#一、安装PostgreSQL-12-4，不使用，-参考公网教程9-6，" class="headerlink" title="一、安装PostgreSQL 12.4，不使用， 参考公网教程9.6，"></a>一、<a target="_blank" rel="noopener" href="https://app.yinxiang.com/shard/s25/nl/23788448/f7df2f70-2475-4d99-b727-6d9e94986946">安装PostgreSQL 12.4，不使用，</a> <a target="_blank" rel="noopener" href="https://blog.csdn.net/LiLittleCat/article/details/104355373">参考公网教程9.6</a>，</h3><p>流程步骤基本一致。无差别。使用9.6教程安装</p>
+<h3 id="二、安装PostGIS-1"><a href="#二、安装PostGIS-1" class="headerlink" title="二、安装PostGIS"></a>二、安装PostGIS</h3><p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/82098919">9.6安装参考</a></p>
+<p>12.4安装</p>
+<ol>
+<li>安装依赖赖</li>
+</ol>
+<ul>
+<li><ul>
+<li><strong>PostgreSQL 9.5 or higher.</strong></li>
+<li><strong>GNU C compiler (<strong><strong>gcc</strong></strong>).    gcc –version</strong></li>
+</ul>
+</li>
+<li><ul>
+<li><strong>GNU Make (<strong><strong>gmake</strong> <strong>or</strong> <strong>make</strong></strong>).</strong> For many systems, GNU make is the default version of make. Check the version by invoking make -v. Other versions of make may not process the PostGIS Makefile properly.</li>
+<li><strong>Proj4 reprojection library, version 4.6.0 or greater.</strong> Proj4 4.9 or above is needed to take advantage of improved geodetic. The Proj4 library is used to provide coordinate reprojection support within PostGIS. Proj4 is available for download from <a target="_blank" rel="noopener" href="http://trac.osgeo.org/proj/">http://trac.osgeo.org/proj/ </a>.</li>
+</ul>
+</li>
+<li><ul>
+<li><strong>GEOS geometry library, version 3.6 or greater</strong>, but GEOS 3.7+ is recommended to take full advantage of all the new functions and features. GEOS is available for download from <a target="_blank" rel="noopener" href="http://trac.osgeo.org/geos/">http://trac.osgeo.org/geos/ </a>.</li>
+<li><strong>LibXML2, version 2.5.x or higher</strong>. LibXML2 is currently used in some imports functions (ST_GeomFromGML and ST_GeomFromKML). LibXML2 is available for download from <a target="_blank" rel="noopener" href="http://xmlsoft.org/downloads.html">http://xmlsoft.org/downloads.html</a>.</li>
+</ul>
+</li>
+<li><ul>
+<li><strong>JSON-C, version 0.9 or higher</strong>. JSON-C is currently used to import GeoJSON via the function ST_GeomFromGeoJson. JSON-C is available for download from <a target="_blank" rel="noopener" href="https://github.com/json-c/json-c/releases">https://github.com/json-c/json-c/releases/</a>.</li>
+<li><strong>GDAL, version 1.8 or higher</strong> (1.9 or higher is strongly recommended since some things will not work well or behavior differently with lower versions). This is required for raster support. <a target="_blank" rel="noopener" href="http://trac.osgeo.org/gdal/wiki/DownloadSource">http://trac.osgeo.org/gdal/wiki/DownloadSource</a>.</li>
+</ul>
+</li>
+<li><ul>
+<li><strong>If compiling with PostgreSQL+JIT, LLVM version &gt;=6 is required</strong> <a target="_blank" rel="noopener" href="https://trac.osgeo.org/postgis/ticket">https://trac.osgeo.org/postgis/ticket/4125.</a></li>
+</ul>
+</li>
+</ul>
+<p>yum -y install gcc yum -y install gcc-c++</p>
+<ol>
+<li>安装PostGIS</li>
+</ol>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ol>
+<li><a target="_blank" rel="noopener" href="https://postgis.net/docs/postgis_installation.html#install_short_version">官网</a></li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/atom.xml">
+          <span class="icon">
+            <i class="fa fa-rss"></i>
+          </span>
+
+          <span class="label">RSS</span>
+        </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/PostSQL/" rel="tag"># PostSQL</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/10/31/PostGIS--%E7%AC%AC%E5%9B%9B%E8%8A%82%E3%80%81%E6%95%99%E7%A8%8B%E6%95%B0%E6%8D%AE%E8%AF%B4%E6%98%8E/" rel="prev" title="PostGIS--第四节、教程数据说明">
+                  <i class="fa fa-chevron-left"></i> PostGIS--第四节、教程数据说明
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/10/31/PostGIS--%E7%AC%AC%E4%B8%80%E8%8A%82%E3%80%81%E7%AE%80%E4%BB%8B/" rel="next" title="PostGIS--第一节、简介">
+                  PostGIS--第一节、简介 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Alex</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">192k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">2:55</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+  <script class="next-config" data-name="pdf" type="application/json">{"object_url":{"url":"https://cdn.jsdelivr.net/npm/pdfobject@2.2.6/pdfobject.min.js","integrity":"sha256-77geM50MfxCD17eqyJR+Dag1svjJOLN+BJ2F/DMqMEY="},"url":"/lib/pdf/web/viewer.html"}</script>
+  <script src="/js/third-party/tags/pdf.js"></script>
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+</body>
+</html>

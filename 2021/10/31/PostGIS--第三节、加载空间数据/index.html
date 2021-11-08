@@ -1,0 +1,504 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"daoxuan.gitee.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":true,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<meta name="description" content="PostGIS--第三节、加载空间数据">
+<meta property="og:type" content="article">
+<meta property="og:title" content="PostGIS--第三节、加载空间数据">
+<meta property="og:url" content="https://daoxuan.gitee.io/blog/2021/10/31/PostGIS--%E7%AC%AC%E4%B8%89%E8%8A%82%E3%80%81%E5%8A%A0%E8%BD%BD%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE/index.html">
+<meta property="og:site_name" content="知识博客">
+<meta property="og:description" content="PostGIS--第三节、加载空间数据">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://daoxuan.gitee.io/images/PostGIS--%E7%AC%AC%E4%B8%89%E8%8A%82%E3%80%81%E5%8A%A0%E8%BD%BD%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE/1609140648599-619bf641-2d25-4c71-b083-2743dd9d2675.jpeg">
+<meta property="og:image" content="https://daoxuan.gitee.io/images/PostGIS--%E7%AC%AC%E4%B8%89%E8%8A%82%E3%80%81%E5%8A%A0%E8%BD%BD%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE/1609140648658-4e2bc279-79ce-4ea5-bc1e-2c2c34fa3c3f.jpeg">
+<meta property="og:image" content="https://daoxuan.gitee.io/images/PostGIS--%E7%AC%AC%E4%B8%89%E8%8A%82%E3%80%81%E5%8A%A0%E8%BD%BD%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE/1609140648713-0f6698ac-a95f-4119-a473-b31db8238a85.jpeg">
+<meta property="og:image" content="https://daoxuan.gitee.io/images/PostGIS--%E7%AC%AC%E4%B8%89%E8%8A%82%E3%80%81%E5%8A%A0%E8%BD%BD%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE/1609140648828-e21cf2bb-0537-44b8-ac5b-9409f92999fc.jpeg">
+<meta property="og:image" content="https://daoxuan.gitee.io/images/PostGIS--%E7%AC%AC%E4%B8%89%E8%8A%82%E3%80%81%E5%8A%A0%E8%BD%BD%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE/1609140648900-c9f06b6d-44eb-4896-b6ff-87b28428b3fb.jpeg">
+<meta property="og:image" content="https://daoxuan.gitee.io/images/PostGIS--%E7%AC%AC%E4%B8%89%E8%8A%82%E3%80%81%E5%8A%A0%E8%BD%BD%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE/1609140648929-88a255b0-4441-4afc-885c-4938c8f136da.jpeg">
+<meta property="og:image" content="https://daoxuan.gitee.io/images/PostGIS--%E7%AC%AC%E4%B8%89%E8%8A%82%E3%80%81%E5%8A%A0%E8%BD%BD%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE/1609140648953-b4f7761f-3a42-4f19-83b1-fcaaec09d56a.jpeg">
+<meta property="og:image" content="https://daoxuan.gitee.io/images/PostGIS--%E7%AC%AC%E4%B8%89%E8%8A%82%E3%80%81%E5%8A%A0%E8%BD%BD%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE/1609140648961-074a17f0-e3aa-47e5-96b4-005a0f29009c.jpeg">
+<meta property="og:image" content="https://daoxuan.gitee.io/images/PostGIS--%E7%AC%AC%E4%B8%89%E8%8A%82%E3%80%81%E5%8A%A0%E8%BD%BD%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE/1609140648767-6b9466c5-4352-4d5a-be0b-d698ed137a00.jpeg">
+<meta property="og:image" content="https://daoxuan.gitee.io/images/PostGIS--%E7%AC%AC%E4%B8%89%E8%8A%82%E3%80%81%E5%8A%A0%E8%BD%BD%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE/1609140648956-e03c4357-4589-41e4-917b-1abbe516f150.jpeg">
+<meta property="og:image" content="https://daoxuan.gitee.io/images/PostGIS--%E7%AC%AC%E4%B8%89%E8%8A%82%E3%80%81%E5%8A%A0%E8%BD%BD%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE/1609140648960-58245059-df01-49fe-9e04-990b66da17a1.jpeg">
+<meta property="og:image" content="https://daoxuan.gitee.io/images/PostGIS--%E7%AC%AC%E4%B8%89%E8%8A%82%E3%80%81%E5%8A%A0%E8%BD%BD%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE/1609140648904-09f9f111-4b76-454e-ab38-5c4e4d01e94d.jpeg">
+<meta property="og:image" content="https://daoxuan.gitee.io/images/PostGIS--%E7%AC%AC%E4%B8%89%E8%8A%82%E3%80%81%E5%8A%A0%E8%BD%BD%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE/1609140648969-2cc70080-0c91-463f-aa60-ebc174fd3815.jpeg">
+<meta property="og:image" content="https://daoxuan.gitee.io/images/PostGIS--%E7%AC%AC%E4%B8%89%E8%8A%82%E3%80%81%E5%8A%A0%E8%BD%BD%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE/1609140648721-1b28d042-066a-437a-ac93-67fc7ac6f541.jpeg">
+<meta property="og:image" content="https://daoxuan.gitee.io/images/PostGIS--%E7%AC%AC%E4%B8%89%E8%8A%82%E3%80%81%E5%8A%A0%E8%BD%BD%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE/1609140649002-2ed86084-a33d-48c6-9358-7bcf2f18eb52.jpeg">
+<meta property="og:image" content="https://daoxuan.gitee.io/images/PostGIS--%E7%AC%AC%E4%B8%89%E8%8A%82%E3%80%81%E5%8A%A0%E8%BD%BD%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE/1609140648974-3b14dcf6-37f5-4993-b4fa-8f6a4dd4e934.jpeg">
+<meta property="og:image" content="https://daoxuan.gitee.io/images/PostGIS--%E7%AC%AC%E4%B8%89%E8%8A%82%E3%80%81%E5%8A%A0%E8%BD%BD%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE/1609140649001-95bfb946-cc9d-4378-b799-2932550e5ae3.jpeg">
+<meta property="og:image" content="https://daoxuan.gitee.io/images/PostGIS--%E7%AC%AC%E4%B8%89%E8%8A%82%E3%80%81%E5%8A%A0%E8%BD%BD%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE/1609140648997-93d2b197-ca3d-408f-b47f-ebc7b0f4d50d.jpeg">
+<meta property="og:image" content="https://daoxuan.gitee.io/images/PostGIS--%E7%AC%AC%E4%B8%89%E8%8A%82%E3%80%81%E5%8A%A0%E8%BD%BD%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE/1609140649023-94e58d89-8302-4b4e-b78a-7d3ffda89079.jpeg">
+<meta property="og:image" content="https://daoxuan.gitee.io/images/PostGIS--%E7%AC%AC%E4%B8%89%E8%8A%82%E3%80%81%E5%8A%A0%E8%BD%BD%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE/1609140648883-83109a1b-afd9-4bf5-a1ef-a14c89b1900d.jpeg">
+<meta property="og:image" content="https://daoxuan.gitee.io/images/PostGIS--%E7%AC%AC%E4%B8%89%E8%8A%82%E3%80%81%E5%8A%A0%E8%BD%BD%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE/1609140648983-6b616eb4-0229-4964-bc57-c53e505e8f88.jpeg">
+<meta property="og:image" content="https://daoxuan.gitee.io/images/PostGIS--%E7%AC%AC%E4%B8%89%E8%8A%82%E3%80%81%E5%8A%A0%E8%BD%BD%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE/1609140648979-da676008-9395-410e-80ed-d55bc510e114.jpeg">
+<meta property="article:published_time" content="2021-10-31T14:12:09.000Z">
+<meta property="article:modified_time" content="2021-10-31T14:15:03.494Z">
+<meta property="article:author" content="Alex">
+<meta property="article:tag" content="PostSQL">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://daoxuan.gitee.io/images/PostGIS--%E7%AC%AC%E4%B8%89%E8%8A%82%E3%80%81%E5%8A%A0%E8%BD%BD%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE/1609140648599-619bf641-2d25-4c71-b083-2743dd9d2675.jpeg">
+
+
+<link rel="canonical" href="https://daoxuan.gitee.io/blog/2021/10/31/PostGIS--%E7%AC%AC%E4%B8%89%E8%8A%82%E3%80%81%E5%8A%A0%E8%BD%BD%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://daoxuan.gitee.io/blog/2021/10/31/PostGIS--%E7%AC%AC%E4%B8%89%E8%8A%82%E3%80%81%E5%8A%A0%E8%BD%BD%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE/","path":"2021/10/31/PostGIS--第三节、加载空间数据/","title":"PostGIS--第三节、加载空间数据"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>PostGIS--第三节、加载空间数据 | 知识博客</title>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="知识博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">知识博客</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">知识博客</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E3%80%81PostGIS-shapefile%E5%B7%A5%E5%85%B7"><span class="nav-number">1.</span> <span class="nav-text">一、PostGIS shapefile工具</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E4%BB%80%E4%B9%88%E6%98%AFshapefile%EF%BC%9F"><span class="nav-number">2.</span> <span class="nav-text">二、什么是shapefile？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E4%BB%80%E4%B9%88%E6%98%AFSRID-26918%EF%BC%9F"><span class="nav-number">3.</span> <span class="nav-text">三、什么是SRID 26918？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E4%BD%BF%E7%94%A8QGIS%E6%9F%A5%E7%9C%8B%E6%95%B0%E6%8D%AE"><span class="nav-number">4.</span> <span class="nav-text">四、使用QGIS查看数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">5.</span> <span class="nav-text">参考</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Alex</p>
+  <div class="site-description" itemprop="description">记录生活工作中有趣的知识</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">75</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">54</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">46</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+        <div class="back-to-top animated" role="button" aria-label="返回顶部">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://daoxuan.gitee.io/blog/2021/10/31/PostGIS--%E7%AC%AC%E4%B8%89%E8%8A%82%E3%80%81%E5%8A%A0%E8%BD%BD%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Alex">
+      <meta itemprop="description" content="记录生活工作中有趣的知识">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="知识博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          PostGIS--第三节、加载空间数据
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2021-10-31 22:12:09 / 修改时间：22:15:03" itemprop="dateCreated datePublished" datetime="2021-10-31T22:12:09+08:00">2021-10-31</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/DB/" itemprop="url" rel="index"><span itemprop="name">DB</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/DB/PostSQL/" itemprop="url" rel="index"><span itemprop="name">PostSQL</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>2.7k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>2 分钟</span>
+    </span>
+</div>
+
+            <div class="post-description">PostGIS--第三节、加载空间数据</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p><strong>加载空间数据</strong></p>
+<p>在各种库和应用程序的支持下，PostGIS提供了许多用于加载数据的方式。</p>
+<p>本节将重点介绍使用PostGIS shapefile加载工具加载shapefile的基础知识。</p>
+<h3 id="一、PostGIS-shapefile工具"><a href="#一、PostGIS-shapefile工具" class="headerlink" title="一、PostGIS shapefile工具"></a>一、PostGIS shapefile工具</h3><p>1.1、首先，进入到选项板，并单击PostGIS部分中的PostGIS shapefile工具，PostGIS shapefile工具将启动。</p>
+<p><img src="/images/PostGIS--%E7%AC%AC%E4%B8%89%E8%8A%82%E3%80%81%E5%8A%A0%E8%BD%BD%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE/1609140648599-619bf641-2d25-4c71-b083-2743dd9d2675.jpeg" alt="img"><img src="/images/PostGIS--%E7%AC%AC%E4%B8%89%E8%8A%82%E3%80%81%E5%8A%A0%E8%BD%BD%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE/1609140648658-4e2bc279-79ce-4ea5-bc1e-2c2c34fa3c3f.jpeg" alt="img"></p>
+<p>1.2、填写PostGIS连接部分（View connection details）的连接详细信息，然后单击“ok”按钮。程序将测试连接并在日志窗口中报告。</p>
+<p>如果安装时使用默认的信息，就按如下所示输入：</p>
+<p><img src="/images/PostGIS--%E7%AC%AC%E4%B8%89%E8%8A%82%E3%80%81%E5%8A%A0%E8%BD%BD%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE/1609140648713-0f6698ac-a95f-4119-a473-b31db8238a85.jpeg" alt="img"><img src="/images/PostGIS--%E7%AC%AC%E4%B8%89%E8%8A%82%E3%80%81%E5%8A%A0%E8%BD%BD%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE/1609140648828-e21cf2bb-0537-44b8-ac5b-9409f92999fc.jpeg" alt="img"><img src="/images/PostGIS--%E7%AC%AC%E4%B8%89%E8%8A%82%E3%80%81%E5%8A%A0%E8%BD%BD%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE/1609140648900-c9f06b6d-44eb-4896-b6ff-87b28428b3fb.jpeg" alt="img"></p>
+<p>1.3、接下来，打开“Add File”按钮并导航到数据目录文件（<a href="https://link.zhihu.com/?target=http://s3.cleverelephant.ca/postgis-workshop-2018.zip">数据下载地址</a>）：\postgis-workshop-2018\data。选择nyc_census_block.shp文件。</p>
+<p><img src="/images/PostGIS--%E7%AC%AC%E4%B8%89%E8%8A%82%E3%80%81%E5%8A%A0%E8%BD%BD%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE/1609140648929-88a255b0-4441-4afc-885c-4938c8f136da.jpeg" alt="img"><img src="/images/PostGIS--%E7%AC%AC%E4%B8%89%E8%8A%82%E3%80%81%E5%8A%A0%E8%BD%BD%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE/1609140648953-b4f7761f-3a42-4f19-83b1-fcaaec09d56a.jpeg" alt="img"></p>
+<p>1.4、将文件的的SRID（空间参考信息）值更改为26918。请注意，模式、表名和列名已经根据shapefile文件里的信息填充，但是你可以有选择地更改它们（不要这样做！在教程后面部分，还有一些步骤需要默认的名称）。</p>
+<p><img src="/images/PostGIS--%E7%AC%AC%E4%B8%89%E8%8A%82%E3%80%81%E5%8A%A0%E8%BD%BD%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE/1609140648961-074a17f0-e3aa-47e5-96b4-005a0f29009c.jpeg" alt="img"></p>
+<p>1.5、保持配置部分的详细信息如下</p>
+<p><img src="/images/PostGIS--%E7%AC%AC%E4%B8%89%E8%8A%82%E3%80%81%E5%8A%A0%E8%BD%BD%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE/1609140648767-6b9466c5-4352-4d5a-be0b-d698ed137a00.jpeg" alt="img"><img src="/images/PostGIS--%E7%AC%AC%E4%B8%89%E8%8A%82%E3%80%81%E5%8A%A0%E8%BD%BD%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE/1609140648956-e03c4357-4589-41e4-917b-1abbe516f150.jpeg" alt="img"></p>
+<p>1.6、单击”Options”按钮查看加载选项。加载程序将使用快速“COPY（复制）”模式，并在加载数据后默认创建空间索引。</p>
+<p><img src="/images/PostGIS--%E7%AC%AC%E4%B8%89%E8%8A%82%E3%80%81%E5%8A%A0%E8%BD%BD%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE/1609140648960-58245059-df01-49fe-9e04-990b66da17a1.jpeg" alt="img"><img src="/images/PostGIS--%E7%AC%AC%E4%B8%89%E8%8A%82%E3%80%81%E5%8A%A0%E8%BD%BD%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE/1609140648904-09f9f111-4b76-454e-ab38-5c4e4d01e94d.jpeg" alt="img"></p>
+<p>1.7、最后，单击”Import”按钮并观察导入过程。这可能需要几分钟的时间来加载，但这是教程数据中最大的一个文件。</p>
+<p><img src="/images/PostGIS--%E7%AC%AC%E4%B8%89%E8%8A%82%E3%80%81%E5%8A%A0%E8%BD%BD%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE/1609140648969-2cc70080-0c91-463f-aa60-ebc174fd3815.jpeg" alt="img"></p>
+<p>1.8、重复数据目录中其余shapefile文件的导入。通过在按”Import”按钮之前添加多个文件，可以在一次导入过程中加载多个文件：</p>
+<p><img src="/images/PostGIS--%E7%AC%AC%E4%B8%89%E8%8A%82%E3%80%81%E5%8A%A0%E8%BD%BD%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE/1609140648721-1b28d042-066a-437a-ac93-67fc7ac6f541.jpeg" alt="img"></p>
+<p>1.9、加载所有文件后，单击pgAdmin中的”Refresh”按钮更新树状视图。应该可以看到6个表显示在树结构：数据库&gt;nyc&gt;架构&gt;public&gt;数据表里。</p>
+<p><img src="/images/PostGIS--%E7%AC%AC%E4%B8%89%E8%8A%82%E3%80%81%E5%8A%A0%E8%BD%BD%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE/1609140649002-2ed86084-a33d-48c6-9358-7bcf2f18eb52.jpeg" alt="img"><img src="/images/PostGIS--%E7%AC%AC%E4%B8%89%E8%8A%82%E3%80%81%E5%8A%A0%E8%BD%BD%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE/1609140648974-3b14dcf6-37f5-4993-b4fa-8f6a4dd4e934.jpeg" alt="img"></p>
+<h3 id="二、什么是shapefile？"><a href="#二、什么是shapefile？" class="headerlink" title="二、什么是shapefile？"></a>二、什么是shapefile？</h3><p>你可能会问 —— “shapefile是什么？”。</p>
+<p>一个”shapefile”通常指带有.shp、.shx、.dbf和其他扩展名且前缀名称一致的文件集合。</p>
+<p>例如上面的nyc_census_blocks由以下几个文件组成：</p>
+<p><img src="/images/PostGIS--%E7%AC%AC%E4%B8%89%E8%8A%82%E3%80%81%E5%8A%A0%E8%BD%BD%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE/1609140649001-95bfb946-cc9d-4378-b799-2932550e5ae3.jpeg" alt="img"></p>
+<p>一个shapfile必须有的文件：</p>
+<ul>
+<li><p>.shp —— 存储地理要素的几何信息</p>
+</li>
+<li><p>.shx —— 存储要素几何图形的索引信息</p>
+</li>
+<li><p>.dbf —— 存储地理要素的属性信息（非几何信息）</p>
+</li>
+</ul>
+<p>可选文件包括：</p>
+<ul>
+<li>.prj —— 存储空间参考信息，即地理坐标系统信息和投影坐标系统信息。使用well-known文本格式进行描述。</li>
+</ul>
+<p>PostGIS shapefile工具将shapefile数据从二进制转换为一系列的SQL命令，然后在数据库中运行以加载数据，从而使shapefile数据在PostGIS中可用。</p>
+<h3 id="三、什么是SRID-26918？"><a href="#三、什么是SRID-26918？" class="headerlink" title="三、什么是SRID 26918？"></a>三、什么是SRID 26918？</h3><p>大多数导入过程都是很容易理解的，但是即使是经验丰富的GIS专业人员也可能被SRID难倒。</p>
+<p>“SRID”表示“Spatial Reference IDentifier（空间参考标识符)”。它定义了我们数据的地理坐标系统和投影的所有参数。</p>
+<p>SRID很方便，因为它将有关地图投影的所有信息（可能非常复杂）打包（更具体的说应该是映射）到一个数字中。</p>
+<p>你可以在以下链接中查找我们在上面使用的投影的定义：</p>
+<ul>
+<li><a href="https://link.zhihu.com/?target=http://spatialreference.org/ref/epsg/26918/">http://spatialreference.org/ref/epsg/26918/</a></li>
+</ul>
+<p>或直接在PostGIS内部对spatial_ref_sys表进行查询：</p>
+<p>SELECT srtext FROM spatial_ref_sys WHERE srid = 26918;</p>
+<p><img src="/images/PostGIS--%E7%AC%AC%E4%B8%89%E8%8A%82%E3%80%81%E5%8A%A0%E8%BD%BD%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE/1609140648997-93d2b197-ca3d-408f-b47f-ebc7b0f4d50d.jpeg" alt="img"></p>
+<p>注意：PostGIS的spatial_ref_sys表是一个OGC标准表，用于定义数据库已知的所有空间参考系统。PostGIS附带的数据列出了3000多个已知的空间参考系统以及在它们之间进行转换/重新投影所需的详细信息。</p>
+<p>在以上两种查看方式里，你都会看到26918对应的空间参考系统的文本表示（为了便于观看，此处格式化得很整齐）：</p>
+<p>PROJCS[  “NAD83 / UTM zone 18N”,  GEOGCS[   “NAD83”,   DATUM[    “North_American_Datum_1983”,    SPHEROID[     “GRS 1980”,6378137,298.257222101,AUTHORITY[“EPSG”,”7019”]    ],    AUTHORITY[“EPSG”,”6269”]   ],   PRIMEM[“Greenwich”,0,AUTHORITY[“EPSG”,”8901”]],   UNIT[“degree”,0.01745329251994328,AUTHORITY[“EPSG”,”9122”]],   AUTHORITY[“EPSG”,”4269”]  ],  UNIT[“metre”,1,AUTHORITY[“EPSG”,”9001”]],  PROJECTION[“Transverse_Mercator”],  PARAMETER[“latitude_of_origin”,0],  PARAMETER[“central_meridian”,-75],  PARAMETER[“scale_factor”,0.9996],  PARAMETER[“false_easting”,500000],  PARAMETER[“false_northing”,0],  AUTHORITY[“EPSG”,”26918”],  AXIS[“Easting”,EAST],  AXIS[“Northing”,NORTH] ]</p>
+<p>如果从data目录打开nyc_neighborhoods.prj文件，将看到相同的投影信息。</p>
+<p>人们使用PostGIS的一个常见问题是弄清楚要使用哪个SRID号来使用他们的数据。他们只有一个.prj文件，但是应该如何将.prj文件转换成正确的SRID号呢？</p>
+<p>最简单的答案就是使用电脑。将.prj文件的内容插入<a href="https://link.zhihu.com/?target=http://prj2epsg.org/">http://prj2epsg.org</a>。这将为我们提供与投影定义最匹配的SRID编号（或编号列表）。</p>
+<p>世界上并不是每个地图投影都有对应的SRID编号，但大多数常见的投影都有对应的且保存在prj2epsg库中的SRID编号。</p>
+<p><img src="/images/PostGIS--%E7%AC%AC%E4%B8%89%E8%8A%82%E3%80%81%E5%8A%A0%E8%BD%BD%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE/1609140649023-94e58d89-8302-4b4e-b78a-7d3ffda89079.jpeg" alt="img"></p>
+<p>你从当地机构收到的数据 —— 如纽约市 —— 通常是基于”state plane”或”UTM”的地方投影。</p>
+<h3 id="四、使用QGIS查看数据"><a href="#四、使用QGIS查看数据" class="headerlink" title="四、使用QGIS查看数据"></a>四、使用QGIS查看数据</h3><p>QGIS，是一个桌面端GIS查看器/编辑器，用于快速查看数据。</p>
+<p>QGIS可以查看许多数据格式，包括shapefile和PostGIS数据库。</p>
+<p>它的图形界面允许我们轻松探索我们的数据，以及快速的对地理要素样式进行设置。</p>
+<p>尝试使用QGIS连接PostGIS数据库，该应用程序可从<a href="https://link.zhihu.com/?target=http://qgis.org/">http://qgis.org</a>下载。</p>
+<p><img src="/images/PostGIS--%E7%AC%AC%E4%B8%89%E8%8A%82%E3%80%81%E5%8A%A0%E8%BD%BD%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE/1609140648883-83109a1b-afd9-4bf5-a1ef-a14c89b1900d.jpeg" alt="img"><img src="/images/PostGIS--%E7%AC%AC%E4%B8%89%E8%8A%82%E3%80%81%E5%8A%A0%E8%BD%BD%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE/1609140648983-6b616eb4-0229-4964-bc57-c53e505e8f88.jpeg" alt="img"><img src="/images/PostGIS--%E7%AC%AC%E4%B8%89%E8%8A%82%E3%80%81%E5%8A%A0%E8%BD%BD%E7%A9%BA%E9%97%B4%E6%95%B0%E6%8D%AE/1609140648979-da676008-9395-410e-80ed-d55bc510e114.jpeg" alt="img"></p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><ol>
+<li><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/62160223">https://zhuanlan.zhihu.com/p/62160223</a></li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/atom.xml">
+          <span class="icon">
+            <i class="fa fa-rss"></i>
+          </span>
+
+          <span class="label">RSS</span>
+        </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/PostSQL/" rel="tag"># PostSQL</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/10/31/Python%E9%A1%B9%E7%9B%AE%E9%83%A8%E7%BD%B2/" rel="prev" title="Python项目部署">
+                  <i class="fa fa-chevron-left"></i> Python项目部署
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/10/31/PostGIS--%E7%AC%AC%E5%9B%9B%E8%8A%82%E3%80%81%E6%95%99%E7%A8%8B%E6%95%B0%E6%8D%AE%E8%AF%B4%E6%98%8E/" rel="next" title="PostGIS--第四节、教程数据说明">
+                  PostGIS--第四节、教程数据说明 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Alex</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">192k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">2:55</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+  <script class="next-config" data-name="pdf" type="application/json">{"object_url":{"url":"https://cdn.jsdelivr.net/npm/pdfobject@2.2.6/pdfobject.min.js","integrity":"sha256-77geM50MfxCD17eqyJR+Dag1svjJOLN+BJ2F/DMqMEY="},"url":"/lib/pdf/web/viewer.html"}</script>
+  <script src="/js/third-party/tags/pdf.js"></script>
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+</body>
+</html>
