@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"daoxuan.gitee.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":true,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<meta name="description" content="Git学习：第二章、基础">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Git学习：第二章、基础">
+<meta property="og:url" content="https://daoxuan.gitee.io/blog/Git%E5%AD%A6%E4%B9%A0%EF%BC%9A%E7%AC%AC%E4%BA%8C%E7%AB%A0%E3%80%81%E5%9F%BA%E7%A1%80.html">
+<meta property="og:site_name" content="知识博客">
+<meta property="og:description" content="Git学习：第二章、基础">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://daoxuan.gitee.io/images/2022-01-16-Git%E5%AD%A6%E4%B9%A0%EF%BC%9A%E7%AC%AC%E4%BA%8C%E7%AB%A0%E3%80%81%E5%9F%BA%E7%A1%80/image-20220119165408646.png">
+<meta property="og:image" content="https://daoxuan.gitee.io/images/2022-01-16-Git学习：第二章、基础/image-20220119204722853.png">
+<meta property="og:image" content="https://daoxuan.gitee.io/images/2022-01-16-Git学习：第二章、基础/image-20220120095605645.png">
+<meta property="article:published_time" content="2022-01-16T12:11:54.000Z">
+<meta property="article:modified_time" content="2022-03-13T13:00:55.452Z">
+<meta property="article:author" content="Alex">
+<meta property="article:tag" content="Git">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://daoxuan.gitee.io/images/2022-01-16-Git%E5%AD%A6%E4%B9%A0%EF%BC%9A%E7%AC%AC%E4%BA%8C%E7%AB%A0%E3%80%81%E5%9F%BA%E7%A1%80/image-20220119165408646.png">
+
+
+<link rel="canonical" href="https://daoxuan.gitee.io/blog/Git%E5%AD%A6%E4%B9%A0%EF%BC%9A%E7%AC%AC%E4%BA%8C%E7%AB%A0%E3%80%81%E5%9F%BA%E7%A1%80.html">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://daoxuan.gitee.io/blog/Git%E5%AD%A6%E4%B9%A0%EF%BC%9A%E7%AC%AC%E4%BA%8C%E7%AB%A0%E3%80%81%E5%9F%BA%E7%A1%80.html","path":"Git学习：第二章、基础.html","title":"Git学习：第二章、基础"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Git学习：第二章、基础 | 知识博客</title>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="知识博客" type="application/atom+xml">
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">知识博客</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">知识博客</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%94%E8%AE%B0%E8%83%8C%E6%99%AF"><span class="nav-number">1.</span> <span class="nav-text">笔记背景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83"><span class="nav-number">2.</span> <span class="nav-text">环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E8%8E%B7%E5%8F%96%E4%BB%93%E5%BA%93"><span class="nav-number">3.</span> <span class="nav-text">一、获取仓库</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9C%AC%E5%9C%B0%E8%BD%AC%E6%8D%A2"><span class="nav-number">3.1.</span> <span class="nav-text">本地转换</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%85%8B%E9%9A%86"><span class="nav-number">3.2.</span> <span class="nav-text">服务器克隆</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E8%AE%B0%E5%BD%95%E6%9B%B4%E6%96%B0%E5%88%B0%E4%BB%93%E5%BA%93"><span class="nav-number">4.</span> <span class="nav-text">二、记录更新到仓库</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A3%80%E6%9F%A5%E5%BD%93%E5%89%8D%E6%96%87%E4%BB%B6%E7%8A%B6%E6%80%81"><span class="nav-number">4.1.</span> <span class="nav-text">检查当前文件状态</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%B7%9F%E8%B8%AA%E6%96%B0%E6%96%87%E4%BB%B6"><span class="nav-number">4.2.</span> <span class="nav-text">跟踪新文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9A%82%E5%AD%98%E5%B7%B2%E4%BF%AE%E6%94%B9%E7%9A%84%E6%96%87%E4%BB%B6"><span class="nav-number">4.3.</span> <span class="nav-text">暂存已修改的文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%8A%B6%E6%80%81%E7%AE%80%E8%A7%88"><span class="nav-number">4.4.</span> <span class="nav-text">状态简览</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BF%BD%E7%95%A5%E6%96%87%E4%BB%B6"><span class="nav-number">4.5.</span> <span class="nav-text">忽略文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E5%B7%B2%E6%9A%82%E5%AD%98%E5%92%8C%E6%9C%AA%E6%9A%82%E5%AD%98%E7%9A%84%E4%BF%AE%E6%94%B9"><span class="nav-number">4.6.</span> <span class="nav-text">查看已暂存和未暂存的修改</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8F%90%E4%BA%A4%E6%9B%B4%E6%96%B0"><span class="nav-number">4.7.</span> <span class="nav-text">提交更新</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%B7%B3%E8%BF%87%E4%BD%BF%E7%94%A8%E6%9A%82%E5%AD%98%E5%8C%BA%E5%9F%9F"><span class="nav-number">4.8.</span> <span class="nav-text">跳过使用暂存区域</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A7%BB%E9%99%A4%E6%96%87%E4%BB%B6"><span class="nav-number">4.9.</span> <span class="nav-text">移除文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A7%BB%E5%8A%A8%E6%96%87%E4%BB%B6"><span class="nav-number">4.10.</span> <span class="nav-text">移动文件</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E6%9F%A5%E7%9C%8B%E6%8F%90%E4%BA%A4%E5%8E%86%E5%8F%B2"><span class="nav-number">5.</span> <span class="nav-text">三、查看提交历史</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E6%92%A4%E9%94%80%E6%93%8D%E4%BD%9C"><span class="nav-number">6.</span> <span class="nav-text">四、撤销操作</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%94%E3%80%81%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93%E4%BD%BF%E7%94%A8"><span class="nav-number">7.</span> <span class="nav-text">五、远程仓库使用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF"><span class="nav-number">7.1.</span> <span class="nav-text">添加远程分支</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8E%A8%E9%80%81%E5%88%B0%E8%BF%9C%E7%A8%8B%E5%88%86%E6%94%AF"><span class="nav-number">7.2.</span> <span class="nav-text">推送到远程分支</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E6%9F%90%E4%B8%AA%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93"><span class="nav-number">7.3.</span> <span class="nav-text">查看某个远程仓库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%9C%E7%A8%8B%E4%BB%93%E5%BA%93%E7%9A%84%E9%87%8D%E5%91%BD%E5%90%8D%E4%B8%8E%E7%A7%BB%E9%99%A4"><span class="nav-number">7.4.</span> <span class="nav-text">远程仓库的重命名与移除</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%AD%E3%80%81%E6%A0%87%E7%AD%BE"><span class="nav-number">8.</span> <span class="nav-text">六、标签</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%97%E5%87%BA%E6%A0%87%E7%AD%BE"><span class="nav-number">8.1.</span> <span class="nav-text">列出标签</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E6%A0%87%E7%AD%BE"><span class="nav-number">8.2.</span> <span class="nav-text">创建标签</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B1%E4%BA%AB%E6%A0%87%E7%AD%BE"><span class="nav-number">8.3.</span> <span class="nav-text">共享标签</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E6%A0%87%E7%AD%BE"><span class="nav-number">8.4.</span> <span class="nav-text">删除标签</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A3%80%E5%87%BA%E6%A0%87%E7%AD%BE"><span class="nav-number">8.5.</span> <span class="nav-text">检出标签</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%83%E3%80%81%E5%88%AB%E5%90%8D"><span class="nav-number">9.</span> <span class="nav-text">七、别名</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Alex</p>
+  <div class="site-description" itemprop="description">记录生活工作中有趣的知识</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">10</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+        <div class="back-to-top animated" role="button" aria-label="返回顶部">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://daoxuan.gitee.io/blog/Git%E5%AD%A6%E4%B9%A0%EF%BC%9A%E7%AC%AC%E4%BA%8C%E7%AB%A0%E3%80%81%E5%9F%BA%E7%A1%80.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Alex">
+      <meta itemprop="description" content="记录生活工作中有趣的知识">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="知识博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Git学习：第二章、基础
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-01-16 20:11:54" itemprop="dateCreated datePublished" datetime="2022-01-16T20:11:54+08:00">2022-01-16</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2022-03-13 21:00:55" itemprop="dateModified" datetime="2022-03-13T21:00:55+08:00">2022-03-13</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Git/" itemprop="url" rel="index"><span itemprop="name">Git</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>7.5k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>7 分钟</span>
+    </span>
+</div>
+
+            <div class="post-description">Git学习：第二章、基础</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>[toc]</p>
+<h3 id="笔记背景"><a href="#笔记背景" class="headerlink" title="笔记背景"></a>笔记背景</h3><p>工作中经常使用Git，只会简单的push ,pull ,merge 。显然是不行的。在复杂的项目和情况下，需要了解Git原理和掌握解决方案，才能凸显个人价值，提升职级。</p>
+<p>特此记录整体学习Git的过程。</p>
+<p>整个学习过程主要依据<a target="_blank" rel="noopener" href="https://git-scm.com/">官方</a>给定的<a target="_blank" rel="noopener" href="https://github.com/progit/progit2/releases/download/2.1.336/progit.pdf">文档</a>，配合测试项目。一步步验证并熟悉其功效。</p>
+<h3 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h3><p>Git: git version 2.32.0</p>
+<p>[Pdf Document](链接: <a target="_blank" rel="noopener" href="https://pan.baidu.com/s/1qA7yHzRJokSaIPk9jR3HxQ">https://pan.baidu.com/s/1qA7yHzRJokSaIPk9jR3HxQ</a> 提取码: aat4<br>–来自百度网盘超级会员v5的分享):   2021-10-16 更新</p>
+<h3 id="一、获取仓库"><a href="#一、获取仓库" class="headerlink" title="一、获取仓库"></a>一、获取仓库</h3><h4 id="本地转换"><a href="#本地转换" class="headerlink" title="本地转换"></a>本地转换</h4><blockquote>
+<p>将尚未进行版本控制的本地目录转换为 Git 仓库</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 把本地目录的转换成仓库的命令， 创建一个名为.git的子目录</span></span><br><span class="line">git init</span><br><span class="line"></span><br><span class="line"><span class="comment"># 对需要版本控制的文件执行 </span></span><br><span class="line">git add xx.txt</span><br><span class="line"></span><br><span class="line"><span class="comment"># 把跟踪的文件放置到仓库</span></span><br><span class="line">git commit -m <span class="string">&quot;test&quot;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="服务器克隆"><a href="#服务器克隆" class="headerlink" title="服务器克隆"></a>服务器克隆</h4><blockquote>
+<p>从其它服务器 克隆 一个已存在的 Git 仓库。</p>
+<p>如下图所示： url 可以使用https协议，git协议，ssh 协议。</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 克隆仓库，会在命令行所在目录创建仓库目录</span></span><br><span class="line">git <span class="built_in">clone</span> &lt;url&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 克隆远程仓库的时候，自定义本地仓库名字</span></span><br><span class="line">git <span class="built_in">clone</span> &lt;url&gt; aliase name </span><br><span class="line"></span><br><span class="line"><span class="comment"># eg</span></span><br><span class="line">git <span class="built_in">clone</span> https://gitee.com/DaoXuan/learn-groovy.git</span><br><span class="line">git <span class="built_in">clone</span> git@gitee.com:DaoXuan/learn-groovy.git</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="二、记录更新到仓库"><a href="#二、记录更新到仓库" class="headerlink" title="二、记录更新到仓库"></a>二、记录更新到仓库</h3><p>工作目录下的每一个文件都不外乎这两种状态：<strong>已跟踪</strong> 或 <strong>未跟踪</strong>。 </p>
+<p>已跟踪的文件是指那些被纳入了版本控制的文件，在上一次快照中有它们的记录，在工作一段时间后， 它们的状态可能是未修改，已修改或已经放入暂存区。简而言之，已跟踪的文件就是 Git 已经知道的文件。</p>
+<p>工作目录中除已跟踪文件外的其它所有文件都属于<strong>未跟踪文件</strong>，它们既不存在于上次快照的记录中，也没有被放入暂存区。</p>
+<p><img src="/images/2022-01-16-Git%E5%AD%A6%E4%B9%A0%EF%BC%9A%E7%AC%AC%E4%BA%8C%E7%AB%A0%E3%80%81%E5%9F%BA%E7%A1%80/image-20220119165408646.png" alt="image-20220119165408646"></p>
+<p>如图所示： 可以大致分为 untracked 和 tracked。文件状态变更</p>
+<h4 id="检查当前文件状态"><a href="#检查当前文件状态" class="headerlink" title="检查当前文件状态"></a>检查当前文件状态</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看哪些文件处于什么状态</span></span><br><span class="line">git status</span><br></pre></td></tr></table></figure>
+
+<p>展示内容：</p>
+<ol>
+<li>目录下未跟踪状态的新文件</li>
+<li>当前所在分支以及此分支同远程服务器上对应的分支</li>
+</ol>
+<blockquote>
+<p>示例</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">$ git status                                </span><br><span class="line">On branch dev</span><br><span class="line">Your branch is up to date with <span class="string">&#x27;origin/dev&#x27;</span>.</span><br><span class="line"></span><br><span class="line"><span class="comment"># 没有被暂存的文件，状态是 modified</span></span><br><span class="line">Changes not staged <span class="keyword">for</span> commit:</span><br><span class="line">  (use <span class="string">&quot;git add &lt;file&gt;...&quot;</span> to update what will be committed)</span><br><span class="line">  (use <span class="string">&quot;git restore &lt;file&gt;...&quot;</span> to discard changes <span class="keyword">in</span> working directory)</span><br><span class="line">        modified:   src/main/resources/bootstrap-test.yml</span><br><span class="line">        modified:   src/main/resources/bootstrap.yml</span><br><span class="line"><span class="comment"># 未被跟踪文件及目录</span></span><br><span class="line">Untracked files:</span><br><span class="line">  (use <span class="string">&quot;git add &lt;file&gt;...&quot;</span> to include <span class="keyword">in</span> what will be committed)</span><br><span class="line">        .idea/</span><br><span class="line">        target/</span><br><span class="line"></span><br><span class="line">no changes added to commit (use <span class="string">&quot;git add&quot;</span> and/or <span class="string">&quot;git commit -a&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<h4 id="跟踪新文件"><a href="#跟踪新文件" class="headerlink" title="跟踪新文件"></a>跟踪新文件</h4><blockquote>
+<p>理解： 跟踪新文件就是把新文件（文件目录）放到版本系统中。使用下面的命令。需要注意的是，git add 命令，不仅仅是把文件状态由 未跟踪转到已跟踪状态，它的底层逻辑应该是把文件的状态向更深一层更改： 未跟踪–&gt;已跟踪-&gt;暂存-&gt;修改-&gt;暂存….</p>
+<p>git add : 精确地将内容添加到下一次提交中”而不是“将一个文件添加到项目中”</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 添加 xx.md文件 </span></span><br><span class="line">git add  xx.md	</span><br></pre></td></tr></table></figure>
+
+
+
+<blockquote>
+<p>示例：</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">$ git status                             </span><br><span class="line">On branch dev</span><br><span class="line">Your branch is up to date with <span class="string">&#x27;origin/dev&#x27;</span>.</span><br><span class="line"></span><br><span class="line"><span class="comment"># 此行下面的文件已被暂存，等待进度仓库</span></span><br><span class="line">Changes to be committed:</span><br><span class="line">  (use <span class="string">&quot;git restore --staged &lt;file&gt;...&quot;</span> to unstage)</span><br><span class="line">        modified:   jdk/src/main/java/DateTest.java</span><br><span class="line"><span class="comment"># 此行下面的文件未暂存，还不能进仓库，需要执行git add 命令。 正如括号中的说明</span></span><br><span class="line">Changes not staged <span class="keyword">for</span> commit:</span><br><span class="line">  (use <span class="string">&quot;git add &lt;file&gt;...&quot;</span> to update what will be committed)</span><br><span class="line">  (use <span class="string">&quot;git restore &lt;file&gt;...&quot;</span> to discard changes <span class="keyword">in</span> working directory)</span><br><span class="line">        modified:   jdk/src/main/java/TestMath.java</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h4 id="暂存已修改的文件"><a href="#暂存已修改的文件" class="headerlink" title="暂存已修改的文件"></a>暂存已修改的文件</h4><blockquote>
+<p>正如上面的实例， TestMath.java文件，在未暂存状态，如果需要改为暂存状态，需要命令git add 。</p>
+<p>注意 ： 已暂存状态，未提交的文件，如果再次发生修改，同样，在此需要git add 。 git status 查看状态时，此文件会在暂存区和未暂存区下展示。</p>
+</blockquote>
+<h4 id="状态简览"><a href="#状态简览" class="headerlink" title="状态简览"></a>状态简览</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 简介输出 git status --short /  git status -s </span></span><br><span class="line">git status -s </span><br></pre></td></tr></table></figure>
+
+<p>?? : 此标记在新添加的未跟踪文件前面</p>
+<p>A : 此标记在新添加到暂存区中的文件前面</p>
+<p>M: 此标记修改过的文件前面有  </p>
+<p>输出中有两栏，左栏指明了暂存区的状态，右栏指明了工作区的状态</p>
+<p>示例：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">M  jdk/src/main/java/DateTest.java <span class="comment">#已跟踪，被修改，已暂存</span></span><br><span class="line"> M jdk/src/main/java/TestMath.java<span class="comment"># 已跟踪，被修改，未暂存</span></span><br><span class="line">?? a1211.txt <span class="comment"># 新增的文件，没有被跟踪</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># </span></span><br><span class="line">AM a1211.txt <span class="comment"># 已跟踪,已暂存，已修改</span></span><br><span class="line">M  jdk/src/main/java/DateTest.java </span><br><span class="line"> M jdk/src/main/java/TestMath.java</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="忽略文件"><a href="#忽略文件" class="headerlink" title="忽略文件"></a>忽略文件</h4><p>有些文件无需纳入 Git 的管理，也不希望它们总出现在未跟踪文件列表。 通常都是些自动生成的文 件，比如日志文件，或者编译过程中创建的临时文件等。 在这种情况下，我们可以创建一个名为 .gitignore的文件，列出要忽略的文件的模式.</p>
+<p>规范</p>
+<p>• 所有空行或者以 # 开头的行都会被 Git 忽略。 </p>
+<p>• 可以使用标准的 glob 模式匹配，它会递归地应用在整个工作区中。</p>
+<p>• 匹配模式可以以（/）开头防止递归。 </p>
+<p>• 匹配模式可以以（/）结尾指定目录。 </p>
+<p>• 要忽略指定模式以外的文件或目录，可以在模式前加上叹号（!）取反。</p>
+<p>glob模式</p>
+<blockquote>
+<ul>
+<li>  星号（*）匹配零个或多个任意字符；</li>
+</ul>
+<p>[]   [abc] 匹配任何一个列在方括号中的字符 （这个例子要么匹配一个 a，要么匹配一个 b，要么匹配一个 c）； </p>
+<p>?    问号（?）只匹配一个任意字符；</p>
+<p>[ - ] 如果在方括号中使用短划线分隔两个字符， 表示所有在这两个字符范围内的都可以匹配 （比如 [0-9] 表示匹配所有 0 到 9 的数字）。 </p>
+<p>**  使用两个星号（**)  表示匹配任意中间目录，比如 a/**/z 可以匹配 a/z 、 a/b/z 或 a/b/c/z 等。</p>
+</blockquote>
+<p>多个语言.gitignore文件列表<a target="_blank" rel="noopener" href="https://github.com/github/gitignore">参考</a></p>
+<h4 id="查看已暂存和未暂存的修改"><a href="#查看已暂存和未暂存的修改" class="headerlink" title="查看已暂存和未暂存的修改"></a>查看已暂存和未暂存的修改</h4><blockquote>
+<p>能通过文件补丁的格式更加具体地显示哪些行发生了改变.</p>
+<p>版本不一样，git diff也不一样</p>
+<p>文档说明：Show changes between the working tree and the index or a tree, changes between the index and a tree, changes between two trees, changes resulting<br>       from a merge, changes between two blob objects, or changes between two files on disk.</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>选项</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>git diff</td>
+<td></td>
+<td>比较的是工作目录中当前文件和暂存区域快照之间的差异，即修改之后还没有暂存起来的变化内容</td>
+</tr>
+</tbody></table>
+<h4 id="提交更新"><a href="#提交更新" class="headerlink" title="提交更新"></a>提交更新</h4><blockquote>
+<p>执行命令行，会把已经暂存的文件提交到仓库。同时，启动配置好的文本编辑器来输入提交说明。</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git commit </span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git commit -m <span class="string">&quot;自定义的提交信息	&quot;</span></span><br></pre></td></tr></table></figure>
+
+
+
+<p>请记住，提交时记录的是放在暂存区域的快照。 任何还未暂存文件的仍然保持已修改状态，可以在下次提交时纳入版本管理。 每一次运行提交操作，都是对你项目作一次快照，以后可以回到这个状态，或者进行比较。</p>
+<h4 id="跳过使用暂存区域"><a href="#跳过使用暂存区域" class="headerlink" title="跳过使用暂存区域"></a>跳过使用暂存区域</h4><blockquote>
+<p>给 git commit 加上 -a 选项，Git 就会自动把所有已经跟踪过的文件暂存起来一并提交</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git commit -a </span><br></pre></td></tr></table></figure>
+
+<h4 id="移除文件"><a href="#移除文件" class="headerlink" title="移除文件"></a>移除文件</h4><blockquote>
+<p>要从 Git 中移除某个文件，就必须要从已跟踪文件清单中移除（确切地说，是从暂存区域移除），然后提交。</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 直接从仓库中删除，同时也会从本地磁盘中删除</span></span><br><span class="line">git rm </span><br><span class="line"></span><br><span class="line"><span class="comment">#  force 如果要删除之前修改过或已经放到暂存区的文件，则必须使用强制删除选项 -f（译注：即 force 的首字母）</span></span><br><span class="line">git rm -f </span><br></pre></td></tr></table></figure>
+
+
+
+<blockquote>
+<p>把文件从 Git 仓库中删除（亦即从暂存区域移除），但仍然希望保留在当前工作目录中。</p>
+<p>并没有删除commit，只是删除文件</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git rm --cached 文件、目录</span><br></pre></td></tr></table></figure>
+
+<img src="/images/2022-01-16-Git学习：第二章、基础/image-20220119204722853.png" alt="image-20220119204722853" style="zoom:50%;" />
+
+
+
+<h4 id="移动文件"><a href="#移动文件" class="headerlink" title="移动文件"></a>移动文件</h4><blockquote>
+<p>git 中对文件改名。 </p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">git mv file_from file_to 	</span><br><span class="line"></span><br><span class="line"><span class="comment"># 上面命令相当于执行了下面三条命令,但是底层应该不是的</span></span><br><span class="line">mv file_from file_to </span><br><span class="line">git rm file_from </span><br><span class="line">git add file_to</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="三、查看提交历史"><a href="#三、查看提交历史" class="headerlink" title="三、查看提交历史"></a>三、查看提交历史</h3><blockquote>
+<p>git log </p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>options</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>无</td>
+<td>列出所有提交日志，按照日期倒序，最近的排在最上面</td>
+</tr>
+<tr>
+<td>-p  /  –patch</td>
+<td>显示每次提交所引入的差异（按 补丁的格式输出）</td>
+</tr>
+<tr>
+<td>-p / –patch  -2</td>
+<td>显示最近两次的</td>
+</tr>
+<tr>
+<td>–stat</td>
+<td>每次提交的简略统计信息</td>
+</tr>
+<tr>
+<td>–pretty</td>
+<td>可以使用不同于默认格式的方式展示提交历史</td>
+</tr>
+<tr>
+<td>–pretty=oneline</td>
+<td>将每个提交放在一行显示</td>
+</tr>
+<tr>
+<td>–pretty=short / full/ fuller</td>
+<td>short  full  fuller 展示信息格式基本一致，详尽程度不易</td>
+</tr>
+<tr>
+<td>–pretty=format:”%h - %an, %ar : %s ”</td>
+<td>定制记录的显示格式（占位符写法和意义，如下图所示）</td>
+</tr>
+<tr>
+<td>–pretty=format: “%h %s ” –graph</td>
+<td>–graph 可以形象的展示分支</td>
+</tr>
+<tr>
+<td>–shortstat</td>
+<td>只显示 –stat 中最后的行数修改添加移除统计。</td>
+</tr>
+<tr>
+<td>–oneline</td>
+<td>–pretty=oneline –abbrev-commit合用的简写</td>
+</tr>
+<tr>
+<td>–name-only</td>
+<td>仅在提交信息后显示已修改的文件清单。</td>
+</tr>
+<tr>
+<td>–name-status 。</td>
+<td>显示新增、修改、删除的文件清单</td>
+</tr>
+<tr>
+<td>–abbrev-commit</td>
+<td>仅显示 SHA-1 校验和所有 40 个字符中的前几个字符</td>
+</tr>
+<tr>
+<td>–relative-date</td>
+<td>使用较短的相对时间而不是完整格式显示日期（比如“2 weeks ago”）。</td>
+</tr>
+<tr>
+<td>- <n></td>
+<td>仅显示最近的 n 条提交。</td>
+</tr>
+<tr>
+<td>–since, –after</td>
+<td>仅显示指定时间之后的提交。</td>
+</tr>
+<tr>
+<td>–until, –before</td>
+<td>仅显示指定时间之前的提交。</td>
+</tr>
+<tr>
+<td>–author</td>
+<td>仅显示作者匹配指定字符串的提交。</td>
+</tr>
+<tr>
+<td>–committer</td>
+<td>仅显示提交者匹配指定字符串的提交。</td>
+</tr>
+<tr>
+<td>–grep</td>
+<td>仅显示提交说明中包含指定字符串的提交。</td>
+</tr>
+<tr>
+<td>-S</td>
+<td>仅显示添加或删除内容匹配指定字符串的提交</td>
+</tr>
+</tbody></table>
+<p>示例</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> url</span><br><span class="line">git <span class="built_in">log</span></span><br><span class="line">git <span class="built_in">log</span> -p -2</span><br><span class="line">git <span class="built_in">log</span> --<span class="built_in">stat</span></span><br><span class="line">git <span class="built_in">log</span> --pretty=oneline</span><br><span class="line">git <span class="built_in">log</span> --pretty=format: <span class="string">&quot;%h - %ann , %ar : %s &quot;</span></span><br><span class="line">git <span class="built_in">log</span> --pretty=format: <span class="string">&quot;%h %s&quot;</span> --graph</span><br><span class="line">git <span class="built_in">log</span> --since=2.weeks</span><br><span class="line">git <span class="built_in">log</span> --since=<span class="string">&quot;2009-01-12&quot;</span></span><br><span class="line">git <span class="built_in">log</span> --since=<span class="string">&quot;2 years 1 day 3 minutes ago&quot;</span></span><br><span class="line">git <span class="built_in">log</span> -S function_name</span><br></pre></td></tr></table></figure>
+
+<img src="/images/2022-01-16-Git学习：第二章、基础/image-20220120095605645.png" alt="image-20220120095605645" style="zoom:50%;" />
+
+
+
+
+
+<h3 id="四、撤销操作"><a href="#四、撤销操作" class="headerlink" title="四、撤销操作"></a>四、撤销操作</h3><blockquote>
+<p>撤销某些操作</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 这个命令会将暂存区中的文件提交。 如果自上次提交以来你还未做任何修改（例如，在上次提交后马上执行了此命令）， 那么快照会保持不变，而你所修改的只是提交信息</span></span><br><span class="line">git commit –amend</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$ gst</span><br><span class="line">On branch dev</span><br><span class="line">Your branch is ahead of <span class="string">&#x27;origin/dev&#x27;</span> by 2 commits.</span><br><span class="line">  (use <span class="string">&quot;git push&quot;</span> to publish your <span class="built_in">local</span> commits)</span><br><span class="line"></span><br><span class="line">Changes to be committed:</span><br><span class="line"><span class="comment"># 取消暂存的修改</span></span><br><span class="line">  (use <span class="string">&quot;git restore --staged &lt;file&gt;...&quot;</span> to unstage)</span><br><span class="line">        new file:   a12.txt</span><br></pre></td></tr></table></figure>
+
+
+
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">$ git restore --staged a12.txt                             </span><br><span class="line"></span><br><span class="line"><span class="comment"># admin @ daoxuan in ~/workFiles/projects/private/gitee/learning_jdk on git:dev x [10:32:10] </span></span><br><span class="line">$ gst                          </span><br><span class="line">On branch dev</span><br><span class="line">Your branch is ahead of <span class="string">&#x27;origin/dev&#x27;</span> by 2 commits.</span><br><span class="line">  (use <span class="string">&quot;git push&quot;</span> to publish your <span class="built_in">local</span> commits)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 执行后发现，a12.txt文件 未跟踪</span></span><br><span class="line">Untracked files:</span><br><span class="line">  (use <span class="string">&quot;git add &lt;file&gt;...&quot;</span> to include <span class="keyword">in</span> what will be committed)</span><br><span class="line">        a12.txt</span><br><span class="line"></span><br><span class="line">nothing added to commit but untracked files present (use <span class="string">&quot;git add&quot;</span> to track)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="五、远程仓库使用"><a href="#五、远程仓库使用" class="headerlink" title="五、远程仓库使用"></a>五、远程仓库使用</h3><h4 id="添加远程分支"><a href="#添加远程分支" class="headerlink" title="添加远程分支"></a>添加远程分支</h4><blockquote>
+<p>添加一个新的远程git 仓库 ，同时制定一个方便实用的简写</p>
+<p> git remote add <shortname> <url> </p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote add pb https://github.com/paulboone/ticgit</span><br></pre></td></tr></table></figure>
+
+<p>如果你使用 clone 命令克隆了一个仓库，命令会自动将其添加为远程仓库并默认以 “origin” 为简写。 所以，git fetch origin 会抓取克隆（或上一次抓取）后新推送的所有工作。 必须注意 git fetch 命令只会 将数据下载到你的本地仓库——它并不会自动合并或修改你当前的工作。 当准备好时你必须手动将其合并入你的工作。</p>
+<p>如果你的当前分支设置了跟踪远程分支（阅读下一节和 Git 分支 了解更多信息）， 那么可以用 git pull 命令来自动抓取后合并该远程分支到当前分支。 这或许是个更加简单舒服的工作流程。默认情况下，git clone 命 令会自动设置本地 master 分支跟踪克隆的远程仓库的 master 分支（或其它名字的默认分支）。 运行 git pull 通常会从最初克隆的服务器上抓取数据并自动尝试合并到当前所在的分支</p>
+<h4 id="推送到远程分支"><a href="#推送到远程分支" class="headerlink" title="推送到远程分支"></a>推送到远程分支</h4><blockquote>
+<p>git push <remote> <branch></p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git push origin master	</span><br></pre></td></tr></table></figure>
+
+<h4 id="查看某个远程仓库"><a href="#查看某个远程仓库" class="headerlink" title="查看某个远程仓库"></a>查看某个远程仓库</h4><blockquote>
+<p>git push <remote> <branch></p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote show origin</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="远程仓库的重命名与移除"><a href="#远程仓库的重命名与移除" class="headerlink" title="远程仓库的重命名与移除"></a>远程仓库的重命名与移除</h4><blockquote>
+<p>重命名</p>
+<p>git remote rename <new_name>  <old_name></p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote rename pd  paul 	</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>移除</p>
+<p>git remote remove  <branch_name></p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote remove paul </span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="六、标签"><a href="#六、标签" class="headerlink" title="六、标签"></a>六、标签</h3><blockquote>
+<p>Git 可以给仓库历史中的某一个提交打上标签，以示重要。 比较有代表性的是人们会使用这个功能来标记发布结点（ v1.0 、 v2.0 等等）</p>
+</blockquote>
+<p>git tag [-a | -s | -u <keyid>] [-f] [-m <msg> | -F <file>] [-e]<br>               <tagname> [<commit> | <object>]</p>
+<p>git tag -d <tagname>…</p>
+<p>git tag [-n[<num>]] -l [–contains <commit>] [–no-contains <commit>]<br>               [–points-at <object>] [–column[=<options>] | –no-column]<br>               [–create-reflog] [–sort=<key>] [–format=<format>]<br>               [–merged <commit>] [–no-merged <commit>] [<pattern>…]</p>
+<p>git tag -v [–format=<format>] <tagname>…</p>
+<h4 id="列出标签"><a href="#列出标签" class="headerlink" title="列出标签"></a>列出标签</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 列出所有标签</span></span><br><span class="line">git tag -l </span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="创建标签"><a href="#创建标签" class="headerlink" title="创建标签"></a>创建标签</h4><p>轻量标签 ：lightweight ：很像一个不会改变的分支——它只是某个特定提交的引用</p>
+<p>附注标签：annotated：是存储在 Git 数据库中的一个完整对象， 它们是可以被校验的，其中包含打标签者的名字、电子邮件 地址、日期时间， 此外还有一个标签信息，并且可以使用 GNU Privacy Guard （GPG）签名并验证。</p>
+<blockquote>
+<p>可以在历史提交的某一刻创建标签</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 创建附注标签 -a 指定标签名  -m 指定标签信息</span></span><br><span class="line">git tag -a v1.0 -m <span class="string">&quot;msg&quot;</span></span><br><span class="line"><span class="comment"># 查看 指定标签信息</span></span><br><span class="line">git show  v1.0 </span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建轻量标签 不需要 -a -m -s ,只需要标签名字即可</span></span><br><span class="line">git tag v1.1</span><br><span class="line"></span><br><span class="line"><span class="comment"># xxxxx表示 校验和，在某一提交处打标签</span></span><br><span class="line">git tag -a v0.1 xxxxxx</span><br></pre></td></tr></table></figure>
+
+<h4 id="共享标签"><a href="#共享标签" class="headerlink" title="共享标签"></a>共享标签</h4><blockquote>
+<p>默认情况下，git push 命令并不会传送标签到远程仓库服务器上。 在创建完标签后你必须显式地推送标签到共享服务器上。 这个过程就像共享远程分支一样——你可以运行 </p>
+<p>git push origin <tagname></p>
+<p>注意： push 没有选项区分推送 附注和轻量标签，直接推送全部的</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 推送单个标签到服务器</span></span><br><span class="line">git push origin v1.2</span><br><span class="line"></span><br><span class="line"><span class="comment"># 把所有不在远程仓库服务器上的标签全部传送到</span></span><br><span class="line">git push origin --tags</span><br></pre></td></tr></table></figure>
+
+
+
+<h4 id="删除标签"><a href="#删除标签" class="headerlink" title="删除标签"></a>删除标签</h4><blockquote>
+<p>删除本地：  git tag -d <tagname> </p>
+<p>删除远程：git push <remote> :refs/tags/<tagname> ：将冒号前面的空值推送到远程标签名，从而高效地删除它</p>
+<p>删除远程：git push origin –delete <tagname></p>
+</blockquote>
+<h4 id="检出标签"><a href="#检出标签" class="headerlink" title="检出标签"></a>检出标签</h4><blockquote>
+<p>git checkout tag_name</p>
+</blockquote>
+<h3 id="七、别名"><a href="#七、别名" class="headerlink" title="七、别名"></a>七、别名</h3><p>示例</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ git config --global alias.co checkout</span><br><span class="line">$ git config --global alias.br branch</span><br><span class="line">$ git config --global alias.ci commit</span><br><span class="line">$ git config --global alias.st status</span><br></pre></td></tr></table></figure>
+
+<p>这意味着，当要输入 git commit 时，只需要输入 git ci。 随着你继续不断地使用 Git，可能也会经常使用其他命令，所以创建别名时不要犹豫。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/atom.xml">
+          <span class="icon">
+            <i class="fa fa-rss"></i>
+          </span>
+
+          <span class="label">RSS</span>
+        </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/Git/" rel="tag"># Git</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/Java%E8%AE%A1%E7%AE%97%E6%97%B6%E9%97%B4%E5%B7%AE%EF%BC%8C%E6%97%A5%E6%9C%9F%E5%B7%AE%E6%95%B4%E7%90%86.html" rel="prev" title="Java计算时间差，日期差整理">
+                  <i class="fa fa-chevron-left"></i> Java计算时间差，日期差整理
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/Git%E5%AD%A6%E4%B9%A0%EF%BC%9A%E7%AC%AC%E4%B8%80%E7%AB%A0%E3%80%81%E7%AE%80%E4%BB%8B%E5%8F%8A%E5%AE%89%E8%A3%85.html" rel="next" title="Git学习：第一章、简介及安装">
+                  Git学习：第一章、简介及安装 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Alex</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">51k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">47 分钟</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+  <script class="next-config" data-name="pdf" type="application/json">{"object_url":{"url":"https://cdn.jsdelivr.net/npm/pdfobject@2.2.6/pdfobject.min.js","integrity":"sha256-77geM50MfxCD17eqyJR+Dag1svjJOLN+BJ2F/DMqMEY="},"url":"/lib/pdf/web/viewer.html"}</script>
+  <script src="/js/third-party/tags/pdf.js"></script>
+
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+
+</body>
+</html>
