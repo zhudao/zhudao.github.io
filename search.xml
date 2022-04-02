@@ -342,6 +342,24 @@
       </tags>
   </entry>
   <entry>
+    <title>Git学习：第三章、分支</title>
+    <url>/Git%E5%AD%A6%E4%B9%A0%EF%BC%9A%E7%AC%AC%E4%B8%89%E7%AB%A0%E3%80%81%E5%88%86%E6%94%AF.html</url>
+    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>[toc]</p>
+<h3 id="笔记背景"><a href="#笔记背景" class="headerlink" title="笔记背景"></a>笔记背景</h3><p>工作中经常使用Git，只会简单的push ,pull ,merge 。显然是不行的。在复杂的项目和情况下，需要了解Git原理和掌握解决方案，才能凸显个人价值，提升职级。</p>
+<p>特此记录整体学习Git的过程。</p>
+<p>整个学习过程主要依据<a href="https://git-scm.com/">官方</a>给定的<a href="https://github.com/progit/progit2/releases/download/2.1.336/progit.pdf">文档</a>，配合测试项目。一步步验证并熟悉其功效。</p>
+<h3 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h3><p>Git: git version 2.32.0</p>
+<p>[Pdf Document](链接: <a href="https://pan.baidu.com/s/1qA7yHzRJokSaIPk9jR3HxQ">https://pan.baidu.com/s/1qA7yHzRJokSaIPk9jR3HxQ</a> 提取码: aat4<br>–来自百度网盘超级会员v5的分享):   2021-10-16 更新</p>
+<p>几乎所有的版本控制系统都以某种形式支持分支。但是 Git 从众多版本控制系统中脱颖而出，正是因为分支的特性。 为何 Git 的分支模型如此出众呢？ Git 处理分支的方式可谓是难以置信的轻量，创建新分支这一操作几乎能在瞬间完成，并且在不同分支之间的切换操作也是一样便捷。</p>
+<h3 id="一、简介"><a href="#一、简介" class="headerlink" title="一、简介"></a>一、简介</h3><h3 id="二、新建与合并"><a href="#二、新建与合并" class="headerlink" title="二、新建与合并"></a>二、新建与合并</h3><h3 id="三、管理"><a href="#三、管理" class="headerlink" title="三、管理"></a>三、管理</h3><h3 id="四、分支开发工作流"><a href="#四、分支开发工作流" class="headerlink" title="四、分支开发工作流"></a>四、分支开发工作流</h3><h3 id="五、远程分支"><a href="#五、远程分支" class="headerlink" title="五、远程分支"></a>五、远程分支</h3><h3 id="六、变基"><a href="#六、变基" class="headerlink" title="六、变基"></a>六、变基</h3><h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3>]]></content>
+      <categories>
+        <category>Git</category>
+      </categories>
+      <tags>
+        <tag>Git</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>JDK配置</title>
     <url>/JDK%E9%85%8D%E7%BD%AE.html</url>
     <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p><em>工欲善其事必先利其器</em></p>
@@ -422,37 +440,6 @@
       </categories>
       <tags>
         <tag>JAVA</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>kubernetes 学习笔记</title>
-    <url>/kubernetes-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0.html</url>
-    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>[toc]</p>
-<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>笔记根据尚硅谷教程整理。</p>
-<h2 id="第一章-组件介绍"><a href="#第一章-组件介绍" class="headerlink" title="第一章 组件介绍"></a>第一章 组件介绍</h2><h2 id="第二章-基础概念"><a href="#第二章-基础概念" class="headerlink" title="第二章 基础概念"></a>第二章 基础概念</h2><h2 id="第三章-集群安装"><a href="#第三章-集群安装" class="headerlink" title="第三章 集群安装"></a>第三章 集群安装</h2><h2 id="第四章-资源清单"><a href="#第四章-资源清单" class="headerlink" title="第四章 资源清单"></a>第四章 资源清单</h2><h2 id="第五章-资源控制器"><a href="#第五章-资源控制器" class="headerlink" title="第五章 资源控制器"></a>第五章 资源控制器</h2><h2 id="第六章-service"><a href="#第六章-service" class="headerlink" title="第六章 service"></a>第六章 service</h2><h2 id="第七章-存储"><a href="#第七章-存储" class="headerlink" title="第七章 存储"></a>第七章 存储</h2><h2 id="第八章-集群调度"><a href="#第八章-集群调度" class="headerlink" title="第八章 集群调度"></a>第八章 集群调度</h2><h2 id="第九章-安全"><a href="#第九章-安全" class="headerlink" title="第九章 安全"></a>第九章 安全</h2><h2 id="第十章-Helm及其他功能性组件"><a href="#第十章-Helm及其他功能性组件" class="headerlink" title="第十章 Helm及其他功能性组件"></a>第十章 Helm及其他功能性组件</h2><h2 id="第十二章-高可用集群构建"><a href="#第十二章-高可用集群构建" class="headerlink" title="第十二章 高可用集群构建"></a>第十二章 高可用集群构建</h2>]]></content>
-      <categories>
-        <category>容器</category>
-      </categories>
-      <tags>
-        <tag>k8s</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Git学习：第三章、分支</title>
-    <url>/Git%E5%AD%A6%E4%B9%A0%EF%BC%9A%E7%AC%AC%E4%B8%89%E7%AB%A0%E3%80%81%E5%88%86%E6%94%AF.html</url>
-    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>[toc]</p>
-<h3 id="笔记背景"><a href="#笔记背景" class="headerlink" title="笔记背景"></a>笔记背景</h3><p>工作中经常使用Git，只会简单的push ,pull ,merge 。显然是不行的。在复杂的项目和情况下，需要了解Git原理和掌握解决方案，才能凸显个人价值，提升职级。</p>
-<p>特此记录整体学习Git的过程。</p>
-<p>整个学习过程主要依据<a href="https://git-scm.com/">官方</a>给定的<a href="https://github.com/progit/progit2/releases/download/2.1.336/progit.pdf">文档</a>，配合测试项目。一步步验证并熟悉其功效。</p>
-<h3 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h3><p>Git: git version 2.32.0</p>
-<p>[Pdf Document](链接: <a href="https://pan.baidu.com/s/1qA7yHzRJokSaIPk9jR3HxQ">https://pan.baidu.com/s/1qA7yHzRJokSaIPk9jR3HxQ</a> 提取码: aat4<br>–来自百度网盘超级会员v5的分享):   2021-10-16 更新</p>
-<p>几乎所有的版本控制系统都以某种形式支持分支。但是 Git 从众多版本控制系统中脱颖而出，正是因为分支的特性。 为何 Git 的分支模型如此出众呢？ Git 处理分支的方式可谓是难以置信的轻量，创建新分支这一操作几乎能在瞬间完成，并且在不同分支之间的切换操作也是一样便捷。</p>
-<h3 id="一、简介"><a href="#一、简介" class="headerlink" title="一、简介"></a>一、简介</h3><h3 id="二、新建与合并"><a href="#二、新建与合并" class="headerlink" title="二、新建与合并"></a>二、新建与合并</h3><h3 id="三、管理"><a href="#三、管理" class="headerlink" title="三、管理"></a>三、管理</h3><h3 id="四、分支开发工作流"><a href="#四、分支开发工作流" class="headerlink" title="四、分支开发工作流"></a>四、分支开发工作流</h3><h3 id="五、远程分支"><a href="#五、远程分支" class="headerlink" title="五、远程分支"></a>五、远程分支</h3><h3 id="六、变基"><a href="#六、变基" class="headerlink" title="六、变基"></a>六、变基</h3><h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3>]]></content>
-      <categories>
-        <category>Git</category>
-      </categories>
-      <tags>
-        <tag>Git</tag>
       </tags>
   </entry>
   <entry>
@@ -596,6 +583,19 @@
       </categories>
       <tags>
         <tag>Java</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>kubernetes 学习笔记</title>
+    <url>/kubernetes-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0.html</url>
+    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>[toc]</p>
+<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>笔记根据尚硅谷教程整理。</p>
+<h2 id="第一章-组件介绍"><a href="#第一章-组件介绍" class="headerlink" title="第一章 组件介绍"></a>第一章 组件介绍</h2><h2 id="第二章-基础概念"><a href="#第二章-基础概念" class="headerlink" title="第二章 基础概念"></a>第二章 基础概念</h2><h2 id="第三章-集群安装"><a href="#第三章-集群安装" class="headerlink" title="第三章 集群安装"></a>第三章 集群安装</h2><h2 id="第四章-资源清单"><a href="#第四章-资源清单" class="headerlink" title="第四章 资源清单"></a>第四章 资源清单</h2><h2 id="第五章-资源控制器"><a href="#第五章-资源控制器" class="headerlink" title="第五章 资源控制器"></a>第五章 资源控制器</h2><h2 id="第六章-service"><a href="#第六章-service" class="headerlink" title="第六章 service"></a>第六章 service</h2><h2 id="第七章-存储"><a href="#第七章-存储" class="headerlink" title="第七章 存储"></a>第七章 存储</h2><h2 id="第八章-集群调度"><a href="#第八章-集群调度" class="headerlink" title="第八章 集群调度"></a>第八章 集群调度</h2><h2 id="第九章-安全"><a href="#第九章-安全" class="headerlink" title="第九章 安全"></a>第九章 安全</h2><h2 id="第十章-Helm及其他功能性组件"><a href="#第十章-Helm及其他功能性组件" class="headerlink" title="第十章 Helm及其他功能性组件"></a>第十章 Helm及其他功能性组件</h2><h2 id="第十二章-高可用集群构建"><a href="#第十二章-高可用集群构建" class="headerlink" title="第十二章 高可用集群构建"></a>第十二章 高可用集群构建</h2>]]></content>
+      <categories>
+        <category>容器</category>
+      </categories>
+      <tags>
+        <tag>k8s</tag>
       </tags>
   </entry>
   <entry>
@@ -1585,173 +1585,18 @@
       </categories>
   </entry>
   <entry>
-    <title>《我的第一本算法书》学习笔记</title>
-    <url>/%E3%80%8A%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E6%9C%AC%E7%AE%97%E6%B3%95%E4%B9%A6%E3%80%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0.html</url>
-    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><p>[toc]</p>
-<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ol>
-<li><a href="http://data.biancheng.net/intro/">http://data.biancheng.net/intro/</a></li>
-<li><a href="https://www.cs.usfca.edu/~galles/visualization/Algorithms.html">各个数据结构动图</a></li>
-<li><a href="https://visualgo.net/zh">数据结构和算法可视化网站</a></li>
-<li><a href="https://algorithm-visualizer.org/">算法可视化及具体实现</a></li>
-<li><a href="https://www.cnblogs.com/onepixel/p/7674659.html">十大经典算法</a></li>
-<li><a href="https://juejin.cn/post/6844904186266517518">可视化算法网站</a></li>
-</ol>
-<h2 id="序章-算法的基础知识"><a href="#序章-算法的基础知识" class="headerlink" title="序章 算法的基础知识"></a>序章 算法的基础知识</h2><h3 id="什么是算法"><a href="#什么是算法" class="headerlink" title="什么是算法"></a>什么是算法</h3><p>算法就是计算或者解决问题的步骤。算法的步骤都是用数学方式来描述的，十分明确和严谨。</p>
-<p>一般来说我们最为重视的是算法的**==运行时间==**，即从输入数据到输出结果这个过程所花费的时间。</p>
-<h3 id="运行时间的计算方式"><a href="#运行时间的计算方式" class="headerlink" title="运行时间的计算方式"></a>运行时间的计算方式</h3><p>使用“步数”来描述运行时间。“1 步”就是计算的基本单位。通过测试“计算从开始到结束总共执行了多少步”来求得算法的运行时间。</p>
-<p><em>O</em> 这个符号的意思是“**==忽略重要项以外的内容==*<em>”，读音同 Order。</em>O*(n^2^) 的含义就是“算法的运行时间最长也就是 <em>n</em>^2^ </p>
-<p>的常数倍”，准确的定义请参考相关专业书籍。重点在于，通过这种表示方法，我们可以直观地了解算法的**==时间复杂度==** </p>
-<h2 id="第1章-数据结构"><a href="#第1章-数据结构" class="headerlink" title="第1章 数据结构"></a>第1章 数据结构</h2><h3 id="1-1-什么是数据结构"><a href="#1-1-什么是数据结构" class="headerlink" title="1-1. 什么是数据结构"></a>1-1. 什么是数据结构</h3><p>数据存储于内存时，决定了数据顺序和位置关系的便是“数据结构”。</p>
-<blockquote>
-<p>注意： 数据结构应该分为：逻辑结构+ 存储结构。 </p>
-<p>个人理解： 链表，数组，堆，栈，队列，树，哈希表 说的是逻辑结构。 同一逻辑结构可以对应多种存储结构。</p>
-</blockquote>
-<h3 id="1-2-链表"><a href="#1-2-链表" class="headerlink" title="1-2. 链表"></a>1-2. <a href="https://zh.wikipedia.org/wiki/%E9%93%BE%E8%A1%A8">链表</a></h3><p>数据呈线性排序。 Add  和 delete 简单（只需要改变指针都行） O(1)，search 难 O(n)。</p>
-<p>在链表（前继，后继）中，数据一般都是**==分散存储于内存==**中的，无须存储在连续空间内，因此，只能顺序访问。</p>
-<p>单向链表：每个数据只有一个指针</p>
-<p>双向链表：每个数据有两个指针</p>
-<p>循环链表：链表的尾部数据指向首部数据，形成循环链表。因此，没有首尾概念。</p>
-<h3 id="1-3-数组"><a href="#1-3-数组" class="headerlink" title="1-3 数组"></a>1-3 <a href="https://zh.wikipedia.org/wiki/%E6%95%B0%E7%BB%84">数组</a></h3><p>数组也是数据**==呈线性排列==**的一种数据结构。 search 简单  O(1)，add 和 delete 难 O(n)。</p>
-<p><strong>==数组下标从 0 开始==</strong></p>
-<p>数据按顺序存储在内存的连续空间内。每个数据的内存地址（在内存上的位置）都可以通过数组下标算出，因此，访问数据，直接通过下标即可访问该数据。</p>
-<h3 id="1-4-栈"><a href="#1-4-栈" class="headerlink" title="1-4. 栈"></a>1-4. <a href="https://zh.wikipedia.org/wiki/%E5%A0%86%E6%A0%88">栈</a></h3><p>栈（stack）也是一种数据呈线性排列的数据结构 。 FILO： 先进后出</p>
-<p>在栈中，添加和删除数据的操作只能在一端进行，访问数据也只能访问到顶端的数据。想要访问中间的数据时，就必须通过出栈操作将目标数据移到栈顶才行。</p>
-<img src="/images/《我的第一本算法书》学习笔记/image-20220211142340399.png" alt="image-20220211142340399" style="zoom:33%;" />
-
-<h3 id="1-5-队列"><a href="#1-5-队列" class="headerlink" title="1-5. 队列"></a>1-5. <a href="https://zh.wikipedia.org/wiki/%E9%98%9F%E5%88%97">队列</a></h3><p>queue   数据也呈线性排列，队列中添加和删除数据的操作分别是在两端进行的。FIFO： 先进先出</p>
-<img src="/images/《我的第一本算法书》学习笔记/image-20220211142301675.png" alt="image-20220211142301675" style="zoom:33%;" />
-
-<h3 id="1-6-哈希表"><a href="#1-6-哈希表" class="headerlink" title="1-6. 哈希表"></a>1-6. <a href="https://zh.wikipedia.org/wiki/%E5%93%88%E5%B8%8C%E8%A1%A8">哈希表</a></h3><p>哈希表（散列表）存储的是由键（key）和值（value）组成的数据，可以使数据的查询效率得到显著提升。在哈希表中，我们可以利用哈希函数快速访问到**==数组==<strong>中的目标数据。如果发生哈希冲突，就使用</strong>==链表==**进行存储。</p>
-<img src="/images/《我的第一本算法书》学习笔记/image-20220211114959335.png" alt="image-20220211114959335" style="zoom:33%;" />
-
-<h3 id="1-7-堆"><a href="#1-7-堆" class="headerlink" title="1-7. 堆"></a>1-7. <a href="https://zh.wikipedia.org/wiki/%E5%A0%86%E7%A9%8D">堆</a></h3><p>堆（heap）是一种图的树形结构 （完全二叉树） ，被用于实现“优先队列”（priority queues）</p>
-<img src="/images/《我的第一本算法书》学习笔记/image-20220211142206241.png" alt="image-20220211142206241" style="zoom:33%;" />
-
-<p>在堆中存储数据时必须遵守这样一条规则 ：子结点必定大于父结点。堆中最顶端的数据始终最小，所以无论数据量有多少，取出最小值的时间复杂度都为 <em>O</em>(1)。重构树的时间复杂度便为 <em>O</em>(log<em>n</em>)</p>
-<h3 id="1-8-二叉查找树"><a href="#1-8-二叉查找树" class="headerlink" title="1-8. 二叉查找树"></a>1-8. <a href="https://zh.wikipedia.org/wiki/%E4%BA%8C%E5%85%83%E6%90%9C%E5%B0%8B%E6%A8%B9">二叉查找树</a></h3><p>Binary Search Tree  二叉查找树（又叫作二叉搜索树或二叉排序树）是一种数据结构，采用了图的树形结构数据存储于二叉查找树的各个结点中。</p>
-<img src="/images/《我的第一本算法书》学习笔记/image-20220211142023605.png" alt="image-20220211142023605" style="zoom: 50%;" />
-
-<img src="/images/《我的第一本算法书》学习笔记/image-20220211142000500.png" alt="image-20220211142000500" style="zoom:33%;" />
-
-<p>性质：</p>
-<p>第一个：每个结点的值均大于其左子树上任意一个结点的值。</p>
-<p>第二个：每个结点的值均小于其右子树上任意一个结点的值。</p>
-<p>结论：</p>
-<p>叉查找树的最小结点要从顶端开始，往其左下的末端寻找。</p>
-<p>二叉查找树的最大结点要从顶端开始，往其右下的末端寻找</p>
-<p>添加数据： 从二叉查找树的顶端结点开始寻找添加数字的位置。将想要添加的数与该结点中的值进行比较，小于它则往左移，大于它则往右移，最后放置。</p>
-<p>删除数据： 删除该节点，如果该节点有子节点数据，则从左子节点选择最大的填充此位置，或者用右子节点中最小的也可以。</p>
-<p>查找数据：此过程同添加数据差不多，用查找的数据和各个节点对比，比节点小，去左侧；比节点大，去右侧。</p>
-<p>子结点数可以自由设定，并且形状均衡的树便是 B 树</p>
-<h2 id="第二章-排序"><a href="#第二章-排序" class="headerlink" title="第二章 排序"></a>第二章 排序</h2><h3 id="复杂度"><a href="#复杂度" class="headerlink" title="复杂度"></a>复杂度</h3><p>各个排序算法的复杂度比较</p>
-<p><img src="/images/%E3%80%8A%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E6%9C%AC%E7%AE%97%E6%B3%95%E4%B9%A6%E3%80%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/image-20220211144558591.png" alt="image-20220211144558591"></p>
-<h3 id="2-1-什么是排序"><a href="#2-1-什么是排序" class="headerlink" title="2-1.什么是排序"></a>2-1.什么是排序</h3><p>排序就是将输入的数字按照从小到大的顺序进行排列</p>
-<h3 id="2-2-冒泡排序"><a href="#2-2-冒泡排序" class="headerlink" title="2-2.冒泡排序"></a>2-2.冒泡排序</h3><p>冒泡排序： 重复“从序列右边开始==比较相邻==两个数字的大小，再根据结果交换两个数字的位置“</p>
-<p>在冒泡排序中，第 1 轮需要比较 <em>n</em> -1 次，第 2 轮需要比较 <em>n</em> -2 次……第 <em>n</em> -1 轮需要比较 1 次。因此，总的比较次数为 (<em>n</em> -1) +(<em>n</em> -2) +…+1 ≈ n^2^/2</p>
-<p><img src="/images/%E3%80%8A%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E6%9C%AC%E7%AE%97%E6%B3%95%E4%B9%A6%E3%80%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/849589-20171015223238449-2146169197.gif" alt="img"></p>
-<h3 id="2-3-选择排序"><a href="#2-3-选择排序" class="headerlink" title="2-3.选择排序"></a>2-3.选择排序</h3><p>重复“==从待排序的数据中寻找最小值，将其与序列最左边的数字进行交换==”</p>
-<blockquote>
-<p>注意： 在序列中寻找最小值时使用的是线性查找</p>
-</blockquote>
-<p>选择排序使用了线性查找来寻找最小值，因此在第 1 轮中需要比较 <em>n</em> -1 个数字，第2 轮需要比较 <em>n</em> -2 个数字……到第 <em>n</em> -1 轮的时候就只需比较 1 个数字了。因此，总的比较次数与冒泡排序的相同，都是 (<em>n</em>-1)+(<em>n</em>-2)+…+1 ≈ n^2^/2 次</p>
-<p><img src="/images/%E3%80%8A%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E6%9C%AC%E7%AE%97%E6%B3%95%E4%B9%A6%E3%80%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/849589-20171015224719590-1433219824.gif" alt="img"></p>
-<h3 id="2-4-插入排序"><a href="#2-4-插入排序" class="headerlink" title="2-4. 插入排序"></a>2-4. 插入排序</h3><p>插入排序是一种从序列左端开始依次对数据进行排序的算法。在排序过程中，左侧的数据陆续归位，而右侧留下的就是还未被排序的数据。插入排序的思路就是从右侧的未排序区域内取出一个数据，然后将它插入到已排序区域内合适的位置上，即：==<strong>从右侧取出的数据同已排序的左侧数据从右向左依次比较，直到遇见比此数据小的数，然后插入此位置。</strong>==</p>
-<p>如果取出的数字比左边已归位的数字都要小，就必须不停地比较大小，交换数字，直到它到达整个序列的最左边为止。具体来说，就是第 <em>k</em> 轮需要比较 <em>k</em> -1 次。因此，在最糟糕的情况下，第 2 轮需要操作 1 次，第 3 轮操作 2 次……第 <em>n</em> 轮操作 <em>n</em> -1次，所以时间复杂度和冒泡排序的一样，都为 <em>O</em>(n^2^)。</p>
-<p><img src="/images/%E3%80%8A%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E6%9C%AC%E7%AE%97%E6%B3%95%E4%B9%A6%E3%80%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/849589-20171015225645277-1151100000.gif" alt="img"></p>
-<h3 id="2-5-堆排序"><a href="#2-5-堆排序" class="headerlink" title="2-5.堆排序"></a>2-5.堆排序</h3><p>堆排序的特点是利用了数据结构中的堆。</p>
-<p>子结点的键值或索引总是小于（或者大于）它的父节点</p>
-<p><img src="/images/%E3%80%8A%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E6%9C%AC%E7%AE%97%E6%B3%95%E4%B9%A6%E3%80%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/849589-20171015231308699-356134237.gif" alt="img"></p>
-<h3 id="2-6-归并排序"><a href="#2-6-归并排序" class="headerlink" title="2-6.归并排序"></a>2-6.归并排序</h3><p>归并排序算法会把序列分成长度相同的两个子序列，当无法继续往下分时（也就是每个子序列中只有一个数据时），就对子序列进行归并。归并指的是把两个排好序的子序列合并成一个有序序列。该操作会一直重复执行，直到所有子序列都归并为一个整体为止。</p>
-<p><img src="/images/%E3%80%8A%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E6%9C%AC%E7%AE%97%E6%B3%95%E4%B9%A6%E3%80%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/849589-20171015230557043-37375010.gif" alt="img"></p>
-<h3 id="2-7-快速排序"><a href="#2-7-快速排序" class="headerlink" title="2-7.快速排序"></a>2-7.快速排序</h3><p>快速排序算法首先会在序列中随机选择一个基准值（==pivot==），然后将除了基准值以外的数分为“比基准值小的数”和“比基准值大的数”这两个类别，再将其排列成以下形式。</p>
-<p>[ 比基准值小的数 ] 基准值 [ 比基准值大的数 ]</p>
-<p>接着，对两个“[ ]”中的数据进行排序之后，整体的排序便完成了。对“[ ]”里面的数据进行排序时同样也会使用快速排序。</p>
-<p><img src="/images/%E3%80%8A%E6%88%91%E7%9A%84%E7%AC%AC%E4%B8%80%E6%9C%AC%E7%AE%97%E6%B3%95%E4%B9%A6%E3%80%8B%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/849589-20171015230936371-1413523412.gif" alt="img"></p>
-<h2 id="第三章-数组的查找"><a href="#第三章-数组的查找" class="headerlink" title="第三章 数组的查找"></a>第三章 数组的查找</h2><h3 id="3-1-线性查找"><a href="#3-1-线性查找" class="headerlink" title="3-1.线性查找"></a>3-1.线性查找</h3><p>线性查找是一种在数组中查找数据的算法。时间复杂度便为 <em>O</em>(<em>n</em>)</p>
-<h3 id="3-2-二分查找"><a href="#3-2-二分查找" class="headerlink" title="3-2.二分查找"></a>3-2.二分查找</h3><p>二分查找也是一种在数组中查找数据的算法。和 3-1 节讲到的线性查找不同，它==只能查找已经排好序的数据==二分查找通过比较数组中间的数据与目标数据的大小，可以得知目标数是在数组的左边还是右边。</p>
-<p>重复执行“将目标数据和数组中间的数据进行比较后将查找范围减半”的操作 log2<em>n</em> 次后，就能找到目标数据（若没找到则可以得出数据不存在的结论），因此它的时间复杂度为 <em>O</em>(log<em>n</em>)。</p>
-<h2 id="第四章-图的搜索"><a href="#第四章-图的搜索" class="headerlink" title="第四章 图的搜索"></a>第四章 图的搜索</h2><blockquote>
-<p>==图的搜索==指的就是从图的某一顶点开始，通过边到达不同的顶点，最终找到目标顶点的过程。</p>
-</blockquote>
-<p>根据搜索的==顺序不同==，图的搜索算法可分为“广度优先搜索”和“深度优先搜索”这两种。</p>
-<p>最短路径问题，就是要在从 <em>s</em> 到 <em>t</em> 的路径中，找到一条所经过的边的权重总和最小的路径。</p>
-<h3 id="4-1-什么是图"><a href="#4-1-什么是图" class="headerlink" title="4-1.什么是图"></a>4-1.什么是图</h3><img src="/images/《我的第一本算法书》学习笔记/image-20220211163447961.png" alt="image-20220211163447961" style="zoom:33%;" />
-
-<p>由顶点和连接每对顶点的边所构成的图形就是图。</p>
-<p>图可以表现各种关系：人物关系图，地铁站点图，网络中各个 主机的关系图等</p>
-<p>加权图：加了权的图被称为“加权图”。图的含义不一样，权值所表示的含义也不一样。 例如： 路线图中，点位之间的时间作为权。</p>
-<p>有向图：在路线图中表示该路线只能单向行驶时，就可以给边加上箭头，而这样的图就叫作“有向图”。可以加权</p>
-<p>无向图： 可以加权</p>
-<p>图的使用场景： 寻找计算机网络中通信时间最短的路径，寻找路线图中耗时最短的路径，寻找路线图中最省乘车费的路径等</p>
-<h3 id="4-2-广度优先搜索"><a href="#4-2-广度优先搜索" class="headerlink" title="4-2. 广度优先搜索"></a>4-2. 广度优先搜索</h3><p>广度优先搜索会优先从离起点近的顶点开始搜索。目标顶点离起点越近，搜索结束得就越快。运用到了queue，FIFO</p>
-<img src="/images/《我的第一本算法书》学习笔记/image-20220211170324934.png" alt="image-20220211170324934" style="zoom:33%;" />
-
-
-
-<h3 id="4-3-深度优先搜索"><a href="#4-3-深度优先搜索" class="headerlink" title="4-3.深度优先搜索"></a>4-3.深度优先搜索</h3><p>深度优先搜索会沿着一条路径不断往下搜索直到不能再继续为止，然后再折返，开始搜索下一条候补路径。用到了stack。FILO </p>
-<img src="/images/《我的第一本算法书》学习笔记/image-20220211170454047.png" alt="image-20220211170454047" style="zoom:33%;" />
-
-
-
-<h3 id="4-4-贝尔曼-福特算法"><a href="#4-4-贝尔曼-福特算法" class="headerlink" title="4-4.贝尔曼-福特算法"></a>4-4.贝尔曼-<a href="https://zh.wikipedia.org/wiki/%E8%B4%9D%E5%B0%94%E6%9B%BC-%E7%A6%8F%E7%89%B9%E7%AE%97%E6%B3%95">福特算法</a></h3><p>贝尔曼 - 福特（Bellman–Ford algorithm）算法是一种在图中==求解最短路径问题==的算法。最短路径问题就是在加权图指定了起点和终点的前提下，寻找从起点到终点的路径中权重总和最小的那条路径</p>
-<h3 id="4-5-迪克斯特拉算法"><a href="#4-5-迪克斯特拉算法" class="headerlink" title="4-5. 迪克斯特拉算法"></a>4-5. <a href="https://zh.wikipedia.org/wiki/%E6%88%B4%E5%85%8B%E6%96%AF%E7%89%B9%E6%8B%89%E7%AE%97%E6%B3%95">迪克斯特拉算法</a></h3><p>狄克斯特拉算法（Dijkstra’s algorithm）也是求==解最短路径问题的==算法，使用它可以求得从起点到终点的路径中权重总和最小的那条路径路径</p>
-<h3 id="4-6-A-算法"><a href="#4-6-A-算法" class="headerlink" title="4-6. A* 算法"></a>4-6. <a href="https://wiki.kfd.me/wiki/A*%E6%90%9C%E5%B0%8B%E6%BC%94%E7%AE%97%E6%B3%95">A* 算法</a></h3><p>A<em>（A-Star）算法也是一种在图中求解最短路径问题的算法，由狄克斯特拉算法发展而来。狄克斯特拉算法会从离起点近的顶点开始，按顺序求出起点到各个顶点的最短路径。A</em> 就会预先估算一个值，并利用这个值来省去一些无用的计算。</p>
-<p>A* 算法在游戏编程中经常被用于计算敌人追赶玩家时的行动路线等，但由于该算法的计算量较大，所以可能会使游戏整体的运行速度变慢。因此在实际编程时，需要考虑结合其他算法，或者根据具体的应用场景做出相应调整。</p>
-<h2 id="第五章-安全算法"><a href="#第五章-安全算法" class="headerlink" title="第五章 安全算法"></a>第五章 安全算法</h2><h3 id="5-1-安全和算法"><a href="#5-1-安全和算法" class="headerlink" title="5-1. 安全和算法"></a>5-1. 安全和算法</h3><p>数据传输问题：窃听，假冒，篡改，是否否认</p>
-<img src="/images/《我的第一本算法书》学习笔记/image-20220214110620133.png" alt="image-20220214110620133" style="zoom:33%;" />
-
-<img src="/images/《我的第一本算法书》学习笔记/image-20220214110644917.png" alt="image-20220214110644917" style="zoom:33%;" />
-
-<img src="/images/《我的第一本算法书》学习笔记/image-20220214110716531.png" alt="image-20220214110716531" style="zoom:33%;" />
-
-<img src="/images/《我的第一本算法书》学习笔记/image-20220214110757714.png" alt="image-20220214110757714" style="zoom:33%;" />
-
-<img src="/images/《我的第一本算法书》学习笔记/image-20220214111028025.png" alt="image-20220214111028025" style="zoom:33%;" />
-
-
-
-<h3 id="5-2-加密的基础知识"><a href="#5-2-加密的基础知识" class="headerlink" title="5-2. 加密的基础知识"></a>5-2. 加密的基础知识</h3><p>加密就是数据经过某种运算后，变成计算机无法理解的数的过程.</p>
-<p>解密就是通过密钥进行数值计算，把密文恢复成原本数据的过程</p>
-<h3 id="5-3-哈希函数"><a href="#5-3-哈希函数" class="headerlink" title="5-3. 哈希函数"></a>5-3. 哈希函数</h3><p>哈希函数可以把给定的数据转换成固定长度的无规律数值</p>
-<p>特征：</p>
-<ol>
-<li>第一个特征是输出的哈希值数据长度不变</li>
-<li>第二个特征是如果输入的数据相同，那么输出的哈希值也必定相同</li>
-<li>第三个特征是即使输入的数据相似，但哪怕它们只有一比特的差别，那么输出的哈希值也会有很大的差异</li>
-<li>第四个特征是即使输入的两个数据完全不同，输出的哈希值也有可能是相同的</li>
-<li>第五个特征是不可能从哈希值反向推算出原本的数据</li>
-<li>第六个特征是求哈希值的计算相对容易</li>
-</ol>
-<p>哈希函数的算法中具有代表性的是 MD5 、SHA-1 和 SHA-2 等。其中 SHA-2 是现在应用较为广泛的一个，而 MD5 和 SHA-1 存在安全隐患，不推荐使用。</p>
-<h3 id="5-4-共享秘钥加密"><a href="#5-4-共享秘钥加密" class="headerlink" title="5-4. 共享秘钥加密"></a>5-4. 共享秘钥加密</h3><p>对称秘钥加密：共享密钥加密是加密和解密都使用相同密钥的一种加密方式。由于使用的密钥相同</p>
-<p>实现共享密钥加密的算法有凯撒密码、AES（Advanced Encryption Standard）、DES（Data Encryption Standard）、动态口令等，其中AES的应用最为广泛。</p>
-<h3 id="5-5-公开秘钥加密"><a href="#5-5-公开秘钥加密" class="headerlink" title="5-5. 公开秘钥加密"></a>5-5. 公开秘钥加密</h3><p>公开密钥加密是加密和解密使用不同密钥的一种加密方法。由于使用的密钥不同，所以这种算法也被称为“==非对称加密==”。加密用的密钥叫作“公开密钥”，解密用的叫作“私有密钥”。</p>
-<p>实现公开密钥加密的算法有RAS算法、椭圆曲线加密算法等，其中使用最为广泛的是RSA算法。RSA算法由其开发者Rivest、Shamir、Adleman的首字母命名而来，三人在2002年获得了图灵奖。</p>
-<h3 id="5-6-混合加密"><a href="#5-6-混合加密" class="headerlink" title="5-6. 混合加密"></a>5-6. 混合加密</h3><p>共享密钥加密存在无法安全传输密钥的密钥分配问题，公开密钥加密又存在加密解密速度较慢的问题。结合这两种方法以实现互补的一种加密方法就是混合加密。</p>
-<p>能够为网络提供通信安全的SSL 协议也应用了混合加密方法。SSL 是 Secure Sockets Layer（安全套接层）的简写，</p>
-<p>该协议经过版本升级后，现在已正式命名为 TLS（Transport Layer Security，传输层安全）。但是，SSL 这个名字在人们心中已经根深蒂固，因此该协议现在也常被称为 SSL协议或者 SSL / TLS 协议。</p>
-<h3 id="5-7-迪菲-赫尔曼秘钥交换"><a href="#5-7-迪菲-赫尔曼秘钥交换" class="headerlink" title="5-7. 迪菲-赫尔曼秘钥交换"></a>5-7. 迪菲-赫尔曼秘钥交换</h3><p>根据素数 <em>P</em>、生成元 <em>G</em> 和“<em>G**X</em> mod <em>P</em>”求出 <em>X</em> 的问题就是“离散对数问题”，人们至今还未找到这个问题的解法，而迪菲 - 赫尔曼密钥交换正是利用了这个数学难题</p>
-<p>迪菲 - 赫尔曼（Diffie-Hellman）密钥交换是一种可以在通信双方之间安全交换密钥的方法。这种方法通过将双方共有的秘密数值隐藏在公开数值相关的运算中，来实现双方之间密钥的安全交换。</p>
-<h3 id="5-8-消息认证码"><a href="#5-8-消息认证码" class="headerlink" title="5-8. 消息认证码"></a>5-8. 消息认证码</h3><p>消息认证码可以实现“认证”和“检测篡改”这两个功能。密文的内容在传输过程中可能会被篡改，这会导致解密后的内容发生变化，从而产生误会。消息认证码就是可以预防这种情况发生的机制</p>
-<h3 id="5-9-数字签名"><a href="#5-9-数字签名" class="headerlink" title="5-9. 数字签名"></a>5-9. 数字签名</h3><p>数字签名不仅可以实现消息认证码的认证和检测篡改功能，还可以预防事后否认问题的发生。</p>
-<h4 id="5-10-数字证书"><a href="#5-10-数字证书" class="headerlink" title="5-10.数字证书"></a>5-10.数字证书</h4><p>“公开密钥加密”和“数字签名”无法保证公开密钥确实来自信息的发送者。因此，就算公开密钥被第三者恶意替换，接收方也不会注意到。不过，如果使用本节讲解的数字证书，就能保证公开密钥的正确性。</p>
-<h2 id="第六章-聚类"><a href="#第六章-聚类" class="headerlink" title="第六章 聚类"></a>第六章 聚类</h2><h3 id="6-1-什么是聚类"><a href="#6-1-什么是聚类" class="headerlink" title="6-1.什么是聚类"></a>6-1.什么是聚类</h3><p>聚类就是在输入为多个数据时，将“相似”的数据分为一组的操作</p>
-<h3 id="6-2-k-means算法"><a href="#6-2-k-means算法" class="headerlink" title="6-2 k-means算法"></a>6-2 k-means算法</h3>]]></content>
-      <categories>
-        <category>算法</category>
-      </categories>
-      <tags>
-        <tag>算法</tag>
-      </tags>
+    <title>about</title>
+    <url>/about/index.html</url>
+    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css">]]></content>
+  </entry>
+  <entry>
+    <title>archives</title>
+    <url>/archives/index.html</url>
+    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css">]]></content>
   </entry>
   <entry>
     <title>schedule</title>
     <url>/schedule/index.html</url>
-    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css">]]></content>
-  </entry>
-  <entry>
-    <title>tags</title>
-    <url>/tags/index.html</url>
     <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css">]]></content>
   </entry>
   <entry>
@@ -1797,18 +1642,13 @@ spring:
 </html>]]></content>
   </entry>
   <entry>
-    <title>about</title>
-    <url>/about/index.html</url>
-    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css">]]></content>
-  </entry>
-  <entry>
-    <title>archives</title>
-    <url>/archives/index.html</url>
-    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css">]]></content>
-  </entry>
-  <entry>
     <title>categories</title>
     <url>/categories/index.html</url>
+    <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css">]]></content>
+  </entry>
+  <entry>
+    <title>tags</title>
+    <url>/tags/index.html</url>
     <content><![CDATA[<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css">]]></content>
   </entry>
 </search>
