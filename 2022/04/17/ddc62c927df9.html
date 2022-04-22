@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"daoxuan.gitee.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":true,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<meta name="description" content="记录Get 传参的规则，以及其中的一些问题">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TCP&#x2F;IP Get 传参">
+<meta property="og:url" content="https://daoxuan.gitee.io/2022/04/17/ddc62c927df9.html">
+<meta property="og:site_name" content="知识博客">
+<meta property="og:description" content="记录Get 传参的规则，以及其中的一些问题">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-04-17T06:25:13.000Z">
+<meta property="article:modified_time" content="2022-04-17T06:25:10.000Z">
+<meta property="article:author" content="Alex">
+<meta property="article:tag" content="Get">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://daoxuan.gitee.io/2022/04/17/ddc62c927df9.html">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://daoxuan.gitee.io/2022/04/17/ddc62c927df9.html","path":"2022/04/17/ddc62c927df9.html","title":"TCP/IP Get 传参"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>TCP/IP Get 传参 | 知识博客</title>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="知识博客" type="application/atom+xml">
+<style>.darkmode--activated{--body-bg-color:#282828;--content-bg-color:#333;--card-bg-color:#555;--text-color:#ccc;--blockquote-color:#bbb;--link-color:#ccc;--link-hover-color:#eee;--brand-color:#ddd;--brand-hover-color:#ddd;--table-row-odd-bg-color:#282828;--table-row-hover-bg-color:#363636;--menu-item-bg-color:#555;--btn-default-bg:#222;--btn-default-color:#ccc;--btn-default-border-color:#555;--btn-default-hover-bg:#666;--btn-default-hover-color:#ccc;--btn-default-hover-border-color:#666;--highlight-background:#282b2e;--highlight-foreground:#a9b7c6;--highlight-gutter-background:#34393d;--highlight-gutter-foreground:#9ca9b6}.darkmode--activated img{opacity:.75}.darkmode--activated img:hover{opacity:.9}.darkmode--activated code{color:#69dbdc;background:0 0}button.darkmode-toggle{z-index:9999}.darkmode-ignore,img{display:flex!important}</style></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">知识博客</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">知识博客</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%AE%E5%BD%95"><span class="nav-number">1.</span> <span class="nav-text">目录</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">2.</span> <span class="nav-text">参考</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%9B%B6%E6%80%BB%E7%BB%93"><span class="nav-number">3.</span> <span class="nav-text">零、总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E8%AF%AF%E8%A7%A3"><span class="nav-number">4.</span> <span class="nav-text">一、误解</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E6%80%BB%E7%BB%93"><span class="nav-number">5.</span> <span class="nav-text">二、总结</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%8F%E8%A7%88%E5%99%A8"><span class="nav-number">5.1.</span> <span class="nav-text">浏览器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="nav-number">5.2.</span> <span class="nav-text">服务器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E5%8F%82%E8%80%83%E6%96%87%E7%AB%A0"><span class="nav-number">6.</span> <span class="nav-text">三、参考文章</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Alex</p>
+  <div class="site-description" itemprop="description">记录生活工作中有趣的知识</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+        <div class="back-to-top animated" role="button" aria-label="返回顶部">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://daoxuan.gitee.io/2022/04/17/ddc62c927df9.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Alex">
+      <meta itemprop="description" content="记录生活工作中有趣的知识">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="知识博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          TCP/IP Get 传参
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2022-04-17 14:25:13 / 修改时间：14:25:10" itemprop="dateCreated datePublished" datetime="2022-04-17T14:25:13+08:00">2022-04-17</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/TCP-IP/" itemprop="url" rel="index"><span itemprop="name">TCP/IP</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/TCP-IP/Get/" itemprop="url" rel="index"><span itemprop="name">Get</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>3.8k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>3 分钟</span>
+    </span>
+</div>
+
+            <div class="post-description">记录Get 传参的规则，以及其中的一些问题</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><h2 id="目录">目录</h2>
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+<ul>
+<li><a
+href="#font-colorred%E5%8F%82%E8%80%83font"><font color="red">参考</font></a></li>
+<li><a href="#%E9%9B%B6%E6%80%BB%E7%BB%93">零、总结</a></li>
+<li><a href="#%E4%B8%80%E8%AF%AF%E8%A7%A3">一、误解</a></li>
+<li><a href="#%E4%BA%8C%E6%80%BB%E7%BB%93">二、总结</a>
+<ul>
+<li><a href="#%E6%B5%8F%E8%A7%88%E5%99%A8">浏览器</a></li>
+<li><a href="#%E6%9C%8D%E5%8A%A1%E5%99%A8">服务器</a></li>
+</ul></li>
+<li><a
+href="#%E4%B8%89%E5%8F%82%E8%80%83%E6%96%87%E7%AB%A0">三、参考文章</a></li>
+</ul>
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+<h2 id="参考"><font color="red">参考</font></h2>
+<p><font color="red">[原文</p>
+<p><a
+target="_blank" rel="noopener" href="https://github.com/zhongxia245/blog/issues/35"></a></font></p>
+<h2 id="零总结">零、总结</h2>
+<blockquote>
+<p>文章数据来源于网络，可能存在变动，但是原理是一样的。</p>
+</blockquote>
+<ol type="1">
+<li>HTTP 协议 未规定 GET 和POST的长度限制</li>
+<li>GET的最大长度显示是因为 浏览器和 web服务器限制了 URI的长度</li>
+<li>不同的浏览器和WEB服务器，限制的最大长度不一样</li>
+<li>要支持IE，则最大长度为2083byte，若只支持Chrome，则最大长度
+8182byte</li>
+</ol>
+<h2 id="一误解">一、误解</h2>
+<p>大家都知道http 中 存在 GET 和 POST
+这两种最常用的请求方式。（PUT，DELETE不在本文讨论范围之内）</p>
+<p><strong>误解：HTTP 协议下的 Get
+请求参数长度是有大小限制的，最大不能超过XX，而 Post
+是无限制的。</strong></p>
+<p>1、首先即使有长度限制，也是限制的是<strong>整个 URI
+长度</strong>，<strong>而不仅仅是你的参数值数据长度</strong>。</p>
+<p>2、HTTP 协议从未规定 GET/POST 的请求长度限制是多少。</p>
+<p><strong>以下内容摘自 <a
+target="_blank" rel="noopener" href="https://my.oschina.net/leejun2005/blog/136820">《关于 HTTP
+GET/POST 请求参数长度最大值的一个理解误区》</a>， 文章时间为
+2013年的。可能以当前最新的浏览器有出入 </strong></p>
+<blockquote>
+<p>The HTTP protocol does not place any a priori limit on the length of
+a URI. Servers MUST be able to handle the URI of any resource they
+serve, and SHOULD be able to handle URIs of unbounded length if they
+provide GET-based forms that could generate such URIs. A server SHOULD
+return 414 (Request-URI Too Long) status if a URI is longer than the
+server can handle (see section 10.4.15). Note: Servers ought to be
+cautious about depending on URI lengths above 255 bytes, because some
+older client or proxy implementations might not properly support these
+lengths.</p>
+</blockquote>
+<p>3、所谓的请求长度限制是由<strong>浏览器</strong>和 <strong>web
+服务器</strong>决定和设置的，各种浏览器和 web 服务器的设定
+均不一样，这依赖于各个浏览器厂家的规定或者可以根据 web
+服务器的处理能力来设定。</p>
+<blockquote>
+<p>The limit is in MSIE and Safari about 2KB, in Opera about 4KB and in
+Firefox about 8KB, (255 bytes if we count very old browsers) . We may
+thus assume that 8KB is the maximum possible length and that 2KB is a
+more affordable length to rely on at the server side and that 255 bytes
+is the safest length to assume that the entire URL will come in. If the
+limit is exceeded in either the browser or the server, most will just
+truncate the characters outside the limit without any warning. Some
+servers however may send a HTTP 414 error. If you need to send large
+data, then better use POST instead of GET. Its limit is much higher, but
+more dependent on the server used than the client. Usually up to around
+2GB is allowed by the average webserver. This is also configureable
+somewhere in the server settings. The average server will display a
+server-specific error/exception when the POST limit is exceeded, usually
+as HTTP 500 error.</p>
+</blockquote>
+<p>IE 和 Safari 浏览器 限制 2k Opera 限制4k Firefox 限制
+8k（非常老的版本 256byte）</p>
+<p>如果超出了最大长度，大部分的服务器直接截断，也有一些服务器会报414错误。</p>
+<hr />
+<blockquote>
+<p>HTTP 1.1 defines Status Code 414 Request-URI Too Long for the cases
+where a server-defined limit is reached. You can see further details on
+RFC 2616. For the case of client-defined limits, there is no sense on
+the server returning something, because the server won't receive the
+request at all.</p>
+</blockquote>
+<p>详细可以看 RFC2616</p>
+<blockquote>
+<p>The server is refusing to service the request because the Request-URI
+is longer than the server is willing to interpret. This rare condition
+is only likely to occur when a client has improperly converted a POST
+request to a GET request with long query information, when the client
+has descended into a URI "black hole" of redirection (e.g., a redirected
+URI prefix that points to a suffix of itself), or when the server is
+under attack by a client attempting to exploit security holes present in
+some servers using fixed-length buffers for reading or manipulating the
+Request-URI.</p>
+</blockquote>
+<hr />
+<h2 id="二总结">二、总结</h2>
+<blockquote>
+<p>各个浏览器和web服务器的最大长度</p>
+</blockquote>
+<p>以下内容摘自<a
+target="_blank" rel="noopener" href="http://www.cnblogs.com/cuihongyu3503319/p/5892257.html">《GET请求中URL的最大长度限制总结》</a>，
+文章内容是 2016年9月，相对比较符合当前的最新现状。</p>
+<p>在网上查询之后，浏览器和服务器对url长度都有限制，现总结如下。</p>
+<h3 id="浏览器">浏览器</h3>
+<p><strong>1、IE</strong></p>
+<p>IE浏览器（Microsoft Internet Explorer）
+对url长度限制是2083（2K+53），超过这个限制，则自动截断（若是form提交则提交按钮不起作用）。</p>
+<p><strong>2、firefox</strong></p>
+<p>firefox（火狐浏览器）的url长度限制为 65
+536字符，但实际上有效的URL最大长度不少于100,000个字符。</p>
+<p><strong>3、chrome</strong></p>
+<p>chrome（谷歌）的url长度限制超过8182个字符返回本文开头时列出的错误。</p>
+<p><strong>4、Safari</strong></p>
+<p>Safari的url长度限制至少为 80 000 字符。</p>
+<p><strong>5、Opera</strong></p>
+<p>Opera 浏览器的url长度限制为190 000 字符。Opera 9 地址栏中输入190
+000字符时依然能正常编辑。</p>
+<h3 id="服务器">服务器</h3>
+<p><strong>1、Apache</strong></p>
+<p>Apache能接受url长度限制为8 192 字符</p>
+<p><strong>2、IIS</strong></p>
+<p>Microsoft Internet Information Server(IIS)能接受url长度限制为16
+384个字符。 这个是可以通过修改的（IIS7）
+<code>configuration/system.webServer/security/requestFiltering/requestLimits@maxQueryStringsetting.&lt;requestLimits maxQueryString="length"/&gt;</code></p>
+<p><strong>3、Perl HTTP::Daemon</strong></p>
+<p>Perl HTTP::Daemon 至少可以接受url长度限制为8000字符。Perl
+HTTP::Daemon中限制HTTP request headers的总长度不超过16
+384字节(不包括post,file uploads等)。但当url超过8000字符时会返回413错误。
+这个限制可以被修改，在Daemon.pm查找16×1024并更改成更大的值。</p>
+<p><strong>4、ngnix</strong></p>
+<p>可以通过修改配置来改变url请求串的url长度限制。</p>
+<p>client_header_buffer_size 默认值：client_header_buffer_size 1k</p>
+<p>large_client_header_buffers默认值 ：large_client_header_buffers 4
+4k/8k</p>
+<blockquote>
+<p>由于jsonp跨域请求只能通过get请求，url长度根据浏览器及服务器的不同而有不同限制。
+若要支持IE的话，url长度限制为2083字符，若是中文字符的话只有2083/9=231个字符。
+若是Chrome浏览器支持的最大中文字符只有8182/9=909个。</p>
+</blockquote>
+<h2 id="三参考文章">三、参考文章</h2>
+<ol type="1">
+<li><a
+target="_blank" rel="noopener" href="http://www.cnblogs.com/cuihongyu3503319/p/5892257.html">GET请求中URL的最大长度限制总结</a></li>
+<li><a target="_blank" rel="noopener" href="https://my.oschina.net/leejun2005/blog/136820">关于 HTTP
+GET/POST 请求参数长度最大值的一个理解误区</a></li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/atom.xml">
+          <span class="icon">
+            <i class="fa fa-rss"></i>
+          </span>
+
+          <span class="label">RSS</span>
+        </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/Get/" rel="tag"># Get</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/12/31/6b9b9d0eb84c.html" rel="prev" title="Java1.8 parallelStream并发安全问题">
+                  <i class="fa fa-chevron-left"></i> Java1.8 parallelStream并发安全问题
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/04/17/bc7562ea4e70.html" rel="next" title="Mybatis.符号意义">
+                  Mybatis.符号意义 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Alex</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">29k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">27 分钟</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+  <script class="next-config" data-name="pdf" type="application/json">{"object_url":{"url":"https://cdn.jsdelivr.net/npm/pdfobject@2.2.6/pdfobject.min.js","integrity":"sha256-77geM50MfxCD17eqyJR+Dag1svjJOLN+BJ2F/DMqMEY="},"url":"/lib/pdf/web/viewer.html"}</script>
+  <script src="/js/third-party/tags/pdf.js"></script>
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdn.jsdelivr.net/npm/mermaid@8.13.2/dist/mermaid.min.js","integrity":"sha256-UIQPVkGifpwMvDH5yGgORJ9sSTDq38zz6BGU6dNaKhM="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
+
+<script>
+var options = {
+  bottom: '64px',
+  right: 'unset',
+  left: '32px',
+  time: '0.5s',
+  mixColor: 'transparent',
+  backgroundColor: 'transparent',
+  buttonColorDark: '#100f2c',
+  buttonColorLight: '#fff',
+  saveInCookies: true,
+  label: '🌓',
+  autoMatchOsTheme: true
+}
+const darkmode = new Darkmode(options);
+window.darkmode = darkmode;
+darkmode.showWidget();
+</script>
+
+</body>
+</html>

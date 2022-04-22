@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"daoxuan.gitee.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":true,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<meta name="description" content="Java1.8 parallelStream并发安全问题">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java1.8 parallelStream并发安全问题">
+<meta property="og:url" content="https://daoxuan.gitee.io/2021/12/31/6b9b9d0eb84c.html">
+<meta property="og:site_name" content="知识博客">
+<meta property="og:description" content="Java1.8 parallelStream并发安全问题">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://daoxuan.gitee.io/images/Java1.8-parallelStream并发安全问题/image-20211231160840346.png">
+<meta property="article:published_time" content="2021-12-31T06:09:33.000Z">
+<meta property="article:modified_time" content="2022-04-22T14:33:06.020Z">
+<meta property="article:author" content="Alex">
+<meta property="article:tag" content="JAVA">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://daoxuan.gitee.io/images/Java1.8-parallelStream并发安全问题/image-20211231160840346.png">
+
+
+<link rel="canonical" href="https://daoxuan.gitee.io/2021/12/31/6b9b9d0eb84c.html">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://daoxuan.gitee.io/2021/12/31/6b9b9d0eb84c.html","path":"2021/12/31/6b9b9d0eb84c.html","title":"Java1.8 parallelStream并发安全问题"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Java1.8 parallelStream并发安全问题 | 知识博客</title>
+  
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+<link rel="alternate" href="/atom.xml" title="知识博客" type="application/atom+xml">
+<style>.darkmode--activated{--body-bg-color:#282828;--content-bg-color:#333;--card-bg-color:#555;--text-color:#ccc;--blockquote-color:#bbb;--link-color:#ccc;--link-hover-color:#eee;--brand-color:#ddd;--brand-hover-color:#ddd;--table-row-odd-bg-color:#282828;--table-row-hover-bg-color:#363636;--menu-item-bg-color:#555;--btn-default-bg:#222;--btn-default-color:#ccc;--btn-default-border-color:#555;--btn-default-hover-bg:#666;--btn-default-hover-color:#ccc;--btn-default-hover-border-color:#666;--highlight-background:#282b2e;--highlight-foreground:#a9b7c6;--highlight-gutter-background:#34393d;--highlight-gutter-foreground:#9ca9b6}.darkmode--activated img{opacity:.75}.darkmode--activated img:hover{opacity:.9}.darkmode--activated code{color:#69dbdc;background:0 0}button.darkmode-toggle{z-index:9999}.darkmode-ignore,img{display:flex!important}</style></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">知识博客</h1>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">知识博客</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+        <li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li>
+        <li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li>
+        <li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li>
+        <li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%AE%E5%BD%95"><span class="nav-number">1.</span> <span class="nav-text">目录</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83"><span class="nav-number">2.</span> <span class="nav-text">参考</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83"><span class="nav-number">3.</span> <span class="nav-text">环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%83%8C%E6%99%AF"><span class="nav-number">4.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E9%A2%98"><span class="nav-number">5.</span> <span class="nav-text">问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%87%8D%E7%8E%B0"><span class="nav-number">6.</span> <span class="nav-text">重现</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A1%88%E4%BE%8B"><span class="nav-number">6.1.</span> <span class="nav-text">案例</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BB%93%E6%9E%9C"><span class="nav-number">6.2.</span> <span class="nav-text">结果</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88"><span class="nav-number">7.</span> <span class="nav-text">解决方案</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%B9%E5%BC%8F1%E4%B8%8A%E9%94%81"><span class="nav-number">7.1.</span> <span class="nav-text">方式1：上锁</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%B9%E5%BC%8F2%E6%AD%A3%E7%A1%AE%E4%BD%BF%E7%94%A8stream"><span class="nav-number">7.2.</span> <span class="nav-text">方式2：正确使用Stream</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8E%9F%E7%90%86%E7%AE%80%E6%9E%90"><span class="nav-number">8.</span> <span class="nav-text">原理简析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9A%E4%BD%8D%E9%97%AE%E9%A2%98"><span class="nav-number">9.</span> <span class="nav-text">定位问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%97%AE%E9%A2%981%E6%95%B0%E7%BB%84%E8%B6%8A%E7%95%8C"><span class="nav-number">9.1.</span> <span class="nav-text">问题1：数组越界</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%97%AE%E9%A2%982%E6%95%B0%E6%8D%AE%E4%B8%A2%E5%A4%B1"><span class="nav-number">9.2.</span> <span class="nav-text">问题2：数据丢失</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%AD%A3%E7%A1%AE%E5%A7%BF%E5%8A%BF"><span class="nav-number">10.</span> <span class="nav-text">正确姿势</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%A9%E5%B1%95"><span class="nav-number">11.</span> <span class="nav-text">扩展</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">Alex</p>
+  <div class="site-description" itemprop="description">记录生活工作中有趣的知识</div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">14</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </div>
+      </div>
+        <div class="back-to-top animated" role="button" aria-label="返回顶部">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="reading-progress-bar"></div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://daoxuan.gitee.io/2021/12/31/6b9b9d0eb84c.html">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="Alex">
+      <meta itemprop="description" content="记录生活工作中有趣的知识">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="知识博客">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Java1.8 parallelStream并发安全问题
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-12-31 14:09:33" itemprop="dateCreated datePublished" datetime="2021-12-31T14:09:33+08:00">2021-12-31</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">更新于</span>
+        <time title="修改时间：2022-04-22 22:33:06" itemprop="dateModified" datetime="2022-04-22T22:33:06+08:00">2022-04-22</time>
+      </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/JAVA/" itemprop="url" rel="index"><span itemprop="name">JAVA</span></a>
+        </span>
+    </span>
+
+  
+    <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv">
+      <span class="post-meta-item-icon">
+        <i class="far fa-eye"></i>
+      </span>
+      <span class="post-meta-item-text">阅读次数：</span>
+      <span id="busuanzi_value_page_pv"></span>
+    </span>
+    <span class="post-meta-break"></span>
+    <span class="post-meta-item" title="本文字数">
+      <span class="post-meta-item-icon">
+        <i class="far fa-file-word"></i>
+      </span>
+      <span class="post-meta-item-text">本文字数：</span>
+      <span>6.1k</span>
+    </span>
+    <span class="post-meta-item" title="阅读时长">
+      <span class="post-meta-item-icon">
+        <i class="far fa-clock"></i>
+      </span>
+      <span class="post-meta-item-text">阅读时长 &asymp;</span>
+      <span>6 分钟</span>
+    </span>
+</div>
+
+            <div class="post-description">Java1.8 parallelStream并发安全问题</div>
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/hint.css/2.4.1/hint.min.css"><h3 id="目录">目录</h3>
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+<ul>
+<li><a href="#%E5%8F%82%E8%80%83">参考</a></li>
+<li><a href="#%E7%8E%AF%E5%A2%83">环境</a></li>
+<li><a href="#%E8%83%8C%E6%99%AF">背景</a></li>
+<li><a href="#%E9%97%AE%E9%A2%98">问题</a></li>
+<li><a href="#%E9%87%8D%E7%8E%B0">重现</a>
+<ul>
+<li><a href="#%E6%A1%88%E4%BE%8B">案例</a></li>
+<li><a href="#%E7%BB%93%E6%9E%9C">结果</a></li>
+</ul></li>
+<li><a href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88">解决方案</a>
+<ul>
+<li><a
+href="#%E6%96%B9%E5%BC%8F1%E4%B8%8A%E9%94%81">方式1：上锁</a></li>
+<li><a
+href="#%E6%96%B9%E5%BC%8F2%E6%AD%A3%E7%A1%AE%E4%BD%BF%E7%94%A8stream">方式2：正确使用Stream</a></li>
+</ul></li>
+<li><a href="#%E5%8E%9F%E7%90%86%E7%AE%80%E6%9E%90">原理简析</a></li>
+<li><a href="#%E5%AE%9A%E4%BD%8D%E9%97%AE%E9%A2%98">定位问题</a>
+<ul>
+<li><a
+href="#%E9%97%AE%E9%A2%981%E6%95%B0%E7%BB%84%E8%B6%8A%E7%95%8C">问题1：数组越界</a></li>
+<li><a
+href="#%E9%97%AE%E9%A2%982%E6%95%B0%E6%8D%AE%E4%B8%A2%E5%A4%B1">问题2：数据丢失</a></li>
+</ul></li>
+<li><a href="#%E6%AD%A3%E7%A1%AE%E5%A7%BF%E5%8A%BF">正确姿势</a></li>
+<li><a href="#%E6%89%A9%E5%B1%95">扩展</a></li>
+</ul>
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+<h3 id="参考">参考</h3>
+<ol type="1">
+<li>https://xlbpowder.cn/2019/04/26/parallelStream/</li>
+<li>https://blog.csdn.net/qq_42651904/article/details/106936140</li>
+<li>https://www.cnblogs.com/kevin-yuan/p/13533377.html</li>
+<li><a
+target="_blank" rel="noopener" href="https://codexiaomai.github.io/posts/89530ef9">部分集合浅析</a></li>
+<li><a target="_blank" rel="noopener" href="http://ifeve.com/">并发网</a></li>
+<li><a
+target="_blank" rel="noopener" href="https://blog.csdn.net/Sampson_S/article/details/109149575">线程安全的集合</a></li>
+<li><a
+target="_blank" rel="noopener" href="https://www.runoob.com/java/java-collections.html">集合框架</a></li>
+</ol>
+<h3 id="环境">环境</h3>
+<blockquote>
+<p>JDK:1.8</p>
+</blockquote>
+<h3 id="背景">背景</h3>
+<blockquote>
+<p>工作中遇到了关于使用==parallelStream==导致的<strong>并发安全问题</strong>，使用ArrayList容器进行数据交集等处理时，由于数据较多，希望通过并行流提高处理效率，但没考虑过线程安全问题。</p>
+<p>解决的方法非常简单，正确的使用map、collect、reduce，或者使用线程安全容器、加锁即可。</p>
+</blockquote>
+<h3 id="问题">问题</h3>
+<blockquote>
+<p>并发安全问题是可能会遇到异常</p>
+</blockquote>
+<ol type="1">
+<li>数组越界异常：ArrayIndexOutOfBoundsException</li>
+<li>数据丢失（已经遇到😅）</li>
+<li>数据null 值</li>
+</ol>
+<h3 id="重现">重现</h3>
+<h4 id="案例">案例</h4>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test153</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">      List&lt;Integer&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">      <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">100_000</span>; i++) &#123;</span><br><span class="line">          <span class="comment">//添加100个元素到集合中</span></span><br><span class="line">          list.add(i);</span><br><span class="line">      &#125;</span><br><span class="line">      System.out.println(list.size());</span><br><span class="line">      System.out.println(<span class="string">&quot;-------------------LinkedList-----------------------------------&quot;</span>);</span><br><span class="line">      <span class="comment">//添加数据的集合</span></span><br><span class="line">      List&lt;Integer&gt; list2 = <span class="keyword">new</span> LinkedList&lt;&gt;();</span><br><span class="line">      <span class="comment">//使用parallelStream的遍历方法来添加元素到新的集合</span></span><br><span class="line">      list.parallelStream().forEach(i -&gt; &#123;</span><br><span class="line">          list2.add(i);</span><br><span class="line">      &#125;);</span><br><span class="line">      <span class="comment">//打印添加元素之后的集合长度</span></span><br><span class="line">      System.out.println(list2.size());</span><br><span class="line">      System.out.println(<span class="string">&quot;------------------------CopyOnWriteArrayList------------------------------&quot;</span>);</span><br><span class="line">      <span class="comment">// 解决方式</span></span><br><span class="line">      List&lt;Integer&gt; list3 = <span class="keyword">new</span> CopyOnWriteArrayList();</span><br><span class="line">      <span class="comment">//使用parallelStream的遍历方法来添加元素到新的集合</span></span><br><span class="line">      list.parallelStream().forEach(i -&gt; &#123;</span><br><span class="line">          list3.add(i);</span><br><span class="line">      &#125;);</span><br><span class="line">      <span class="comment">//打印添加元素之后的集合长度</span></span><br><span class="line">      System.out.println(list3.size());</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<h4 id="结果">结果</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">100000</span><br><span class="line">-------------------LinkedList-----------------------------------</span><br><span class="line">50415</span><br><span class="line">------------------------CopyOnWriteArrayList------------------------------</span><br><span class="line">100000</span><br></pre></td></tr></table></figure>
+<h3 id="解决方案">解决方案</h3>
+<h4 id="方式1上锁">方式1：上锁</h4>
+<blockquote>
+<p>使用线程安全的集合，底层是使用==锁==，性能低</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Collections.synchronizedList(new ArrayList&lt;&gt;()); 此方式是把非线程安全的集合转成线程安全的集合（加锁）</span></span><br><span class="line">List&lt;Integer&gt; list3 = <span class="keyword">new</span> CopyOnWriteArrayList();</span><br><span class="line">        <span class="comment">//使用parallelStream的遍历方法来添加元素到新的集合</span></span><br><span class="line">        list.parallelStream().forEach(i -&gt; &#123;</span><br><span class="line">            list3.add(i);</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="comment">//打印添加元素之后的集合长度</span></span><br><span class="line">        System.out.println(list3.size());</span><br></pre></td></tr></table></figure>
+<p>如用例所示</p>
+<p>常用线程安全集合</p>
+<p><a
+target="_blank" rel="noopener" href="https://www.cnblogs.com/wangbin2188/p/14781592.html">参考</a></p>
+<table>
+<colgroup>
+<col style="width: 5%" />
+<col style="width: 26%" />
+<col style="width: 68%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>接口</th>
+<th>线程不安全</th>
+<th>线程安全</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>List</td>
+<td>ArrayList</td>
+<td>==CopyOnWriteArrayList==,<a
+target="_blank" rel="noopener" href="https://blog.csdn.net/Sampson_S/article/details/109149575">vector</a></td>
+</tr>
+<tr class="even">
+<td>Map</td>
+<td>HashMap</td>
+<td>ConcurrentHashMap, hashtable，Node
+,treeNode,treeBin,ForwardingNode</td>
+</tr>
+<tr class="odd">
+<td>Set</td>
+<td>HashSet / TreeSet</td>
+<td>CopyOnWriteArraySet</td>
+</tr>
+<tr class="even">
+<td>Queue</td>
+<td>ArrayDeque / LinkedList</td>
+<td>ArrayBlockingQueue / LinkedBlockingQueue</td>
+</tr>
+<tr class="odd">
+<td>Deque</td>
+<td>ArrayDeque / LinkedList</td>
+<td>LinkedBlockingDeque</td>
+</tr>
+</tbody>
+</table>
+<h4 id="方式2正确使用stream">方式2：正确使用Stream</h4>
+<blockquote>
+<p><a
+target="_blank" rel="noopener" href="https://docs.oracle.com/javase/tutorial/collections/streams/parallelism.html">官方文档</a></p>
+<p>The Collections Framework provides synchronization wrappers, which
+add automatic synchronization to an arbitrary collection, making it
+thread-safe.</p>
+<p>在文档中已经有说明，需要正确使用collect
+，才能避免线程不安全。性能高</p>
+<p>部分翻译：</p>
+<p>集合框架提供了同步包装器，它为任意集合添加了自动同步，使其成为线程安全的</p>
+<p>聚合操作和并行流使您能够实现非线程安全集合的并行性，前提是您在操作集合时不修改集合</p>
+</blockquote>
+<p>具体使用示例</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Test</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test153</span><span class="params">()</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">    List&lt;Integer&gt; list = <span class="keyword">new</span> ArrayList&lt;&gt;();</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">100_000</span>; i++) &#123;</span><br><span class="line">        <span class="comment">//添加100个元素到集合中</span></span><br><span class="line">        list.add(i);</span><br><span class="line">    &#125;</span><br><span class="line">    System.out.println(list.size());</span><br><span class="line"> </span><br><span class="line">    System.out.println(<span class="string">&quot;------------------------Collectors.toList()------------------------------&quot;</span>);</span><br><span class="line">    List&lt;Integer&gt; list1 = list.parallelStream().collect(Collectors.toList());</span><br><span class="line">    System.out.println(list1.size());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>说明： parallelStream与 collect，reduce
+一同使用，可以满足线程安全，但是原理是不一样的。下面细说。</p>
+<p>在使用过程中，由collect
+进行数据流项的收集。不适用数据流外的变量。如果使用，就使用线程安全的集合（方式1）</p>
+<h3 id="原理简析">原理简析</h3>
+<p>定位问题前，需要先初步了解fork/join 框架或者分治法或者<a
+target="_blank" rel="noopener" href="https://www.cnblogs.com/chengxiao/p/6194356.html">归并算法</a></p>
+<p>parallelStream 底层就是使用fork/join
+框架，运用分治的理念，把一个任务拆分成多个子任务去实现</p>
+<p><img src="/images/Java1.8-parallelStream并发安全问题/image-20211231160840346.png" alt="image-20211231160840346" style="zoom:50%;" /></p>
+<p>如图所示，一个线程的任务拆分成多个线程任务，最后合并结果。使用collect、reduce，而不使用数据流外的变量，
+结果正确。查看源码，原理分析</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//接口 </span></span><br><span class="line">&lt;R&gt; <span class="function">R <span class="title">collect</span><span class="params">(Supplier&lt;R&gt; supplier,</span></span></span><br><span class="line"><span class="params"><span class="function">                  BiConsumer&lt;R, ? <span class="keyword">super</span> T&gt; accumulator,</span></span></span><br><span class="line"><span class="params"><span class="function">                  BiConsumer&lt;R, R&gt; combiner)</span></span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Collectors.toList()的实现</span></span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> &lt;T&gt;</span><br><span class="line">    Collector&lt;T, ?, List&lt;T&gt;&gt; toList() &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> CollectorImpl&lt;&gt;((Supplier&lt;List&lt;T&gt;&gt;) ArrayList::<span class="keyword">new</span>, List::add,</span><br><span class="line">                                   (left, right) -&gt; &#123; left.addAll(right); <span class="keyword">return</span> left; &#125;,</span><br><span class="line">                                   CH_ID);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>以Collectors.toList() 来分析</p>
+<p>参数： Supplier<R> supplier 提供一个非线程安全的集合 arraylist，</p>
+<p>参数： BiConsumer&lt;R, ? super T&gt; accumulator 累加器</p>
+<p>参数： BiConsumer&lt;R, R&gt; combiner 合并器</p>
+</blockquote>
+<p>这里的意思是，每个线程都有一个集合，然后使用<code>合并器</code>
+把各个线程的结果合并，所以不会有线程安全问题，不会丢失数据</p>
+<h3 id="定位问题">定位问题</h3>
+<blockquote>
+<p>以arraylist 为例</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//源码</span></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * 添加一个元素时，做了如下两步操作</span></span><br><span class="line"><span class="comment">     * 1.判断列表的capacity容量是否足够，是否需要扩容</span></span><br><span class="line"><span class="comment">     * 2.真正将元素放在列表的元素数组里面</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * Appends the specified element to the end of this list.</span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> e element to be appended to this list</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> &lt;tt&gt;true&lt;/tt&gt; (as specified by &#123;<span class="doctag">@link</span> Collection#add&#125;)</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">add</span><span class="params">(E e)</span> </span>&#123;</span><br><span class="line">      <span class="comment">//确保内部容量</span></span><br><span class="line">        ensureCapacityInternal(size + <span class="number">1</span>);  <span class="comment">// Increments modCount!!</span></span><br><span class="line">      <span class="comment">//赋值 </span></span><br><span class="line">      <span class="comment">//需要说明的是，此处赋值，是先 elementData[size]=e</span></span><br><span class="line">      <span class="comment">// 然后 size++ </span></span><br><span class="line">        elementData[size++] = e;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">	<span class="comment">/**</span></span><br><span class="line"><span class="comment">	* 验证 elementData[size++] = e;执行顺序</span></span><br><span class="line"><span class="comment">	*/</span></span><br><span class="line"><span class="meta">@Test</span></span><br><span class="line">  <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">test239</span><span class="params">()</span> </span>&#123;</span><br><span class="line">      <span class="keyword">int</span>[] ints = <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">2</span>];</span><br><span class="line">      <span class="keyword">int</span> size = <span class="number">0</span>;</span><br><span class="line">      ints[size++] = <span class="number">4</span>;</span><br><span class="line">      System.out.println(ints[<span class="number">0</span>]);</span><br><span class="line">      System.out.println(size);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<p>分析：add元素时，实际做了两个大的步骤：</p>
+<ol type="1">
+<li>判断elementData数组容量是否满足需求</li>
+<li>在elementData对应位置上设置值</li>
+</ol>
+<h4 id="问题1数组越界">问题1：数组越界</h4>
+<blockquote>
+<p>多个线程进行add操作时，可能会导致elementData数组越界</p>
+<p>例如A,B线程，都要add；在
+ensureCapacityInternal时，要检测数组容量是否符合需求。A、B线程查看数组size
+都是9 ，都认为可以不扩容进行add操作。</p>
+<p>A线程操作可以正常进行，完成后 size++ . size 是10
+。当B线程add，然后发现size已经是10了，elementData[10] =e
+,但是数组elementData
+容量还是10，没有扩容。会发生ArrayIndexOutOfBoundsException 异常</p>
+</blockquote>
+<h4 id="问题2数据丢失">问题2：数据丢失</h4>
+<blockquote>
+<p>elementData[size++] =
+e;此操作不是原子性的，单线程没问题。多线程时，容易发生一个线程的值被另一个线程覆盖</p>
+<p>例如： A、B线程 同时add操作，size=0。 代码
+ensureCapacityInternal(size + 1);
+已经执行。此时，对A、B线程来说，size=0. A线程add完成
+后（elementData[0]=1） B 线程add 完成（elementData[0]=1）。size
+在每个线程都会 ++ ，那么 下一次add时，size 是从 size=2
+开始的，同时会出现数组下标为1的位置值为 null</p>
+</blockquote>
+<p>总结</p>
+<p>根本原因是，两个线程调传入了同一个ArrayList，这个参数在<strong>==JVM内==</strong>以地址方式存在栈内，指向堆区的（size和object[]数组），本质上调用
+ArrayList add()
+时，是通过this.size获取堆内size，这时候两个线程操作同一个堆内变量，就会<strong>==出现读取时的值是对的，但是使用时值已经被修改了==</strong>，在此this.size，就是脏数据。ArrayList不是线程安全的容器，并发调用add就会发生线程安全的问题</p>
+<h3 id="正确姿势">正确姿势</h3>
+<blockquote>
+<p>Collections框架提供的同步的包装（推荐）</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 使用线程安全的集合 </span></span><br><span class="line">List&lt;Integer&gt; list3 = <span class="keyword">new</span> CopyOnWriteArrayList();</span><br><span class="line">        <span class="comment">//使用parallelStream的遍历方法来添加元素到新的集合</span></span><br><span class="line">        list.parallelStream().forEach(i -&gt; &#123;</span><br><span class="line">            list3.add(i);</span><br><span class="line">        &#125;);</span><br><span class="line"><span class="comment">// 使用  官方提供的收集器 都是安全的</span></span><br><span class="line">List&lt;Integer&gt; list1 = list.parallelStream().collect(Collectors.toList());</span><br><span class="line">        System.out.println(list1.size());</span><br><span class="line"></span><br><span class="line"><span class="comment">// Collectors.toList()</span></span><br><span class="line"><span class="comment">// Collectors.toMap()</span></span><br><span class="line"><span class="comment">// Collectors.toSet() 等等</span></span><br></pre></td></tr></table></figure>
+<h3 id="扩展">扩展</h3>
+<p>线程安全的list</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// java.util.concurrent.CopyOnWriteArrayList</span></span><br><span class="line"><span class="keyword">new</span> CopyOnWriteArrayList();</span><br><span class="line"></span><br><span class="line"><span class="comment">// java.util.Collections.synchronizedList(new ArrayList())</span></span><br><span class="line">Collections.synchronizedList(<span class="keyword">new</span> ArrayList())</span><br></pre></td></tr></table></figure>
+<p>线程安全的Set</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">java.util.Collections.synchronizedSet(Sets.newHashSet()); <span class="comment">// jdk提供的，使用同步来保证线程安全</span></span><br><span class="line"><span class="keyword">new</span> java.util.concurrent.CopyOnWriteArraySet&lt;&gt;(); <span class="comment">// jdk提供的，底层使用 CopyOnWriteArrayList 实现，适合集合大小较小的场景</span></span><br><span class="line">com.google.common.collect.Sets.newConcurrentHashSet(); <span class="comment">// guava 提供的线程安全的 Set ，底层使用 ConcurrentHashMap 实现</span></span><br><span class="line">com.alibaba.dubbo.common.utils.ConcurrentHashSet  <span class="comment">// 底层使用 ConcurrentHashMap 实现</span></span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="followme">
+  <span>欢迎关注我的其它发布渠道</span>
+
+  <div class="social-list">
+
+      <div class="social-item">
+        <a target="_blank" class="social-link" href="/atom.xml">
+          <span class="icon">
+            <i class="fa fa-rss"></i>
+          </span>
+
+          <span class="label">RSS</span>
+        </a>
+      </div>
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/JAVA/" rel="tag"># JAVA</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/12/12/feef86e577e5.html" rel="prev" title="方法签名">
+                  <i class="fa fa-chevron-left"></i> 方法签名
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/04/17/ddc62c927df9.html" rel="next" title="TCP/IP Get 传参">
+                  TCP/IP Get 传参 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2022</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Alex</span>
+</div>
+<div class="wordcount">
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-line"></i>
+    </span>
+    <span title="站点总字数">29k</span>
+  </span>
+  <span class="post-meta-item">
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+    <span title="站点阅读时长">27 分钟</span>
+  </span>
+</div>
+<div class="busuanzi-count">
+    <span class="post-meta-item" id="busuanzi_container_site_uv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="总访客量">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="总访问量">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <script src="https://cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/next-boot.js"></script>
+
+  
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js" integrity="sha256-vXZMYLEqsROAXkEw93GGIvaB2ab+QW6w3+1ahD9nXXA=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+  <script class="next-config" data-name="pdf" type="application/json">{"object_url":{"url":"https://cdn.jsdelivr.net/npm/pdfobject@2.2.6/pdfobject.min.js","integrity":"sha256-77geM50MfxCD17eqyJR+Dag1svjJOLN+BJ2F/DMqMEY="},"url":"/lib/pdf/web/viewer.html"}</script>
+  <script src="/js/third-party/tags/pdf.js"></script>
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdn.jsdelivr.net/npm/mermaid@8.13.2/dist/mermaid.min.js","integrity":"sha256-UIQPVkGifpwMvDH5yGgORJ9sSTDq38zz6BGU6dNaKhM="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+  
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">true</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://cdn.jsdelivr.net/npm/mathjax@3.2.0/es5/tex-mml-chtml.js","integrity":"sha256-r+3itOMtGGjap0x+10hu6jW/gZCzxHsoKrOd7gyRSGY="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
+
+<script>
+var options = {
+  bottom: '64px',
+  right: 'unset',
+  left: '32px',
+  time: '0.5s',
+  mixColor: 'transparent',
+  backgroundColor: 'transparent',
+  buttonColorDark: '#100f2c',
+  buttonColorLight: '#fff',
+  saveInCookies: true,
+  label: '🌓',
+  autoMatchOsTheme: true
+}
+const darkmode = new Darkmode(options);
+window.darkmode = darkmode;
+darkmode.showWidget();
+</script>
+
+</body>
+</html>
