@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
-<meta name="theme-color" content="#222">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)">
 <meta name="generator" content="Hexo 5.4.0">
 
 
@@ -19,7 +20,7 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.4/css/all.min.css" integrity="sha256-mUZM63G8m73Mcidfrv5E+Y61y7a12O5mW4ezU3bxqW4=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"daoxuan.gitee.io","root":"/","images":"/images","scheme":"Gemini","darkmode":false,"version":"8.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":true,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"daoxuan.gitee.io","root":"/","images":"/images","scheme":"Gemini","darkmode":true,"version":"8.8.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":true,"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":true,"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.json","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":-1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
 <meta name="description" content="Mac m1 查看端口ip">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Mac.查看端口ip">
@@ -161,7 +162,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">16</span>
+          <span class="site-state-item-count">17</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -299,7 +300,7 @@
 </blockquote>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">$ lsof --<span class="built_in">help</span></span><br><span class="line">lsof: illegal option character: -</span><br><span class="line">lsof: illegal option character: e</span><br><span class="line">lsof: no process ID specified</span><br><span class="line">lsof 4.91</span><br><span class="line"> latest revision: ftp://lsof.itap.purdue.edu/pub/tools/unix/lsof/</span><br><span class="line"> latest FAQ: ftp://lsof.itap.purdue.edu/pub/tools/unix/lsof/FAQ</span><br><span class="line"> latest man page: ftp://lsof.itap.purdue.edu/pub/tools/unix/lsof/lsof_man</span><br><span class="line"> usage: [-?abhlnNoOPRtUvVX] [+|-c c] [+|-d s] [+D D] [+|-f[cgG]]</span><br><span class="line"> [-F [f]] [-g [s]] [-i [i]] [+|-L [l]] [+|-M] [-o [o]] [-p s]</span><br><span class="line"> [+|-r [t]] [-s [p:s]] [-S [t]] [-T [t]] [-u s] [+|-w] [-x [fl]] [--] [names]</span><br><span class="line">Defaults <span class="keyword">in</span> parentheses; comma-separated <span class="built_in">set</span> (s) items; dash-separated ranges.</span><br><span class="line">  -?|-h list <span class="built_in">help</span>          -a AND selections (OR)     -b avoid kernel blocks</span><br><span class="line">  -c c  cmd c ^c /c/[bix]  +c w  COMMAND width (9)    +d s  dir s files</span><br><span class="line">  -d s  select by FD <span class="built_in">set</span>   +D D  dir D tree *SLOW?*   -i select IPv[46] files</span><br><span class="line">  -l list UID numbers      -n no host names           -N select NFS files</span><br><span class="line">  -o list file offset      -O no overhead *RISKY*     -P no port names</span><br><span class="line">  -R list paRent PID       -s list file size          -t terse listing</span><br><span class="line">  -T <span class="built_in">disable</span> TCP/TPI info  -U select Unix socket      -v list version info</span><br><span class="line">  -V verbose search        +|-w  Warnings (+)         -X file descriptor table only</span><br><span class="line">  -- end option scan</span><br><span class="line">  +f|-f  +filesystem or -file names     +|-f[cgG] Ct flaGs</span><br><span class="line">  -F [f] select fields; -F? <span class="keyword">for</span> <span class="built_in">help</span></span><br><span class="line">  +|-L [l] list (+) suppress (-) link counts &lt; l (0 = all; default = 0)</span><br><span class="line">  +|-M   portMap registration (-)       -o o   o 0t offset digits (8)</span><br><span class="line">  -p s   exclude(^)|select PIDs         -S [t] t second <span class="built_in">stat</span> timeout (15)</span><br><span class="line">  -T fqs TCP/TPI Fl,Q,St (s) info</span><br><span class="line">  -g [s] exclude(^)|select and <span class="built_in">print</span> process group IDs</span><br><span class="line">  -i i   select by IPv[46] address: [46][proto][@host|addr][:svc_list|port_list]</span><br><span class="line">  +|-r [t[m&lt;fmt&gt;]] repeat every t seconds (15);  + until no files, - forever.</span><br><span class="line">       An optional suffix to t is m&lt;fmt&gt;; m must separate t from &lt;fmt&gt; and</span><br><span class="line">      &lt;fmt&gt; is an strftime(3) format <span class="keyword">for</span> the marker line.</span><br><span class="line">  -s p:s  exclude(^)|select protocol (p = TCP|UDP) states by name(s).</span><br><span class="line">  -u s   exclude(^)|select login|UID <span class="built_in">set</span> s</span><br><span class="line">  -x [fl] cross over +d|+D File systems or symbolic Links</span><br><span class="line">  names  select named files or files on named file systems</span><br><span class="line">Anyone can list all files; /dev warnings disabled; kernel ID check disabled.</span><br></pre></td></tr></table></figure>
 <h2 id="实例">实例</h2>
-<p>根据具体的端口号查找(用80端口举例)，使用此命令：</p>
+<p>根据具体的端口号查找(用80端口举例)，使用此命令</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lsof -nP -i:80</span><br></pre></td></tr></table></figure>
 <p>根据应用程序名查找（用QQ举例），使用如下命令</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lsof -nP -i | grep QQ</span><br></pre></td></tr></table></figure>
@@ -343,6 +344,9 @@
                 </a>
             </div>
             <div class="post-nav-item">
+                <a href="/2022/04/24/9329f2b80cc6.html" rel="next" title="Mac.oh-my-zsh">
+                  Mac.oh-my-zsh <i class="fa fa-chevron-right"></i>
+                </a>
             </div>
           </div>
     </footer>
@@ -374,7 +378,7 @@
     <span class="post-meta-item-icon">
       <i class="fa fa-chart-line"></i>
     </span>
-    <span title="站点总字数">29k</span>
+    <span title="站点总字数">30k</span>
   </span>
   <span class="post-meta-item">
     <span class="post-meta-item-icon">
@@ -433,26 +437,6 @@
 <script src="/js/third-party/math/mathjax.js"></script>
 
 
-<script src="https://cdn.jsdelivr.net/npm/darkmode-js@1.5.7/lib/darkmode-js.min.js"></script>
-
-<script>
-var options = {
-  bottom: '64px',
-  right: 'unset',
-  left: '32px',
-  time: '0.5s',
-  mixColor: 'transparent',
-  backgroundColor: 'transparent',
-  buttonColorDark: '#100f2c',
-  buttonColorLight: '#fff',
-  saveInCookies: true,
-  label: '🌓',
-  autoMatchOsTheme: true
-}
-const darkmode = new Darkmode(options);
-window.darkmode = darkmode;
-darkmode.showWidget();
-</script>
 
 </body>
 </html>
